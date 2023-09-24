@@ -20,9 +20,8 @@ void initSocket(io.Socket socket, void Function(Map<String, dynamic>) onEvent) {
   socket.on(socketioServerDataEvent, (data) => onEvent(data));
 }
 
-Future<List<dynamic>> loadFromNDJson() async {
-  String path = 'assets/recording.ndjson';
-  String jsonString = await rootBundle.loadString(path);
+Future<List<dynamic>> loadFromNDJson(String filePath) async {
+  String jsonString = await rootBundle.loadString(filePath);
 
   return const LineSplitter()
       .convert(jsonString)

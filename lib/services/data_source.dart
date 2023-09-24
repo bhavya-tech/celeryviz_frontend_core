@@ -26,6 +26,9 @@ class NDJsonDataSource extends DataSource {
   double _initialTimestamp = 0;
   late Timer _timerSubscription;
   final Stopwatch _stopwatch = Stopwatch();
+  final String filePath;
+
+  NDJsonDataSource({required this.filePath});
 
   @override
   double get currentTimestamp =>
@@ -36,7 +39,7 @@ class NDJsonDataSource extends DataSource {
 
   @override
   Future setup() async {
-    List<dynamic> data = await loadFromNDJson();
+    List<dynamic> data = await loadFromNDJson(filePath);
     _eventsQueue = Queue.from(data);
     _initialTimestamp = _eventsQueue.first['timestamp'];
   }
