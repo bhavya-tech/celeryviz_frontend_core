@@ -1,0 +1,48 @@
+import 'package:bloc/bloc.dart';
+import 'package:next_flower/services/data_source.dart';
+import 'package:next_flower/states/pane_board/pane_board_events.dart';
+import 'package:next_flower/states/pane_board/pane_board_state.dart';
+
+class PaneBoardBloc extends Bloc<PaneBoardEvent, PaneBoardState> {
+  DataSource dataSource;
+
+  PaneBoardBloc({required this.dataSource})
+      : super(PaneBoardState.initial(dataSource.initialTimestamp)) {
+    on<PaneDataReceived>((event, emit) {
+      _onDataReceived(event, emit);
+    });
+    on<PaneBoardStart>((event, emit) {
+      _onStart(event, emit);
+    });
+
+    on<PaneBoardStop>((event, emit) {
+      _onStop(event, emit);
+    });
+  }
+
+  get currentTimestamp => dataSource.currentTimestamp;
+
+  @override
+  Future<void> close() {
+    dataSource.stop();
+    return super.close();
+  }
+
+  void _onDataReceived(PaneDataReceived event, Emitter<PaneBoardState> emit) {
+    state.addEvent(event.eventJson);
+    emit(state.asEventAdded(currentTimestamp));
+  }
+
+  void _onStart(PaneBoardEvent event, Emitter<PaneBoardState> emit) {
+    dataSource.start(_sendEventToBloc);
+    state.asLoaded(dataSource.initialTimestamp, currentTimestamp);
+  }
+
+  void _onStop(PaneBoardEvent event, Emitter<PaneBoardState> emit) {
+    dataSource.stop();
+  }
+
+  void _sendEventToBloc(Map<String, dynamic> event) {
+    add(PaneDataReceived(eventJson: event));
+  }
+}
