@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:next_flower/models/task_data.dart';
-import 'package:next_flower/widgets/pane/panable_area/task_column.dart';
+import 'package:celery_monitoring_core/models/task_data.dart';
+import 'package:celery_monitoring_core/widgets/pane/panable_area/task_column.dart';
 
 class InteractiveArea extends StatelessWidget {
   final Map<String, TaskData> tasksMap;

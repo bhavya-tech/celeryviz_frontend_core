@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:next_flower/services/data_source.dart';
-import 'package:next_flower/states/pane/pane_events.dart';
-import 'package:next_flower/states/pane/pane_state.dart';
+import 'package:celery_monitoring_core/services/data_source.dart';
+import 'package:celery_monitoring_core/states/pane/pane_events.dart';
+import 'package:celery_monitoring_core/states/pane/pane_state.dart';
 
 class PaneBloc extends Bloc<PaneEvent, PaneState> {
   final DataSource dataSource;

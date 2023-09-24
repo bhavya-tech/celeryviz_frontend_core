@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:next_flower/services/data_source.dart';
-import 'package:next_flower/states/pane_board/pane_board_events.dart';
-import 'package:next_flower/states/pane_board/pane_board_state.dart';
+import 'package:celery_monitoring_core/services/data_source.dart';
+import 'package:celery_monitoring_core/states/pane_board/pane_board_events.dart';
+import 'package:celery_monitoring_core/states/pane_board/pane_board_state.dart';
 
 class PaneBoardBloc extends Bloc<PaneBoardEvent, PaneBoardState> {
   DataSource dataSource;

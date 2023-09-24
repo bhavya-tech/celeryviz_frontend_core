@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:next_flower/services/data_source.dart';
-import 'package:next_flower/states/pane/pane_bloc.dart';
-import 'package:next_flower/states/pane/pane_events.dart';
-import 'package:next_flower/states/pane/pane_state.dart';
-import 'package:next_flower/widgets/pane/pane_board.dart';
+import 'package:celery_monitoring_core/services/data_source.dart';
+import 'package:celery_monitoring_core/states/pane/pane_bloc.dart';
+import 'package:celery_monitoring_core/states/pane/pane_events.dart';
+import 'package:celery_monitoring_core/states/pane/pane_state.dart';
+import 'package:celery_monitoring_core/widgets/pane/pane_board.dart';
 
 class Pane extends StatelessWidget {
   final DataSource dataSource;

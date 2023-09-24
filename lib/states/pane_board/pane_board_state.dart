@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:next_flower/models/pane_data.dart';
+import 'package:celery_monitoring_core/models/pane_data.dart';
 
 class PaneBoardState extends Equatable {
   final PaneStateStatus status;

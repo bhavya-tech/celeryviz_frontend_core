@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:next_flower/models/event.dart';
-import 'package:next_flower/models/task_data.dart';
+import 'package:celery_monitoring_core/models/event.dart';
+import 'package:celery_monitoring_core/models/task_data.dart';
 
 class PaneData extends Equatable {
   final Map<String, TaskData> tasks = {};

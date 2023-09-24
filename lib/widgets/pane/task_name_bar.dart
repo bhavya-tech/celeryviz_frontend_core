@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:next_flower/constants.dart';
-import 'package:next_flower/states/pane_board/pane_board_bloc.dart';
-import 'package:next_flower/states/pane_board/pane_board_state.dart';
+import 'package:celery_monitoring_core/constants.dart';
+import 'package:celery_monitoring_core/states/pane_board/pane_board_bloc.dart';
+import 'package:celery_monitoring_core/states/pane_board/pane_board_state.dart';
 
 class TaskNameBar extends StatefulWidget {
   final TransformationController transformationController;

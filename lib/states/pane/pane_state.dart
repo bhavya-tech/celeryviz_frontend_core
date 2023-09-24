@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:next_flower/services/data_source.dart';
+import 'package:celery_monitoring_core/services/data_source.dart';
 import 'package:equatable/equatable.dart';
 
 enum PaneStateStatus {

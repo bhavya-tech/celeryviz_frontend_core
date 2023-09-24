@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:next_flower/states/task_info/task_info_event.dart';
-import 'package:next_flower/states/task_info/task_info_state.dart';
+import 'package:celery_monitoring_core/states/task_info/task_info_event.dart';
+import 'package:celery_monitoring_core/states/task_info/task_info_state.dart';
 
 class TaskInfoBloc extends Bloc<TaskInfoEvent, TaskInfoState> {
   TaskInfoBloc() : super(const TaskInfoState()) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:next_flower/constants.dart';
-import 'package:next_flower/painters/ruler_marking_painter.dart';
-import 'package:next_flower/services/services.dart';
+import 'package:celery_monitoring_core/constants.dart';
+import 'package:celery_monitoring_core/painters/ruler_marking_painter.dart';
+import 'package:celery_monitoring_core/services/services.dart';
 
 class Ruler extends StatefulWidget {
   /// This widget is used to display the ruler on the left side of the pane board.

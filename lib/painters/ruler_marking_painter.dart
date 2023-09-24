@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:next_flower/constants.dart';
+import 'package:celery_monitoring_core/constants.dart';
 
 class RulerMarkingPainter extends CustomPainter {
   @override

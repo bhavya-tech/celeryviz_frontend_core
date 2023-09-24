@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:logger/logger.dart';
-import 'package:next_flower/constants.dart';
-import 'package:next_flower/services/services.dart';
+import 'package:celery_monitoring_core/constants.dart';
+import 'package:celery_monitoring_core/services/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 typedef JsonObject = Map<String, dynamic>;

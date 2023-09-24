@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:next_flower/constants.dart';
-import 'package:next_flower/services/data_source.dart';
-import 'package:next_flower/states/pane_board/pane_board_bloc.dart';
-import 'package:next_flower/states/pane_board/pane_board_events.dart';
-import 'package:next_flower/states/pane_board/pane_board_state.dart';
-import 'package:next_flower/states/task_info/task_info_bloc.dart';
-import 'package:next_flower/widgets/pane/panable_area/panable_area.dart';
+import 'package:celery_monitoring_core/constants.dart';
+import 'package:celery_monitoring_core/services/data_source.dart';
+import 'package:celery_monitoring_core/states/pane_board/pane_board_bloc.dart';
+import 'package:celery_monitoring_core/states/pane_board/pane_board_events.dart';
+import 'package:celery_monitoring_core/states/pane_board/pane_board_state.dart';
+import 'package:celery_monitoring_core/states/task_info/task_info_bloc.dart';
+import 'package:celery_monitoring_core/widgets/pane/panable_area/panable_area.dart';
 
-import 'package:next_flower/widgets/pane/ruler.dart';
-import 'package:next_flower/widgets/pane/task_name_bar.dart';
+import 'package:celery_monitoring_core/widgets/pane/ruler.dart';
+import 'package:celery_monitoring_core/widgets/pane/task_name_bar.dart';
 
 class PaneBoardWrapper extends StatelessWidget {
   const PaneBoardWrapper({

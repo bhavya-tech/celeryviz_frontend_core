@@ -3,9 +3,9 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:next_flower/models/event.dart';
-import 'package:next_flower/models/task_info.dart';
-import 'package:next_flower/theme.dart';
+import 'package:celery_monitoring_core/models/event.dart';
+import 'package:celery_monitoring_core/models/task_info.dart';
+import 'package:celery_monitoring_core/theme.dart';
 
 class TaskData extends Equatable {
   final SplayTreeMap<double, CeleryEventBase> _events =
