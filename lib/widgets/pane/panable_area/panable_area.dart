@@ -34,20 +34,21 @@ class PanableArea extends StatelessWidget {
           builder: (context, state) {
             return Container(
               color: Theme.of(context).canvasColor,
-              height: _getHeight(state.currentTimestamp, state.timestampOffset),
+              height:
+                  _getHeight(state.currentTimestamp!, state.timestampOffset!),
               width: _getWidth(state.data.tasks.length) / paneMinScale,
               child: Padding(
                 padding: const EdgeInsets.only(top: _topPadding),
                 child: CustomPaint(
                   painter: SpawnedTaskLinesPainter(
                     tasks: state.data.tasks,
-                    timestampOffset: state.timestampOffset,
-                    currentTimestamp: state.currentTimestamp,
+                    timestampOffset: state.timestampOffset!,
+                    currentTimestamp: state.currentTimestamp!,
                   ),
                   child: InteractiveArea(
                     tasksMap: state.data.tasks,
-                    timestampOffset: state.timestampOffset,
-                    currentTimestamp: state.currentTimestamp,
+                    timestampOffset: state.timestampOffset!,
+                    currentTimestamp: state.currentTimestamp!,
                   ),
                 ),
               ),

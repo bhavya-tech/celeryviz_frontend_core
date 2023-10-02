@@ -6,9 +6,7 @@ import 'package:celery_monitoring_core/states/pane_board/pane_board_state.dart';
 class PaneBoardBloc extends Bloc<PaneBoardEvent, PaneBoardState> {
   DataSource dataSource;
 
-  PaneBoardBloc({required this.dataSource})
-      : super(PaneBoardState.initial(
-            dataSource.initialTimestamp, dataSource.currentTimestamp)) {
+  PaneBoardBloc({required this.dataSource}) : super(PaneBoardState.initial()) {
     on<PaneDataReceived>((event, emit) {
       _onDataReceived(event, emit);
     });
@@ -36,7 +34,7 @@ class PaneBoardBloc extends Bloc<PaneBoardEvent, PaneBoardState> {
 
   void _onStart(PaneBoardEvent event, Emitter<PaneBoardState> emit) {
     dataSource.start(_sendEventToBloc);
-    state.asLoaded(dataSource.initialTimestamp, currentTimestamp);
+    emit(state.asLoaded(dataSource.initialTimestamp, currentTimestamp));
   }
 
   void _onStop(PaneBoardEvent event, Emitter<PaneBoardState> emit) {

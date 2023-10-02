@@ -56,8 +56,9 @@ class PaneBoard extends StatelessWidget {
             width: rulerWidth,
             child: Ruler(
               transformationController: _transformationController,
-              startTimestamp:
-                  BlocProvider.of<PaneBoardBloc>(context).state.timestampOffset,
+              startTimestamp: BlocProvider.of<PaneBoardBloc>(context)
+                  .state
+                  .timestampOffset!,
             ),
           ),
           SizedBox(

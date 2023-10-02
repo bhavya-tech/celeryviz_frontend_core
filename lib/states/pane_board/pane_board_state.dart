@@ -4,19 +4,15 @@ import 'package:celery_monitoring_core/models/pane_data.dart';
 class PaneBoardState extends Equatable {
   final bool isStarted;
   final PaneData data;
-  final double timestampOffset;
-  final double currentTimestamp;
+  final double? timestampOffset;
+  final double? currentTimestamp;
 
-  PaneBoardState.initial(double timestampOffset, double currentTimestamp)
-      : this._(
-            data: PaneData(),
-            timestampOffset: timestampOffset,
-            currentTimestamp: currentTimestamp);
+  PaneBoardState.initial() : this._(data: PaneData());
 
   const PaneBoardState._({
     this.isStarted = false,
-    required this.timestampOffset,
-    required this.currentTimestamp,
+    this.timestampOffset,
+    this.currentTimestamp,
     required this.data,
   });
 
@@ -29,7 +25,10 @@ class PaneBoardState extends Equatable {
 
   PaneBoardState asEventAdded(double currentTimestamp) {
     return copyWith(
-        isStarted: true, data: data, currentTimestamp: currentTimestamp);
+        isStarted: true,
+        data: data,
+        currentTimestamp: currentTimestamp,
+        timestampOffset: timestampOffset);
   }
 
   PaneBoardState asLoaded(double timestampOffset, double currentTimestamp) {
