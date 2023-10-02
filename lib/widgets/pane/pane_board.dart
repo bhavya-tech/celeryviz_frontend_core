@@ -93,13 +93,13 @@ class StartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PaneBoardBloc, PaneBoardState>(
       buildWhen: (previous, current) {
-        return previous.status != current.status;
+        return previous.isStarted != current.isStarted;
       },
       builder: (context, state) {
-        if (state.status == PaneStateStatus.inactive) {
-          return const LoadingPage();
-        } else {
+        if (state.isStarted) {
           return PaneBoard();
+        } else {
+          return const LoadingPage();
         }
       },
     );

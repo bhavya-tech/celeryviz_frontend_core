@@ -12,9 +12,10 @@ typedef SendEventToBloc = void Function(Map<String, dynamic> event);
 abstract class DataSource {
   late SendEventToBloc _sendEventToBloc;
   bool _isStarted = false;
+  late double _initialTimestamp;
 
   double get currentTimestamp;
-  double get initialTimestamp;
+  double get initialTimestamp => _isStarted ? _initialTimestamp : throw Error();
 
   Future setup();
   void start(SendEventToBloc sendEventToBloc);
@@ -23,7 +24,6 @@ abstract class DataSource {
 
 class NDJsonDataSource extends DataSource {
   Queue<JsonObject> _eventsQueue = Queue();
-  double _initialTimestamp = 0;
   late Timer _timerSubscription;
   final Stopwatch _stopwatch = Stopwatch();
   final String filePath;
@@ -33,9 +33,6 @@ class NDJsonDataSource extends DataSource {
   @override
   double get currentTimestamp =>
       _initialTimestamp + _stopwatch.elapsed.inSeconds;
-
-  @override
-  double get initialTimestamp => _initialTimestamp;
 
   @override
   Future setup() async {
@@ -50,8 +47,8 @@ class NDJsonDataSource extends DataSource {
       return;
     }
     _sendEventToBloc = sendEventToBloc;
-    _doStart();
     _isStarted = true;
+    _startEvents();
   }
 
   @override
@@ -59,7 +56,7 @@ class NDJsonDataSource extends DataSource {
     _timerSubscription.cancel();
   }
 
-  void _doStart() {
+  void _startEvents() {
     _stopwatch.reset();
     _stopwatch.start();
     _timerSubscription = Timer.periodic(const Duration(seconds: 3), (_) {
@@ -82,7 +79,6 @@ class NDJsonDataSource extends DataSource {
 }
 
 class SocketIODataSource extends DataSource {
-  double _initialTimestamp = 0;
   late io.Socket _socket;
   final _logger = Logger(
     printer: PrettyPrinter(),
@@ -93,9 +89,6 @@ class SocketIODataSource extends DataSource {
       DateTime.now().millisecondsSinceEpoch.toDouble() / 1000;
 
   @override
-  double get initialTimestamp => _initialTimestamp;
-
-  @override
   Future setup() async {
     _initSocket();
   }
@@ -103,7 +96,7 @@ class SocketIODataSource extends DataSource {
   @override
   void start(SendEventToBloc sendEventToBloc) {
     if (_isStarted) {
-      return;
+      throw Error();
     }
     _sendEventToBloc = sendEventToBloc;
     _initialTimestamp = DateTime.now().millisecondsSinceEpoch.toDouble() / 1000;
@@ -115,7 +108,7 @@ class SocketIODataSource extends DataSource {
     _socket.disconnect();
   }
 
-  Future _initSocket() async {
+  void _initSocket() {
     _socket = io.io(socketioServerURL, <String, dynamic>{
       'transports': ['websocket'],
     });

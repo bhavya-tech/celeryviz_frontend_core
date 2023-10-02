@@ -2,23 +2,26 @@ import 'package:equatable/equatable.dart';
 import 'package:celery_monitoring_core/models/pane_data.dart';
 
 class PaneBoardState extends Equatable {
-  final PaneStateStatus status;
+  final bool isStarted;
   final PaneData data;
   final double timestampOffset;
   final double currentTimestamp;
 
-  PaneBoardState.initial(double timestampOffset)
-      : this._(data: PaneData(), timestampOffset: timestampOffset);
+  PaneBoardState.initial(double timestampOffset, double currentTimestamp)
+      : this._(
+            data: PaneData(),
+            timestampOffset: timestampOffset,
+            currentTimestamp: currentTimestamp);
 
   const PaneBoardState._({
-    this.status = PaneStateStatus.inactive,
+    this.isStarted = false,
     required this.timestampOffset,
-    this.currentTimestamp = 0.0,
+    required this.currentTimestamp,
     required this.data,
   });
 
   @override
-  get props => [status, data, currentTimestamp, identityHashCode(this)];
+  get props => [isStarted, data, currentTimestamp, identityHashCode(this)];
 
   void addEvent(Map<String, dynamic> event) {
     data.addEvent(event);
@@ -26,30 +29,26 @@ class PaneBoardState extends Equatable {
 
   PaneBoardState asEventAdded(double currentTimestamp) {
     return copyWith(
-        status: PaneStateStatus.loaded,
-        data: data,
-        currentTimestamp: currentTimestamp);
+        isStarted: true, data: data, currentTimestamp: currentTimestamp);
   }
 
   PaneBoardState asLoaded(double timestampOffset, double currentTimestamp) {
     return copyWith(
-        status: PaneStateStatus.loaded,
+        isStarted: true,
         timestampOffset: timestampOffset,
         currentTimestamp: currentTimestamp);
   }
 
   PaneBoardState copyWith({
-    PaneStateStatus? status,
+    bool? isStarted,
     PaneData? data,
     double? timestampOffset,
     double? currentTimestamp,
   }) {
     return PaneBoardState._(
-        status: status ?? this.status,
+        isStarted: isStarted ?? this.isStarted,
         timestampOffset: timestampOffset ?? this.timestampOffset,
         currentTimestamp: currentTimestamp ?? this.currentTimestamp,
         data: data ?? this.data);
   }
 }
-
-enum PaneStateStatus { inactive, loaded }

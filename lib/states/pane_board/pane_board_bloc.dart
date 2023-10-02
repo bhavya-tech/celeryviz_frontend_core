@@ -7,7 +7,8 @@ class PaneBoardBloc extends Bloc<PaneBoardEvent, PaneBoardState> {
   DataSource dataSource;
 
   PaneBoardBloc({required this.dataSource})
-      : super(PaneBoardState.initial(dataSource.initialTimestamp)) {
+      : super(PaneBoardState.initial(
+            dataSource.initialTimestamp, dataSource.currentTimestamp)) {
     on<PaneDataReceived>((event, emit) {
       _onDataReceived(event, emit);
     });
