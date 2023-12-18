@@ -55,7 +55,7 @@ class EventIconScaffold extends StatelessWidget {
           children: [
             const Icon(
               Icons.circle,
-              color: paneBackgroundColor,
+              color: backgroudColor,
               size: eventDotRadius * 2,
             ),
             Icon(

@@ -45,7 +45,8 @@ class RulerMarking extends StatelessWidget {
       timestamp,
       DateFormat('HH:mm:ss'),
     );
-    return SizedBox(
+    return Container(
+      color: Colors.white.withAlpha(20),
       height: paneTimestampMultiplier * scale,
       width: rulerWidth,
       child: CustomPaint(
@@ -56,7 +57,10 @@ class RulerMarking extends StatelessWidget {
             child: Text(
               time!,
               textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Colors.white.withAlpha(150)),
             ),
           ),
         ),

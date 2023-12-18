@@ -44,7 +44,7 @@ class _TaskNameBarState extends State<TaskNameBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey,
+      color: Colors.white.withAlpha(20),
       height: tasknameBarHeight,
       width: double.infinity,
       child: BlocBuilder<PaneBoardBloc, PaneBoardState>(
@@ -75,7 +75,11 @@ class _TaskNameBarState extends State<TaskNameBar> {
                               child: Text(
                                 taskId.substring(0, 8),
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                        color: Colors.white.withAlpha(150)),
                               ),
                             ),
                           );
