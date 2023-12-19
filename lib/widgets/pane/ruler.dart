@@ -25,55 +25,13 @@ class Ruler extends StatefulWidget {
   State<Ruler> createState() => _RulerState();
 }
 
-class RulerMarking extends StatelessWidget {
-  final double timestamp;
-  final double scale;
-
-  const RulerMarking({
-    Key? key,
-    required this.timestamp,
-    required this.scale,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final date = timestampToHumanReadable(
-      timestamp,
-      DateFormat('MMM dd, yyyy'),
-    );
-    final time = timestampToHumanReadable(
-      timestamp,
-      DateFormat('HH:mm:ss'),
-    );
-    return Container(
-      color: Colors.white.withAlpha(20),
-      height: paneTimestampMultiplier * scale,
-      width: rulerWidth,
-      child: CustomPaint(
-        painter: RulerMarkingPainter(),
-        child: Tooltip(
-          message: date,
-          child: Center(
-            child: Text(
-              time!,
-              textAlign: TextAlign.end,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: Colors.white.withAlpha(150)),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _RulerState extends State<Ruler> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: tasknameBarHeight),
+    return Container(
+      color: Colors.white.withAlpha(20),
+      width: rulerWidth,
+      margin: const EdgeInsets.only(top: tasknameBarHeight),
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         controller: widget._scrollController,
@@ -111,5 +69,48 @@ class _RulerState extends State<Ruler> {
     );
     widget._scaleNotifier.value =
         widget.transformationController.value.getMaxScaleOnAxis();
+  }
+}
+
+class RulerMarking extends StatelessWidget {
+  final double timestamp;
+  final double scale;
+
+  const RulerMarking({
+    Key? key,
+    required this.timestamp,
+    required this.scale,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final date = timestampToHumanReadable(
+      timestamp,
+      DateFormat('MMM dd, yyyy'),
+    );
+    final time = timestampToHumanReadable(
+      timestamp,
+      DateFormat('HH:mm:ss'),
+    );
+    return SizedBox(
+      height: paneTimestampMultiplier * scale,
+      width: rulerWidth,
+      child: CustomPaint(
+        painter: RulerMarkingPainter(),
+        child: Tooltip(
+          message: date,
+          child: Center(
+            child: Text(
+              time!,
+              textAlign: TextAlign.end,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Colors.white.withAlpha(150)),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celery_monitoring_core/constants.dart';
@@ -46,62 +44,38 @@ class _TaskNameBarState extends State<TaskNameBar> {
     return Container(
       color: Colors.white.withAlpha(20),
       height: tasknameBarHeight,
-      width: double.infinity,
       child: BlocBuilder<PaneBoardBloc, PaneBoardState>(
         buildWhen: (previous, current) {
           return previous.data.taskIds != current.data.taskIds;
         },
         builder: (context, state) {
-          return SizedBox(
-            width: min(
-                state.data.taskIds.length *
-                    paneEventMultiplier *
-                    widget._scaleNotifier.value,
-                MediaQuery.of(context).size.width),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              controller: widget._scrollController,
-              children: [
-                ...state.data.taskIds
-                    .map(
-                      (taskId) => ValueListenableBuilder<double>(
-                        valueListenable: widget._scaleNotifier,
-                        builder: (BuildContext context, double scale,
-                            Widget? child) {
-                          return SizedBox(
-                            height: tasknameBarHeight,
-                            width: paneEventMultiplier * scale,
-                            child: Center(
-                              child: Text(
-                                taskId.substring(0, 8),
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                        color: Colors.white.withAlpha(150)),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                    .toList(),
-                ValueListenableBuilder<double>(
+          return ListView(
+            scrollDirection: Axis.horizontal,
+            controller: widget._scrollController,
+            children: state.data.taskIds
+                .map(
+                  (taskId) => ValueListenableBuilder<double>(
                     valueListenable: widget._scaleNotifier,
                     builder:
                         (BuildContext context, double scale, Widget? child) {
                       return SizedBox(
-                        width: max(
-                            MediaQuery.of(context).size.width * scale -
-                                state.data.taskIds.length *
-                                    paneEventMultiplier *
-                                    scale,
-                            0),
+                        height: tasknameBarHeight,
+                        width: paneEventMultiplier * scale,
+                        child: Center(
+                          child: Text(
+                            taskId.substring(0, 8),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.white.withAlpha(150)),
+                          ),
+                        ),
                       );
-                    }),
-              ],
-            ),
+                    },
+                  ),
+                )
+                .toList(),
           );
         },
       ),

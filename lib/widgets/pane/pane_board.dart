@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celery_monitoring_core/constants.dart';
 import 'package:celery_monitoring_core/services/data_source.dart';
 import 'package:celery_monitoring_core/states/pane_board/pane_board_bloc.dart';
 import 'package:celery_monitoring_core/states/pane_board/pane_board_events.dart';
@@ -54,42 +53,27 @@ class PaneBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final widgetHeight = constraints.maxHeight;
-      final widgetWidth = constraints.maxWidth;
-      return Row(
-        children: [
-          SizedBox(
-            width: rulerWidth,
-            child: Ruler(
-              transformationController: _transformationController,
-              startTimestamp: BlocProvider.of<PaneBoardBloc>(context)
-                  .state
-                  .timestampOffset!,
-            ),
+    return Row(
+      children: [
+        Ruler(
+          transformationController: _transformationController,
+          startTimestamp:
+              BlocProvider.of<PaneBoardBloc>(context).state.timestampOffset!,
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              TaskNameBar(
+                transformationController: _transformationController,
+              ),
+              PanableArea(
+                transformationController: _transformationController,
+              ),
+            ],
           ),
-          SizedBox(
-            width: widgetWidth - rulerWidth,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TaskNameBar(
-                  transformationController: _transformationController,
-                ),
-                SizedBox(
-                  height: widgetHeight - tasknameBarHeight,
-                  width: widgetWidth - rulerWidth,
-                  child: PanableArea(
-                    transformationController: _transformationController,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    });
+        ),
+      ],
+    );
   }
 }
 

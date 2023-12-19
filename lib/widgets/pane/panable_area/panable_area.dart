@@ -18,44 +18,46 @@ class PanableArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      InteractiveViewer(
-        maxScale: paneMaxScale,
-        minScale: paneMinScale,
-        constrained: false,
-        scaleEnabled: false,
-        transformationController: transformationController,
-        child: BlocBuilder<PaneBoardBloc, PaneBoardState>(
-          builder: (context, state) {
-            return SizedBox(
-              height:
-                  _getHeight(state.currentTimestamp!, state.timestampOffset!),
-              width: _getWidth(state.data.tasks.length) / paneMinScale,
-              child: Padding(
-                padding: const EdgeInsets.only(top: _topPadding),
-                child: CustomPaint(
-                  painter: SpawnedTaskLinesPainter(
-                    tasks: state.data.tasks,
-                    timestampOffset: state.timestampOffset!,
-                    currentTimestamp: state.currentTimestamp!,
-                  ),
-                  child: InteractiveArea(
-                    tasksMap: state.data.tasks,
-                    timestampOffset: state.timestampOffset!,
-                    currentTimestamp: state.currentTimestamp!,
+    return Expanded(
+      child: Stack(children: [
+        InteractiveViewer(
+          maxScale: paneMaxScale,
+          minScale: paneMinScale,
+          constrained: false,
+          scaleEnabled: false,
+          transformationController: transformationController,
+          child: BlocBuilder<PaneBoardBloc, PaneBoardState>(
+            builder: (context, state) {
+              return SizedBox(
+                height:
+                    _getHeight(state.currentTimestamp!, state.timestampOffset!),
+                width: _getWidth(state.data.tasks.length) / paneMinScale,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: _topPadding),
+                  child: CustomPaint(
+                    painter: SpawnedTaskLinesPainter(
+                      tasks: state.data.tasks,
+                      timestampOffset: state.timestampOffset!,
+                      currentTimestamp: state.currentTimestamp!,
+                    ),
+                    child: InteractiveArea(
+                      tasksMap: state.data.tasks,
+                      timestampOffset: state.timestampOffset!,
+                      currentTimestamp: state.currentTimestamp!,
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
-      ),
-      const TaskInfoContainer(),
-    ]);
+        const TaskInfoContainer(),
+      ]),
+    );
   }
 
   double _getWidth(int taskCnt) {
-    return taskCnt * paneEventMultiplier + paneEventOffsetX;
+    return taskCnt * paneEventMultiplier;
   }
 
   double _getHeight(double currentTimestamp, double timestampOffset) {

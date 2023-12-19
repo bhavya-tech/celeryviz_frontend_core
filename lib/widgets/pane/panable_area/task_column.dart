@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celery_monitoring_core/constants.dart';
-import 'package:celery_monitoring_core/models/event.dart';
 import 'package:celery_monitoring_core/models/task_data.dart';
 import 'package:celery_monitoring_core/states/task_info/task_info_bloc.dart';
 import 'package:celery_monitoring_core/states/task_info/task_info_event.dart';
@@ -43,15 +42,14 @@ class TaskColumn extends StatelessWidget {
   }
 
   List<Widget> _getEvents() {
-    List<Widget> events = [];
-    for (CeleryEventBase event in taskData.eventsList) {
-      Widget evt = Positioned(
-        left: (paneEventMultiplier) / 2 - eventDotRadius,
-        top: boardYCoord(event.timestamp, timestampOffset) - eventDotRadius,
-        child: getEventWidget(event, taskData.color),
-      );
-      events.add(evt);
-    }
+    List<Widget> events = taskData.eventsList
+        .map((event) => Positioned(
+              left: (paneEventMultiplier) / 2 - eventDotRadius,
+              top: boardYCoord(event.timestamp, timestampOffset) -
+                  eventDotRadius,
+              child: getEventWidget(event, taskData.color),
+            ))
+        .toList();
 
     return events;
   }
