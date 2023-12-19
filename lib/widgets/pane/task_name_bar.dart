@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celery_monitoring_core/constants.dart';
-import 'package:celery_monitoring_core/states/pane_board/pane_board_bloc.dart';
-import 'package:celery_monitoring_core/states/pane_board/pane_board_state.dart';
+import 'package:celery_monitoring_core/states/pane/pane_bloc.dart';
+import 'package:celery_monitoring_core/states/pane/pane_state.dart';
 
 class TaskNameBar extends StatefulWidget {
   final TransformationController transformationController;
@@ -44,7 +44,7 @@ class _TaskNameBarState extends State<TaskNameBar> {
     return Container(
       color: Colors.white.withAlpha(20),
       height: tasknameBarHeight,
-      child: BlocBuilder<PaneBoardBloc, PaneBoardState>(
+      child: BlocBuilder<PaneBloc, PaneState>(
         buildWhen: (previous, current) {
           return previous.data.taskIds != current.data.taskIds;
         },

@@ -2,39 +2,40 @@ import 'package:celery_monitoring_core/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celery_monitoring_core/services/data_source.dart';
-import 'package:celery_monitoring_core/states/pane/pane_bloc.dart';
-import 'package:celery_monitoring_core/states/pane/pane_events.dart';
-import 'package:celery_monitoring_core/states/pane/pane_state.dart';
-import 'package:celery_monitoring_core/widgets/pane/pane_board.dart';
+import 'package:celery_monitoring_core/states/pane_screen/pane_screen_bloc.dart';
+import 'package:celery_monitoring_core/states/pane_screen/pane_screen_events.dart';
+import 'package:celery_monitoring_core/states/pane_screen/pane_screen_state.dart';
+import 'package:celery_monitoring_core/widgets/pane/pane.dart';
 
-class Pane extends StatelessWidget {
+class PaneScreen extends StatelessWidget {
   final DataSource dataSource;
 
-  const Pane({super.key, required this.dataSource});
+  const PaneScreen({super.key, required this.dataSource});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: backgroudColor,
       child: BlocProvider(
-        create: (_) => PaneBloc(dataSource: dataSource),
-        child: BlocBuilder<PaneBloc, PaneState>(
+        create: (_) => PaneScreenBloc(dataSource: dataSource),
+        child: BlocBuilder<PaneScreenBloc, PaneScreenState>(
           builder: (context, state) {
             switch (state.status) {
-              case PaneStateStatus.loading:
+              case PaneScreenStateStatus.loading:
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              case PaneStateStatus.loaded:
-                return PaneBoardWrapper(
+              case PaneScreenStateStatus.loaded:
+                return Pane(
                   dataSource: state.dataSource,
                 );
-              case PaneStateStatus.error:
+              case PaneScreenStateStatus.error:
                 return const Center(
                   child: Text('Failed to load'),
                 );
-              case PaneStateStatus.inactive:
-                BlocProvider.of<PaneBloc>(context).add(const PaneLoadStart());
+              case PaneScreenStateStatus.inactive:
+                BlocProvider.of<PaneScreenBloc>(context)
+                    .add(const PaneScreenLoadStart());
                 return const Center(
                   child: Text('Inactive'),
                 );

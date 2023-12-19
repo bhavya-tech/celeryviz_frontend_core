@@ -2,14 +2,16 @@ abstract class PaneEvent {
   const PaneEvent();
 }
 
-class PaneLoadStart extends PaneEvent {
-  const PaneLoadStart();
+class PaneStart extends PaneEvent {
+  const PaneStart();
 }
 
-class PaneLoadSuccess extends PaneEvent {
-  const PaneLoadSuccess();
+class PaneStop extends PaneEvent {
+  const PaneStop();
 }
 
-class PaneLoadFailure extends PaneEvent {
-  const PaneLoadFailure();
+class PaneDataReceived extends PaneEvent {
+  final Map<String, dynamic> eventJson;
+
+  const PaneDataReceived({required this.eventJson});
 }
