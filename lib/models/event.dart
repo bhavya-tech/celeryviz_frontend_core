@@ -25,29 +25,26 @@ class CeleryEventBase {
   String type;
   double localReceived;
 
-  CeleryEventBase(
-    this.hostname,
-    this.utcoffset,
-    this.pid,
-    this.clock,
-    this.uuid,
-    this.timestamp,
-    this.type,
-    this.localReceived,
-  );
+  CeleryEventBase({
+    required this.hostname,
+    required this.utcoffset,
+    required this.pid,
+    required this.clock,
+    required this.uuid,
+    required this.timestamp,
+    required this.type,
+    required this.localReceived,
+  });
 
-  factory CeleryEventBase.fromJson(Map<String, dynamic> json) {
-    return CeleryEventBase(
-      json['hostname'],
-      json['utcoffset'],
-      json['pid'],
-      json['clock'],
-      json['uuid'],
-      json['timestamp'],
-      json['type'],
-      json['local_received'],
-    );
-  }
+  CeleryEventBase.fromJson(Map<String, dynamic> json)
+      : hostname = json['hostname'],
+        utcoffset = json['utcoffset'],
+        pid = json['pid'],
+        clock = json['clock'],
+        uuid = json['uuid'],
+        timestamp = json['timestamp'],
+        type = json['type'],
+        localReceived = json['local_received'];
 }
 
 class CeleryEventScheduled extends CeleryEventBase {
@@ -57,173 +54,96 @@ class CeleryEventScheduled extends CeleryEventBase {
   String? args;
   String? kwargs;
   CeleryEventScheduled(
-    String hostname,
-    int utcoffset,
-    int pid,
-    int clock,
-    String uuid,
-    double timestamp,
-    String type,
-    double localReceived,
-    this.name,
-    this.parentId,
-    this.args,
-    this.kwargs,
-  ) : super(
-          hostname,
-          utcoffset,
-          pid,
-          clock,
-          uuid,
-          timestamp,
-          type,
-          localReceived,
-        );
+      {required this.name,
+      required this.parentId,
+      required this.args,
+      required this.kwargs,
+      required super.hostname,
+      required super.utcoffset,
+      required super.pid,
+      required super.clock,
+      required super.uuid,
+      required super.timestamp,
+      required super.type,
+      required super.localReceived});
 
-  factory CeleryEventScheduled.fromJson(Map<String, dynamic> json) {
+  CeleryEventScheduled.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        parentId = json['parent_id'] ?? json['uuid'],
+        args = json['args'],
+        kwargs = json['kwargs'],
+        super.fromJson(_modifyJson(json));
+
+  static Map<String, dynamic> _modifyJson(Map<String, dynamic> json) {
     String eta = json['eta'];
     DateTime etaDateTime = DateTime.parse(eta);
     double etaTimestamp = etaDateTime.millisecondsSinceEpoch / 1000;
-    return CeleryEventScheduled(
-      json['hostname'],
-      json['utcoffset'],
-      json['pid'],
-      json['clock'],
-      json['uuid'],
-      etaTimestamp,
-      "task-scheduled",
-      json['local_received'],
-      json['name'],
-      json['parentId'] ?? json['uuid'],
-      json['args'],
-      json['kwargs'],
-    );
+    json['timestamp'] = etaTimestamp;
+    json['type'] = "task-scheduled";
+    return json;
   }
 }
 
 class CeleryEventSpawned extends CeleryEventBase {
   String childId;
-  CeleryEventSpawned(
-    String hostname,
-    int utcoffset,
-    int pid,
-    int clock,
-    String uuid,
-    double timestamp,
-    String type,
-    double localReceived,
-    this.childId,
-  ) : super(
-          hostname,
-          utcoffset,
-          pid,
-          clock,
-          uuid,
-          timestamp,
-          type,
-          localReceived,
-        );
+  CeleryEventSpawned({
+    required super.hostname,
+    required super.utcoffset,
+    required super.pid,
+    required super.clock,
+    required super.uuid,
+    required super.timestamp,
+    required super.type,
+    required super.localReceived,
+    required this.childId,
+  });
 
-  factory CeleryEventSpawned.fromJson(Map<String, dynamic> json) {
-    return CeleryEventSpawned(
-      json['hostname'],
-      json['utcoffset'],
-      json['pid'],
-      json['clock'],
-      json['parent_id'] ?? json['uuid'],
-      json['timestamp'],
-      "task-spawned",
-      json['local_received'],
-      json['uuid'],
-    );
+  CeleryEventSpawned.fromJson(Map<String, dynamic> json)
+      : childId = json['uuid'],
+        super.fromJson(_modifyJson(json));
+
+  static Map<String, dynamic> _modifyJson(Map<String, dynamic> json) {
+    json['type'] = "task-spawned";
+    json['uuid'] = json['parent_id'] ?? json['uuid'];
+    return json;
   }
 }
 
 class CeleryEventStarted extends CeleryEventBase {
-  CeleryEventStarted(
-    String hostname,
-    int utcoffset,
-    int pid,
-    int clock,
-    String uuid,
-    double timestamp,
-    String type,
-    double localReceived,
-  ) : super(
-          hostname,
-          utcoffset,
-          pid,
-          clock,
-          uuid,
-          timestamp,
-          type,
-          localReceived,
-        );
-
-  factory CeleryEventStarted.fromJson(Map<String, dynamic> json) {
-    return CeleryEventStarted(
-      json['hostname'],
-      json['utcoffset'],
-      json['pid'],
-      json['clock'],
-      json['uuid'],
-      json['timestamp'],
-      json['type'],
-      json['local_received'],
-    );
-  }
-
-  @override
-  String toString() {
-    return 'CeleryEventStarted{hostname: $hostname, utcoffset: $utcoffset, pid: $pid, clock: $clock, uuid: $uuid, timestamp: $timestamp, type: $type, localReceived: $localReceived}';
-  }
+  CeleryEventStarted({
+    required super.hostname,
+    required super.utcoffset,
+    required super.pid,
+    required super.clock,
+    required super.uuid,
+    required super.timestamp,
+    required super.type,
+    required super.localReceived,
+  });
+  CeleryEventStarted.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
 class CeleryEventSucceeded extends CeleryEventBase {
   String result;
   double runtime;
 
-  CeleryEventSucceeded(
-    String hostname,
-    int utcoffset,
-    int pid,
-    int clock,
-    String uuid,
-    double timestamp,
-    String type,
-    double localReceived,
-    this.result,
-    this.runtime,
-  ) : super(
-          hostname,
-          utcoffset,
-          pid,
-          clock,
-          uuid,
-          timestamp,
-          type,
-          localReceived,
-        );
+  CeleryEventSucceeded({
+    required super.hostname,
+    required super.utcoffset,
+    required super.pid,
+    required super.clock,
+    required super.uuid,
+    required super.timestamp,
+    required super.type,
+    required super.localReceived,
+    required this.result,
+    required this.runtime,
+  });
 
-  factory CeleryEventSucceeded.fromJson(Map<String, dynamic> json) {
-    return CeleryEventSucceeded(
-      json['hostname'],
-      json['utcoffset'],
-      json['pid'],
-      json['clock'],
-      json['uuid'],
-      json['timestamp'],
-      json['type'],
-      json['local_received'],
-      json['result'],
-      json['runtime'],
-    );
-  }
-
-  @override
-  String toString() {
-    return 'CeleryEventSucceeded{hostname: $hostname, utcoffset: $utcoffset, pid: $pid, clock: $clock, uuid: $uuid, timestamp: $timestamp, type: $type, localReceived: $localReceived, result: $result, runtime: $runtime}';
-  }
+  CeleryEventSucceeded.fromJson(Map<String, dynamic> json)
+      : result = json['result'],
+        runtime = json['runtime'],
+        super.fromJson(json);
 }
 
 class CeleryEventLog extends CeleryEventBase {
@@ -232,50 +152,31 @@ class CeleryEventLog extends CeleryEventBase {
   final String pathname;
   final int lineno;
   final String name;
-  final dynamic excInfo; // ! Need to change as needed
+  final dynamic excInfo;
 
-  CeleryEventLog(
-    String hostname,
-    int utcoffset,
-    int pid,
-    int clock,
-    String uuid,
-    double timestamp,
-    String type,
-    double localReceived,
-    this.msg,
-    this.levelno,
-    this.pathname,
-    this.lineno,
-    this.name,
-    this.excInfo,
-  ) : super(
-          hostname,
-          utcoffset,
-          pid,
-          clock,
-          uuid,
-          timestamp,
-          type,
-          localReceived,
-        );
+  CeleryEventLog({
+    required super.hostname,
+    required super.utcoffset,
+    required super.pid,
+    required super.clock,
+    required super.uuid,
+    required super.timestamp,
+    required super.type,
+    required super.localReceived,
+    required this.msg,
+    required this.levelno,
+    required this.pathname,
+    required this.lineno,
+    required this.name,
+    required this.excInfo,
+  });
 
-  factory CeleryEventLog.fromJson(Map<String, dynamic> json) {
-    return CeleryEventLog(
-      json['hostname'],
-      json['utcoffset'],
-      json['pid'],
-      json['clock'],
-      json['uuid'],
-      json['timestamp'],
-      json['type'],
-      json['local_received'],
-      json['msg'],
-      json['levelno'],
-      json['pathname'],
-      json['lineno'],
-      json['name'],
-      json['exc_info'],
-    );
-  }
+  CeleryEventLog.fromJson(Map<String, dynamic> json)
+      : msg = json['msg'],
+        levelno = json['levelno'],
+        pathname = json['pathname'],
+        lineno = json['lineno'],
+        name = json['name'],
+        excInfo = json['exc_info'],
+        super.fromJson(json);
 }

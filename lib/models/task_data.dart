@@ -1,17 +1,17 @@
 import 'dart:collection';
 import 'dart:math';
 
+import 'package:celery_monitoring_core/colors.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:celery_monitoring_core/models/event.dart';
 import 'package:celery_monitoring_core/models/task_info.dart';
-import 'package:celery_monitoring_core/theme.dart';
 
 class TaskData extends Equatable {
   final SplayTreeMap<double, CeleryEventBase> _events =
       SplayTreeMap<double, CeleryEventBase>();
   final String taskId;
-  final Color color = getTaskColor(defaultTheme.canvasColor);
+  final Color color = getTaskColor(backgroudColor);
 
   final TaskInfo taskInfo = TaskInfo();
 
@@ -61,7 +61,7 @@ Color getTaskColor(Color baseColor) {
         0.114 * randomColor.blue;
 
     // Check if the random color has sufficient contrast with the base color
-    if ((randomColorLuminance - baseColorLuminance).abs() > contrastThreshold) {
+    if ((randomColorLuminance - baseColorLuminance).abs() < contrastThreshold) {
       return randomColor;
     }
   }
