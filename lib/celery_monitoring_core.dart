@@ -1,7 +1,7 @@
 library celery_monitoring_core;
 
 import 'package:flutter/material.dart';
-import 'package:celery_monitoring_core/screens/pane.dart';
+import 'package:celery_monitoring_core/screens/pane_screen.dart';
 import 'package:celery_monitoring_core/services/data_source.dart';
 
 class CeleryMonitoringCore extends StatelessWidget {
@@ -11,6 +11,6 @@ class CeleryMonitoringCore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Pane(dataSource: dataSource);
+    return PaneScreen(dataSource: dataSource);
   }
 }

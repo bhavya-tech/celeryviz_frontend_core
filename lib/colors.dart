@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color paneBackgroundColor = Color(0xFF121212);
+const Color backgroudColor = Color(0xFF121212);
 
 class TaskStatusColors {
   static const Color scheduled = Colors.blue;

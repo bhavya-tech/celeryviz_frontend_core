@@ -1,56 +1,53 @@
-import 'package:flutter/foundation.dart';
-import 'package:celery_monitoring_core/services/data_source.dart';
 import 'package:equatable/equatable.dart';
+import 'package:celery_monitoring_core/models/pane_data.dart';
 
-enum PaneStateStatus {
-  loading,
-  loaded,
-  error,
-  inactive,
-}
-
-@immutable
 class PaneState extends Equatable {
-  final DataSource dataSource;
-  final PaneStateStatus status;
+  final bool isStarted;
+  final PaneData data;
+  final double? timestampOffset;
+  final double? currentTimestamp;
 
-  const PaneState({
-    required this.dataSource,
-    PaneStateStatus? status,
-  }) : status = status ?? PaneStateStatus.inactive;
+  PaneState.initial() : this._(data: PaneData());
 
-  PaneState asLoading() {
-    return PaneState(
-      dataSource: dataSource,
-      status: PaneStateStatus.loading,
-    );
+  const PaneState._({
+    this.isStarted = false,
+    this.timestampOffset,
+    this.currentTimestamp,
+    required this.data,
+  });
+
+  @override
+  get props => [isStarted, data, currentTimestamp, identityHashCode(this)];
+
+  void addEvent(Map<String, dynamic> event) {
+    data.addEvent(event);
   }
 
-  PaneState asLoaded() {
-    return PaneState(
-      dataSource: dataSource,
-      status: PaneStateStatus.loaded,
-    );
+  PaneState asEventAdded(double currentTimestamp) {
+    return copyWith(
+        isStarted: true,
+        data: data,
+        currentTimestamp: currentTimestamp,
+        timestampOffset: timestampOffset);
   }
 
-  PaneState asLoadFailed() {
-    return PaneState(
-      dataSource: dataSource,
-      status: PaneStateStatus.error,
-    );
+  PaneState asLoaded(double timestampOffset, double currentTimestamp) {
+    return copyWith(
+        isStarted: true,
+        timestampOffset: timestampOffset,
+        currentTimestamp: currentTimestamp);
   }
 
   PaneState copyWith({
-    DataSource? dataSource,
+    bool? isStarted,
+    PaneData? data,
+    double? timestampOffset,
+    double? currentTimestamp,
   }) {
-    return PaneState(
-      dataSource: dataSource ?? this.dataSource,
-    );
+    return PaneState._(
+        isStarted: isStarted ?? this.isStarted,
+        timestampOffset: timestampOffset ?? this.timestampOffset,
+        currentTimestamp: currentTimestamp ?? this.currentTimestamp,
+        data: data ?? this.data);
   }
-
-  @override
-  List<Object?> get props => [
-        dataSource,
-        status,
-      ];
 }

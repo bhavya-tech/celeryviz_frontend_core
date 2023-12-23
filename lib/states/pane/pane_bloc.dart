@@ -1,26 +1,47 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
+import 'package:bloc/bloc.dart';
 import 'package:celery_monitoring_core/services/data_source.dart';
 import 'package:celery_monitoring_core/states/pane/pane_events.dart';
 import 'package:celery_monitoring_core/states/pane/pane_state.dart';
 
 class PaneBloc extends Bloc<PaneEvent, PaneState> {
-  final DataSource dataSource;
-  PaneBloc({required this.dataSource})
-      : super(PaneState(dataSource: dataSource)) {
-    on<PaneLoadStart>((event, emit) async {
-      await _onLoadStart(event, emit);
+  DataSource dataSource;
+
+  PaneBloc({required this.dataSource}) : super(PaneState.initial()) {
+    on<PaneDataReceived>((event, emit) {
+      _onDataReceived(event, emit);
+    });
+    on<PaneStart>((event, emit) {
+      _onStart(event, emit);
+    });
+
+    on<PaneStop>((event, emit) {
+      _onStop(event, emit);
     });
   }
 
-  Future _onLoadStart(PaneLoadStart event, Emitter<PaneState> emit) async {
-    emit(state.asLoading());
-    try {
-      await state.dataSource.setup();
-      emit(state.asLoaded());
-    } catch (e) {
-      Logger().e(e);
-      emit(state.asLoadFailed());
-    }
+  get currentTimestamp => dataSource.currentTimestamp;
+
+  @override
+  Future<void> close() {
+    dataSource.stop();
+    return super.close();
+  }
+
+  void _onDataReceived(PaneDataReceived event, Emitter<PaneState> emit) {
+    state.addEvent(event.eventJson);
+    emit(state.asEventAdded(currentTimestamp));
+  }
+
+  void _onStart(PaneEvent event, Emitter<PaneState> emit) {
+    dataSource.start(_sendEventToBloc);
+    emit(state.asLoaded(dataSource.initialTimestamp, currentTimestamp));
+  }
+
+  void _onStop(PaneEvent event, Emitter<PaneState> emit) {
+    dataSource.stop();
+  }
+
+  void _sendEventToBloc(Map<String, dynamic> event) {
+    add(PaneDataReceived(eventJson: event));
   }
 }
