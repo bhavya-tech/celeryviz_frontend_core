@@ -45,7 +45,6 @@ class WorkerColumn extends StatelessWidget {
               top: boardYCoord(task.startTimestamp ?? 0.0, timestampOffset),
               child: TaskColumn(
                 taskData: task,
-                currentTimestamp: currentTimestamp,
               ),
             ))
         .toList();
@@ -56,12 +55,10 @@ class WorkerColumn extends StatelessWidget {
 
 class TaskColumn extends StatelessWidget {
   final TaskData taskData;
-  final double currentTimestamp;
 
   const TaskColumn({
     Key? key,
     required this.taskData,
-    required this.currentTimestamp,
   }) : super(key: key);
 
   @override
@@ -72,7 +69,6 @@ class TaskColumn extends StatelessWidget {
         children: [
           TaskLine(
             taskData: taskData,
-            currentTimestamp: currentTimestamp,
           ),
           ..._getEvents(),
         ],
@@ -96,12 +92,10 @@ class TaskColumn extends StatelessWidget {
 
 class TaskLine extends StatefulWidget {
   final TaskData taskData;
-  final double currentTimestamp;
 
   const TaskLine({
     Key? key,
     required this.taskData,
-    required this.currentTimestamp,
   }) : super(key: key);
 
   @override

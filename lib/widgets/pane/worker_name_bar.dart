@@ -52,8 +52,7 @@ class _TaskNameBarState extends State<TaskNameBar> {
           return ListView(
             scrollDirection: Axis.horizontal,
             controller: widget._scrollController,
-            physics: const ClampingScrollPhysics(),
-            children: state.data.taskIds
+            children: state.data.workerNames
                 .map(
                   (workerName) => ValueListenableBuilder<double>(
                     valueListenable: widget._scaleNotifier,
