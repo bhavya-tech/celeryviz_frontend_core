@@ -1,9 +1,7 @@
 CeleryEventBase getCeleryEventFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
-    case 'task-spawned':
+    case 'task-received':
       return CeleryEventSpawned.fromJson(json);
-    case 'task-scheduled':
-      return CeleryEventScheduled.fromJson(json);
     case 'task-started':
       return CeleryEventStarted.fromJson(json);
     case 'task-succeeded':
@@ -47,17 +45,20 @@ class CeleryEventBase {
         localReceived = json['local_received'];
 }
 
-class CeleryEventScheduled extends CeleryEventBase {
-  // Represents the spawned task.
-  String parentId;
-  String name;
-  String? args;
-  String? kwargs;
-  CeleryEventScheduled(
-      {required this.name,
-      required this.parentId,
-      required this.args,
-      required this.kwargs,
+class CeleryEventSpawned extends CeleryEventBase {
+  // Represents the event of a task spawning other task.
+  // From celery side, this event is called "task-received".
+  // Celery treats that event as event of the spawned child task, however as of this app, we will treat it as event of the parent task.
+  String childId;
+  String childName;
+  String? childArgs;
+  String? childKwargs;
+  String? childEta;
+  CeleryEventSpawned(
+      {required this.childName,
+      required this.childArgs,
+      required this.childKwargs,
+      required this.childId,
       required super.hostname,
       required super.utcoffset,
       required super.pid,
@@ -67,44 +68,16 @@ class CeleryEventScheduled extends CeleryEventBase {
       required super.type,
       required super.localReceived});
 
-  CeleryEventScheduled.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        parentId = json['parent_id'] ?? json['uuid'],
-        args = json['args'],
-        kwargs = json['kwargs'],
-        super.fromJson(_modifyJson(json));
-
-  static Map<String, dynamic> _modifyJson(Map<String, dynamic> json) {
-    String eta = json['eta'];
-    DateTime etaDateTime = DateTime.parse(eta);
-    double etaTimestamp = etaDateTime.millisecondsSinceEpoch / 1000;
-    json['timestamp'] = etaTimestamp;
-    json['type'] = "task-scheduled";
-    return json;
-  }
-}
-
-class CeleryEventSpawned extends CeleryEventBase {
-  String childId;
-  CeleryEventSpawned({
-    required super.hostname,
-    required super.utcoffset,
-    required super.pid,
-    required super.clock,
-    required super.uuid,
-    required super.timestamp,
-    required super.type,
-    required super.localReceived,
-    required this.childId,
-  });
-
   CeleryEventSpawned.fromJson(Map<String, dynamic> json)
-      : childId = json['uuid'],
+      : childName = json['name'],
+        childId = json['uuid'],
+        childArgs = json['args'],
+        childKwargs = json['kwargs'],
+        childEta = json['eta'],
         super.fromJson(_modifyJson(json));
 
   static Map<String, dynamic> _modifyJson(Map<String, dynamic> json) {
-    json['type'] = "task-spawned";
-    json['uuid'] = json['parent_id'] ?? json['uuid'];
+    json['uuid'] = json['parent_id'];
     return json;
   }
 }

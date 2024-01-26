@@ -1,20 +1,21 @@
+import 'package:celery_monitoring_core/models/worker_data.dart';
+import 'package:celery_monitoring_core/widgets/pane/panable_area/event_widgets.dart';
+import 'package:celery_monitoring_core/widgets/pane/panable_area/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celery_monitoring_core/constants.dart';
 import 'package:celery_monitoring_core/models/task_data.dart';
 import 'package:celery_monitoring_core/states/task_info/task_info_bloc.dart';
 import 'package:celery_monitoring_core/states/task_info/task_info_event.dart';
-import 'package:celery_monitoring_core/widgets/pane/panable_area/event_widgets.dart';
-import 'package:celery_monitoring_core/widgets/pane/panable_area/helpers.dart';
 
-class TaskColumn extends StatelessWidget {
-  final TaskData taskData;
+class WorkerColumn extends StatelessWidget {
+  final WorkerData workerData;
   final double timestampOffset;
   final double currentTimestamp;
 
-  const TaskColumn({
+  const WorkerColumn({
     Key? key,
-    required this.taskData,
+    required this.workerData,
     required this.timestampOffset,
     required this.currentTimestamp,
   }) : super(key: key);
@@ -25,17 +26,51 @@ class TaskColumn extends StatelessWidget {
       width: paneEventMultiplier,
       child: Stack(
         children: [
-          Positioned(
-            top: boardYCoord(
-                taskData.startTimestamp ?? currentTimestamp, timestampOffset),
-            left: (paneEventMultiplier - eventLineWidth) / 2,
-            child: TaskLine(
-                taskData: taskData,
-                startTimestamp: taskData.startTimestamp ?? currentTimestamp,
-                endTimestamp: taskData.endTimestamp ?? currentTimestamp,
-                color: taskData.color),
+          Center(
+            child: Container(
+              width: 2,
+              color: Colors.white30,
+            ),
           ),
-          ..._getEvents()
+          ..._getTasks(),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _getTasks() {
+    List<Widget> events = workerData.tasks.values
+        .map((task) => Positioned(
+              left: (paneEventMultiplier) / 2 - eventDotRadius / 4,
+              top: boardYCoord(task.startTimestamp ?? 0.0, timestampOffset),
+              child: TaskColumn(
+                taskData: task,
+              ),
+            ))
+        .toList();
+
+    return events;
+  }
+}
+
+class TaskColumn extends StatelessWidget {
+  final TaskData taskData;
+
+  const TaskColumn({
+    Key? key,
+    required this.taskData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: paneEventMultiplier,
+      child: Stack(
+        children: [
+          TaskLine(
+            taskData: taskData,
+          ),
+          ..._getEvents(),
         ],
       ),
     );
@@ -44,8 +79,8 @@ class TaskColumn extends StatelessWidget {
   List<Widget> _getEvents() {
     List<Widget> events = taskData.eventsList
         .map((event) => Positioned(
-              left: (paneEventMultiplier) / 2 - eventDotRadius,
-              top: boardYCoord(event.timestamp, timestampOffset) -
+              left: 0 - eventDotRadius,
+              top: boardYCoord(event.timestamp, taskData.startTimestamp ?? 0) -
                   eventDotRadius,
               child: getEventWidget(event, taskData.color),
             ))
@@ -57,16 +92,10 @@ class TaskColumn extends StatelessWidget {
 
 class TaskLine extends StatefulWidget {
   final TaskData taskData;
-  final double startTimestamp;
-  final double endTimestamp;
-  final Color color;
 
   const TaskLine({
     Key? key,
     required this.taskData,
-    required this.startTimestamp,
-    required this.endTimestamp,
-    required this.color,
   }) : super(key: key);
 
   @override
@@ -86,11 +115,11 @@ class _TaskLineState extends State<TaskLine> {
         padding: const EdgeInsets.symmetric(horizontal: 1.5 * eventLineWidth),
         height: _getHeight(),
         decoration: BoxDecoration(
-          color: widget.color,
+          color: widget.taskData.color,
           boxShadow: isShadowed
               ? [
                   BoxShadow(
-                    color: widget.color.withOpacity(0.5),
+                    color: widget.taskData.color.withOpacity(0.5),
                     spreadRadius: 4,
                     blurRadius: 2,
                     offset: const Offset(0, 2),
@@ -103,7 +132,8 @@ class _TaskLineState extends State<TaskLine> {
   }
 
   double _getHeight() {
-    return (widget.endTimestamp - widget.startTimestamp) *
+    return (widget.taskData.endTimestamp ??
+            500.0 - widget.taskData.startTimestamp!) *
         paneTimestampMultiplier;
   }
 }

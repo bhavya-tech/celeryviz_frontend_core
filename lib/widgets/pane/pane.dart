@@ -8,7 +8,7 @@ import 'package:celery_monitoring_core/states/task_info/task_info_bloc.dart';
 import 'package:celery_monitoring_core/widgets/pane/panable_area/panable_area.dart';
 
 import 'package:celery_monitoring_core/widgets/pane/ruler.dart';
-import 'package:celery_monitoring_core/widgets/pane/task_name_bar.dart';
+import 'package:celery_monitoring_core/widgets/pane/worker_name_bar.dart';
 
 class Pane extends StatelessWidget {
   const Pane({

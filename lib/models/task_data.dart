@@ -27,7 +27,8 @@ class TaskData extends Equatable {
   double? get startTimestamp => taskInfo.startTimestamp;
   double? get endTimestamp => taskInfo.endTimestamp;
 
-  double get firstRenderTimestamp => _events.firstKey() ?? double.infinity;
+  CeleryEventBase? get firstEvent =>
+      _events.isNotEmpty ? _events[_events.firstKey()] : null;
 
   void addEvent(dynamic event) {
     _events[event.timestamp] = event;

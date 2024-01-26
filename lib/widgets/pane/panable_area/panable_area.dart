@@ -31,17 +31,17 @@ class PanableArea extends StatelessWidget {
               return SizedBox(
                 height:
                     _getHeight(state.currentTimestamp!, state.timestampOffset!),
-                width: _getWidth(state.data.tasks.length) / paneMinScale,
+                width: _getWidth(state.data.workers.length) / paneMinScale,
                 child: Padding(
                   padding: const EdgeInsets.only(top: _topPadding),
                   child: CustomPaint(
                     painter: SpawnedTaskLinesPainter(
-                      tasks: state.data.tasks,
+                      workers: state.data.workers,
                       timestampOffset: state.timestampOffset!,
                       currentTimestamp: state.currentTimestamp!,
                     ),
                     child: InteractiveArea(
-                      tasksMap: state.data.tasks,
+                      workersMap: state.data.workers,
                       timestampOffset: state.timestampOffset!,
                       currentTimestamp: state.currentTimestamp!,
                     ),
