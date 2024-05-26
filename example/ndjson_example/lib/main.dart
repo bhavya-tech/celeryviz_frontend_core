@@ -1,6 +1,6 @@
-import 'package:celery_monitoring_core/celery_monitoring_core.dart';
-import 'package:celery_monitoring_core/services/data_source.dart';
-import 'package:celery_monitoring_core/theme.dart';
+import 'package:celeryviz_frontend_core/celeryviz_frontend_core.dart';
+import 'package:celeryviz_frontend_core/services/data_source.dart';
+import 'package:celeryviz_frontend_core/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {

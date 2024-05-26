@@ -1,7 +1,7 @@
 import 'dart:collection';
 
-import 'package:celery_monitoring_core/models/event.dart';
-import 'package:celery_monitoring_core/models/task_data.dart';
+import 'package:celeryviz_frontend_core/models/event.dart';
+import 'package:celeryviz_frontend_core/models/task_data.dart';
 
 class WorkerData {
   final LinkedHashMap<String, TaskData> tasks = LinkedHashMap();

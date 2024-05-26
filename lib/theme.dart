@@ -7,7 +7,7 @@ final ThemeData defaultTheme = ThemeData(
   useMaterial3: true,
   iconButtonTheme: const IconButtonThemeData(
     style: ButtonStyle(
-      iconColor: MaterialStatePropertyAll<Color>(Colors.black),
+      iconColor: WidgetStatePropertyAll<Color>(Colors.black),
     ),
   ),
   textTheme: const TextTheme(

@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:celery_monitoring_core/models/worker_data.dart';
+import 'package:celeryviz_frontend_core/models/worker_data.dart';
 import 'package:equatable/equatable.dart';
 
 class PaneData extends Equatable {

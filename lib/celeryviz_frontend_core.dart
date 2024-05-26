@@ -1,8 +1,8 @@
-library celery_monitoring_core;
+library celeryviz_frontend_core;
 
 import 'package:flutter/material.dart';
-import 'package:celery_monitoring_core/screens/pane_screen.dart';
-import 'package:celery_monitoring_core/services/data_source.dart';
+import 'package:celeryviz_frontend_core/screens/pane_screen.dart';
+import 'package:celeryviz_frontend_core/services/data_source.dart';
 
 class CeleryMonitoringCore extends StatelessWidget {
   final DataSource dataSource;

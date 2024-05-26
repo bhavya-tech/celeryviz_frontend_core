@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  celery_monitoring_core:
+  celeryviz_frontend_core:
     path: ../../
 
 dev_dependencies:

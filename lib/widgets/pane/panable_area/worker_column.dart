@@ -1,12 +1,12 @@
-import 'package:celery_monitoring_core/models/worker_data.dart';
-import 'package:celery_monitoring_core/widgets/pane/panable_area/event_widgets.dart';
-import 'package:celery_monitoring_core/widgets/pane/panable_area/helpers.dart';
+import 'package:celeryviz_frontend_core/models/worker_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celery_monitoring_core/constants.dart';
-import 'package:celery_monitoring_core/models/task_data.dart';
-import 'package:celery_monitoring_core/states/task_info/task_info_bloc.dart';
-import 'package:celery_monitoring_core/states/task_info/task_info_event.dart';
+import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/models/task_data.dart';
+import 'package:celeryviz_frontend_core/states/task_info/task_info_bloc.dart';
+import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
+import 'package:celeryviz_frontend_core/widgets/pane/panable_area/event_widgets.dart';
+import 'package:celeryviz_frontend_core/widgets/pane/panable_area/helpers.dart';
 
 class WorkerColumn extends StatelessWidget {
   final WorkerData workerData;

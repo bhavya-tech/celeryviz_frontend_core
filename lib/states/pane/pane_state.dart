@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:celery_monitoring_core/models/pane_data.dart';
+import 'package:celeryviz_frontend_core/models/pane_data.dart';
 
 class PaneState extends Equatable {
   final bool isStarted;

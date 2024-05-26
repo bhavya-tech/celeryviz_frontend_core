@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:celery_monitoring_core/models/task_info.dart';
+import 'package:celeryviz_frontend_core/models/task_info.dart';
 
 class TaskInfoState extends Equatable {
   final TaskInfo? taskInfo;

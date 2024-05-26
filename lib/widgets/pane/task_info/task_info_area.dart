@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:celery_monitoring_core/colors.dart';
-import 'package:celery_monitoring_core/models/task_info.dart';
-import 'package:celery_monitoring_core/services/services.dart';
-import 'package:celery_monitoring_core/states/task_info/task_info_bloc.dart';
-import 'package:celery_monitoring_core/states/task_info/task_info_event.dart';
+import 'package:celeryviz_frontend_core/colors.dart';
+import 'package:celeryviz_frontend_core/models/task_info.dart';
+import 'package:celeryviz_frontend_core/services/services.dart';
+import 'package:celeryviz_frontend_core/states/task_info/task_info_bloc.dart';
+import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
 
 class TaskInfoArea extends StatelessWidget {
   final TaskInfo taskInfo;

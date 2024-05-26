@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:celery_monitoring_core/services/data_source.dart';
-import 'package:celery_monitoring_core/states/pane/pane_events.dart';
-import 'package:celery_monitoring_core/states/pane/pane_state.dart';
+import 'package:celeryviz_frontend_core/services/data_source.dart';
+import 'package:celeryviz_frontend_core/states/pane/pane_events.dart';
+import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 
 class PaneBloc extends Bloc<PaneEvent, PaneState> {
   DataSource dataSource;

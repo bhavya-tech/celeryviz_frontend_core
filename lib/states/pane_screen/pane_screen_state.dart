@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:celery_monitoring_core/services/data_source.dart';
+import 'package:celeryviz_frontend_core/services/data_source.dart';
 import 'package:equatable/equatable.dart';
 
 enum PaneScreenStateStatus {

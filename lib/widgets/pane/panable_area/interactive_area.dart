@@ -1,6 +1,6 @@
-import 'package:celery_monitoring_core/models/worker_data.dart';
+import 'package:celeryviz_frontend_core/models/worker_data.dart';
+import 'package:celeryviz_frontend_core/widgets/pane/panable_area/worker_column.dart';
 import 'package:flutter/material.dart';
-import 'package:celery_monitoring_core/widgets/pane/panable_area/worker_column.dart';
 
 class InteractiveArea extends StatelessWidget {
   final Map<String, WorkerData> workersMap;
