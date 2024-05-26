@@ -52,9 +52,9 @@ class _TaskNameBarState extends State<TaskNameBar> {
           return ListView(
             scrollDirection: Axis.horizontal,
             controller: widget._scrollController,
-            children: state.data.taskIds
+            children: state.data.workerNames
                 .map(
-                  (taskId) => ValueListenableBuilder<double>(
+                  (workerName) => ValueListenableBuilder<double>(
                     valueListenable: widget._scaleNotifier,
                     builder:
                         (BuildContext context, double scale, Widget? child) {
@@ -63,7 +63,7 @@ class _TaskNameBarState extends State<TaskNameBar> {
                         width: paneEventMultiplier * scale,
                         child: Center(
                           child: Text(
-                            taskId.substring(0, 8),
+                            workerName,
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme

@@ -45,11 +45,11 @@ class TaskInfo {
   void extractData(CeleryEventBase event) {
     taskId ??= event.uuid;
 
-    if (event is CeleryEventScheduled) {
-      etaTimestamp = event.timestamp;
-      name = event.name;
-      args = event.args;
-      kwargs = event.kwargs;
+    if (event is CeleryEventSpawned) {
+      // etaTimestamp = event.timestamp;
+      // name = event.name;
+      // args = event.args;
+      // kwargs = event.kwargs;
     } else if (event is CeleryEventStarted) {
       startTimestamp = event.timestamp;
       status = TaskStatus.running;

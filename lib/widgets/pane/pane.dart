@@ -1,3 +1,4 @@
+import 'package:celeryviz_frontend_core/widgets/pane/worker_name_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celeryviz_frontend_core/services/data_source.dart';
@@ -8,7 +9,6 @@ import 'package:celeryviz_frontend_core/states/task_info/task_info_bloc.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/panable_area/panable_area.dart';
 
 import 'package:celeryviz_frontend_core/widgets/pane/ruler.dart';
-import 'package:celeryviz_frontend_core/widgets/pane/task_name_bar.dart';
 
 class Pane extends StatelessWidget {
   const Pane({

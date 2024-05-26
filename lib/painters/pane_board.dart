@@ -1,18 +1,19 @@
+import 'dart:collection';
 import 'dart:math';
 
+import 'package:celeryviz_frontend_core/models/worker_data.dart';
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/constants.dart';
 import 'package:celeryviz_frontend_core/models/event.dart';
-import 'package:celeryviz_frontend_core/models/task_data.dart';
 import 'package:path_drawing/path_drawing.dart';
 
 class SpawnedTaskLinesPainter extends CustomPainter {
-  final Map<String, TaskData> tasks;
+  final LinkedHashMap<String, WorkerData> workers;
   final double timestampOffset;
   final double currentTimestamp;
 
   SpawnedTaskLinesPainter(
-      {required this.tasks,
+      {required this.workers,
       required this.timestampOffset,
       required this.currentTimestamp});
 
@@ -31,43 +32,59 @@ class SpawnedTaskLinesPainter extends CustomPainter {
 
   List<CustomPainter> _getSpawnedTaskLines() {
     List<CustomPainter> spawnedTaskLines = [];
-    List<CeleryEventBase> events = [
-      for (TaskData task in tasks.values) ...task.eventsList
+    List<CeleryEventSpawned> events = [
+      for (var worker in workers.values)
+        for (var task in worker.tasks.values)
+          for (var event in task.eventsList)
+            if (event is CeleryEventSpawned) event
     ];
 
-    for (CeleryEventBase event in events) {
-      if (event.type == 'task-spawned') {
-        final CeleryEventSpawned task = event as CeleryEventSpawned;
-        final childTasksList = tasks[task.childId]?.eventsList;
+    for (CeleryEventSpawned spawnedEvent in events) {
+      CeleryEventBase? firstEventOfChildTask;
 
-        if (childTasksList == null || childTasksList.isEmpty) {
-          continue;
-        }
+      for (var worker in workers.values) {
+        firstEventOfChildTask = worker.tasks[spawnedEvent.childId]?.firstEvent;
+        if (firstEventOfChildTask != null) break;
+      }
 
-        Offset start = Offset(
-            _taskIdToX(event.uuid),
-            (event.timestamp - timestampOffset) * paneTimestampMultiplier +
+      Offset start = Offset(
+          _taskIdToX(spawnedEvent.uuid),
+          (spawnedEvent.timestamp - timestampOffset) * paneTimestampMultiplier +
+              paneTimestampOffsetY);
+
+      Offset end;
+
+      // If the child task is not yet spawned, draw a line to the current timestamp
+      if (firstEventOfChildTask == null) {
+        end = Offset(
+            _taskIdToX(spawnedEvent.uuid) + paneEventMultiplier / 2,
+            (currentTimestamp - timestampOffset) * paneTimestampMultiplier +
                 paneTimestampOffsetY);
-
-        Offset end = Offset(
-            _taskIdToX(task.childId),
+      } else {
+        end = Offset(
+            _taskIdToX(firstEventOfChildTask.uuid),
             min(
-                (childTasksList![0].timestamp - timestampOffset) *
+                (firstEventOfChildTask.timestamp - timestampOffset) *
                         paneTimestampMultiplier +
                     paneTimestampOffsetY,
                 currentTimestamp));
-
-        spawnedTaskLines
-            .add(TaskSpawnedLine(start: start, end: end, color: Colors.grey));
       }
+
+      spawnedTaskLines
+          .add(TaskSpawnedLine(start: start, end: end, color: Colors.grey));
     }
 
     return spawnedTaskLines;
   }
 
   double _taskIdToX(String taskId) {
-    final tasksList = tasks.values.toList();
-    final int index = tasksList.indexWhere((task) => task.taskId == taskId);
+    int index = -1;
+    for (int i = 0; i < workers.length; i++) {
+      if (workers.keys.contains(taskId)) {
+        index = i;
+        break;
+      }
+    }
     return index * paneEventMultiplier + paneEventOffsetX;
   }
 }
