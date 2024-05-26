@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celery_monitoring_core/constants.dart';
-import 'package:celery_monitoring_core/states/pane/pane_bloc.dart';
-import 'package:celery_monitoring_core/states/pane/pane_state.dart';
+import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/states/pane/pane_bloc.dart';
+import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 
 class TaskNameBar extends StatefulWidget {
   final TransformationController transformationController;

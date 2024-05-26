@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celery_monitoring_core/constants.dart';
-import 'package:celery_monitoring_core/painters/pane_board.dart';
-import 'package:celery_monitoring_core/states/pane/pane_bloc.dart';
-import 'package:celery_monitoring_core/states/pane/pane_state.dart';
-import 'package:celery_monitoring_core/widgets/pane/panable_area/interactive_area.dart';
-import 'package:celery_monitoring_core/widgets/pane/task_info/task_info_container.dart';
+import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/painters/pane_board.dart';
+import 'package:celeryviz_frontend_core/states/pane/pane_bloc.dart';
+import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
+import 'package:celeryviz_frontend_core/widgets/pane/panable_area/interactive_area.dart';
+import 'package:celeryviz_frontend_core/widgets/pane/task_info/task_info_container.dart';
 
 class PanableArea extends StatelessWidget {
   static const _topPadding = (paneTimestampMultiplier) / 2 - eventDotRadius;

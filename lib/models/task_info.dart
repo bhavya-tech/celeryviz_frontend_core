@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:celery_monitoring_core/models/event.dart';
-import 'package:celery_monitoring_core/services/services.dart';
+import 'package:celeryviz_frontend_core/models/event.dart';
+import 'package:celeryviz_frontend_core/services/services.dart';
 
 enum TaskStatus {
   scheduled,

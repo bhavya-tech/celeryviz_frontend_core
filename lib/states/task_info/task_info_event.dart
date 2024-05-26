@@ -1,4 +1,4 @@
-import 'package:celery_monitoring_core/models/task_info.dart';
+import 'package:celeryviz_frontend_core/models/task_info.dart';
 
 abstract class TaskInfoEvent {
   const TaskInfoEvent();

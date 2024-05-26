@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:celery_monitoring_core/constants.dart';
-import 'package:celery_monitoring_core/models/event.dart';
-import 'package:celery_monitoring_core/models/task_data.dart';
+import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/models/event.dart';
+import 'package:celeryviz_frontend_core/models/task_data.dart';
 import 'package:path_drawing/path_drawing.dart';
 
 class SpawnedTaskLinesPainter extends CustomPainter {
@@ -39,6 +39,10 @@ class SpawnedTaskLinesPainter extends CustomPainter {
       if (event.type == 'task-spawned') {
         final CeleryEventSpawned task = event as CeleryEventSpawned;
         final childTasksList = tasks[task.childId]?.eventsList;
+
+        if (childTasksList == null || childTasksList.isEmpty) {
+          continue;
+        }
 
         Offset start = Offset(
             _taskIdToX(event.uuid),

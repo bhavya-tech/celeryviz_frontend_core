@@ -1,11 +1,11 @@
 import 'dart:collection';
 import 'dart:math';
 
-import 'package:celery_monitoring_core/colors.dart';
+import 'package:celeryviz_frontend_core/colors.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:celery_monitoring_core/models/event.dart';
-import 'package:celery_monitoring_core/models/task_info.dart';
+import 'package:celeryviz_frontend_core/models/event.dart';
+import 'package:celeryviz_frontend_core/models/task_info.dart';
 
 class TaskData extends Equatable {
   final SplayTreeMap<double, CeleryEventBase> _events =

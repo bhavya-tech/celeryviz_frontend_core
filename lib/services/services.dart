@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:celery_monitoring_core/constants.dart';
+import 'package:celeryviz_frontend_core/constants.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 void initSocket(io.Socket socket, void Function(Map<String, dynamic>) onEvent) {

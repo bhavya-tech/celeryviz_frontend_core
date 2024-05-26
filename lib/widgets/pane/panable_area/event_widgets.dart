@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:celery_monitoring_core/colors.dart';
-import 'package:celery_monitoring_core/constants.dart';
-import 'package:celery_monitoring_core/models/event.dart';
+import 'package:celeryviz_frontend_core/colors.dart';
+import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/models/event.dart';
 
 EventWidget getEventWidget(CeleryEventBase event, Color color) {
   switch (event.runtimeType) {

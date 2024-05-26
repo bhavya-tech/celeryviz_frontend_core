@@ -1,11 +1,11 @@
-import 'package:celery_monitoring_core/colors.dart';
+import 'package:celeryviz_frontend_core/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celery_monitoring_core/services/data_source.dart';
-import 'package:celery_monitoring_core/states/pane_screen/pane_screen_bloc.dart';
-import 'package:celery_monitoring_core/states/pane_screen/pane_screen_events.dart';
-import 'package:celery_monitoring_core/states/pane_screen/pane_screen_state.dart';
-import 'package:celery_monitoring_core/widgets/pane/pane.dart';
+import 'package:celeryviz_frontend_core/services/data_source.dart';
+import 'package:celeryviz_frontend_core/states/pane_screen/pane_screen_bloc.dart';
+import 'package:celeryviz_frontend_core/states/pane_screen/pane_screen_events.dart';
+import 'package:celeryviz_frontend_core/states/pane_screen/pane_screen_state.dart';
+import 'package:celeryviz_frontend_core/widgets/pane/pane.dart';
 
 class PaneScreen extends StatelessWidget {
   final DataSource dataSource;
