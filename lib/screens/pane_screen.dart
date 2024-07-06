@@ -9,7 +9,6 @@ import 'package:celeryviz_frontend_core/widgets/pane/pane.dart';
 
 class PaneScreen extends StatelessWidget {
   final DataSource dataSource;
-
   const PaneScreen({super.key, required this.dataSource});
 
   @override
@@ -30,8 +29,8 @@ class PaneScreen extends StatelessWidget {
                   dataSource: state.dataSource,
                 );
               case PaneScreenStateStatus.error:
-                return const Center(
-                  child: Text('Failed to load'),
+                return Center(
+                  child: Text(dataSource.dataSourceFailureMessage),
                 );
               case PaneScreenStateStatus.inactive:
                 BlocProvider.of<PaneScreenBloc>(context)

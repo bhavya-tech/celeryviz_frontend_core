@@ -52,7 +52,7 @@ class SpawnedTaskLinesPainter extends CustomPainter {
         Offset end = Offset(
             _taskIdToX(task.childId),
             min(
-                (childTasksList![0].timestamp - timestampOffset) *
+                (childTasksList[0].timestamp - timestampOffset) *
                         paneTimestampMultiplier +
                     paneTimestampOffsetY,
                 currentTimestamp));

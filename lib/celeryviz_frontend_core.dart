@@ -11,6 +11,6 @@ class CeleryMonitoringCore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PaneScreen(dataSource: dataSource);
+    return Scaffold(body: PaneScreen(dataSource: dataSource));
   }
 }
