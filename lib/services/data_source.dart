@@ -14,10 +14,11 @@ abstract class DataSource {
   bool _isStarted = false;
   late double _initialTimestamp;
 
+  String get dataSourceFailureMessage => 'Failed to load data source';
   double get currentTimestamp;
   double get initialTimestamp => _isStarted ? _initialTimestamp : throw Error();
 
-  Future setup();
+  Future setup(void Function() onSetupComplete, void Function() onSetupFailed);
   void start(SendEventToBloc sendEventToBloc);
   void stop();
 }
@@ -28,6 +29,9 @@ class NDJsonDataSource extends DataSource {
   final Stopwatch _stopwatch = Stopwatch();
   final String filePath;
 
+  @override
+  String get dataSourceFailureMessage => 'Failed to load NDJson data source';
+
   NDJsonDataSource({required this.filePath});
 
   @override
@@ -35,10 +39,16 @@ class NDJsonDataSource extends DataSource {
       _initialTimestamp + _stopwatch.elapsed.inSeconds;
 
   @override
-  Future setup() async {
-    List<dynamic> data = await loadFromNDJson(filePath);
-    _eventsQueue = Queue.from(data);
-    _initialTimestamp = _eventsQueue.first['timestamp'];
+  Future setup(
+      void Function() onSetupComplete, void Function() onSetupFailed) async {
+    try {
+      List<dynamic> data = await loadFromNDJson(filePath);
+      _eventsQueue = Queue.from(data);
+      _initialTimestamp = _eventsQueue.first['timestamp'];
+      onSetupComplete();
+    } catch (e) {
+      onSetupFailed();
+    }
   }
 
   @override
@@ -79,7 +89,7 @@ class NDJsonDataSource extends DataSource {
 }
 
 class SocketIODataSource extends DataSource {
-  late io.Socket _socket;
+  final io.Socket _socket;
   final _logger = Logger(
     printer: PrettyPrinter(),
   );
@@ -89,8 +99,40 @@ class SocketIODataSource extends DataSource {
       DateTime.now().millisecondsSinceEpoch.toDouble() / 1000;
 
   @override
-  Future setup() async {
-    _initSocket();
+  String get dataSourceFailureMessage =>
+      'Unable to connect to socket.io data source';
+
+  SocketIODataSource({socketioServerLocation = socketioServerDefaultLocation})
+      : _socket = io.io(
+            socketioServerLocation + socketioClientEndpoint, <String, dynamic>{
+          'transports': ['websocket'],
+        });
+
+  @override
+  Future setup(
+      void Function() onSetupComplete, void Function() onSetupFailed) async {
+    try {
+      _logger.i('Connecting to socket.io server...');
+      _socket.onConnect((data) => {
+            _logger.i('Connected'),
+            onSetupComplete(),
+          });
+      _socket.onDisconnect((data) => _logger.i('Disconnected'));
+      _socket.onConnectError((err) => {
+            _logger.e(err),
+            onSetupFailed(),
+          });
+      _socket.onError((err) => {
+            _logger.e(err),
+            onSetupFailed(),
+          });
+
+      _socket.on(socketioServerDataEvent, (data) => _sendEventToBloc(data));
+      _socket.connect();
+    } catch (e) {
+      _logger.e(e);
+      onSetupFailed();
+    }
   }
 
   @override
@@ -106,20 +148,5 @@ class SocketIODataSource extends DataSource {
   @override
   void stop() {
     _socket.disconnect();
-  }
-
-  void _initSocket() {
-    _socket = io.io(socketioServerURL, <String, dynamic>{
-      'transports': ['websocket'],
-    });
-
-    _logger.i('Connecting to socket.io server...');
-    _socket.connect();
-    _socket.onConnect((data) => _logger.i('Connected'));
-    _socket.onDisconnect((data) => _logger.i('Disconnected'));
-    _socket.onConnectError((err) => _logger.e(err));
-    _socket.onError((err) => _logger.e(err));
-
-    _socket.on(socketioServerDataEvent, (data) => _sendEventToBloc(data));
   }
 }
