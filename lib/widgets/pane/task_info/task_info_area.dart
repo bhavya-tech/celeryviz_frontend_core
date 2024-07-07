@@ -45,9 +45,22 @@ class TaskInfoArea extends StatelessWidget {
             const Divider(
               height: 30,
             ),
-            CopyableData(title: "Args", data: taskInfo.args),
-            CopyableData(title: "Kwargs", data: taskInfo.kwargs),
-            CopyableData(title: "Result", data: taskInfo.result),
+            Expanded(
+              child: RawScrollbar(
+                thumbVisibility: true,
+                interactive: true,
+                thumbColor: Colors.grey[600],
+                radius: const Radius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(children: [
+                    CopyableData(title: "Args", data: taskInfo.args),
+                    CopyableData(title: "Kwargs", data: taskInfo.kwargs),
+                    CopyableData(title: "Result", data: taskInfo.result),
+                  ]),
+                ),
+              ),
+            )
           ],
         ),
       ),

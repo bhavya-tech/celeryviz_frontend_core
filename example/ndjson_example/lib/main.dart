@@ -1,6 +1,5 @@
 import 'package:celeryviz_frontend_core/celeryviz_frontend_core.dart';
 import 'package:celeryviz_frontend_core/services/data_source.dart';
-import 'package:celeryviz_frontend_core/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,16 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: defaultTheme,
-      home: Scaffold(
-        body: Center(
-          child: CeleryMonitoringCore(
-            dataSource: dataSource,
-          ),
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
+    return CeleryMonitoringCore(
+      dataSource: dataSource,
     );
   }
 }

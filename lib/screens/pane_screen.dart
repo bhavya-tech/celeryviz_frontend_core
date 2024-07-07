@@ -14,7 +14,7 @@ class PaneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroudColor,
+      color: Theme.of(context).canvasColor,
       child: BlocProvider(
         create: (_) => PaneScreenBloc(dataSource: dataSource),
         child: BlocBuilder<PaneScreenBloc, PaneScreenState>(

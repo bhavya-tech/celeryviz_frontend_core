@@ -26,14 +26,12 @@ class TaskColumn extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: boardYCoord(
-                taskData.startTimestamp ?? currentTimestamp, timestampOffset),
+            top: boardYCoord(taskData.firstRenderTimestamp, timestampOffset),
             left: (paneEventMultiplier - eventLineWidth) / 2,
             child: TaskLine(
-                taskData: taskData,
-                startTimestamp: taskData.startTimestamp ?? currentTimestamp,
-                endTimestamp: taskData.endTimestamp ?? currentTimestamp,
-                color: taskData.color),
+              taskData: taskData,
+              currentTimestamp: currentTimestamp,
+            ),
           ),
           ..._getEvents()
         ],
@@ -57,16 +55,12 @@ class TaskColumn extends StatelessWidget {
 
 class TaskLine extends StatefulWidget {
   final TaskData taskData;
-  final double startTimestamp;
-  final double endTimestamp;
-  final Color color;
+  final double currentTimestamp;
 
   const TaskLine({
     Key? key,
     required this.taskData,
-    required this.startTimestamp,
-    required this.endTimestamp,
-    required this.color,
+    required this.currentTimestamp,
   }) : super(key: key);
 
   @override
@@ -86,11 +80,11 @@ class _TaskLineState extends State<TaskLine> {
         padding: const EdgeInsets.symmetric(horizontal: 1.5 * eventLineWidth),
         height: _getHeight(),
         decoration: BoxDecoration(
-          color: widget.color,
+          color: widget.taskData.color,
           boxShadow: isShadowed
               ? [
                   BoxShadow(
-                    color: widget.color.withOpacity(0.5),
+                    color: widget.taskData.color.withOpacity(0.5),
                     spreadRadius: 4,
                     blurRadius: 2,
                     offset: const Offset(0, 2),
@@ -103,7 +97,8 @@ class _TaskLineState extends State<TaskLine> {
   }
 
   double _getHeight() {
-    return (widget.endTimestamp - widget.startTimestamp) *
+    final end = widget.taskData.endTimestamp ?? widget.currentTimestamp;
+    return (end - widget.taskData.firstRenderTimestamp) *
         paneTimestampMultiplier;
   }
 }

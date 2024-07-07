@@ -1,5 +1,6 @@
 library celeryviz_frontend_core;
 
+import 'package:celeryviz_frontend_core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/screens/pane_screen.dart';
 import 'package:celeryviz_frontend_core/services/data_source.dart';
@@ -11,6 +12,9 @@ class CeleryMonitoringCore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: PaneScreen(dataSource: dataSource));
+    return MaterialApp(
+        theme: defaultTheme,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(body: PaneScreen(dataSource: dataSource)));
   }
 }
