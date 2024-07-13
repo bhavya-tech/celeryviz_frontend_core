@@ -30,12 +30,8 @@ Future<List<dynamic>> loadFromNDJson(String filePath) async {
 }
 
 String? timestampToHumanReadable(double? timestamp, DateFormat format) {
-  try {
-    return (timestamp == null)
-        ? null
-        : format.format(
-            DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt()));
-  } catch (e) {
-    return null;
-  }
+  return (timestamp == null)
+      ? null
+      : format.format(
+          DateTime.fromMillisecondsSinceEpoch((timestamp * 1000).toInt()));
 }
