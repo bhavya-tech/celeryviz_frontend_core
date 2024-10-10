@@ -1,6 +1,6 @@
 # Celeryviz Frontend Core Library
 
-This package is the part of [celeryviz](https://github.com/bhavya-tech/celeryviz) project
+This package is the part of [celeryviz](https://github.com/bhavya-tech/celeryviz) project.
 
 This is the core library for the Celeryviz UI. It contains the code for rendering the visualisations and the logic for the frontend. This package can be used to wrap around other functional projects.
 
