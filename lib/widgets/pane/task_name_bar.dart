@@ -7,7 +7,6 @@ import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 class TaskNameBar extends StatefulWidget {
   final TransformationController transformationController;
   final ScrollController _scrollController = ScrollController();
-  final ValueNotifier<double> _scaleNotifier = ValueNotifier(1.0);
 
   TaskNameBar({
     Key? key,
@@ -23,8 +22,6 @@ class _TaskNameBarState extends State<TaskNameBar> {
     widget._scrollController.jumpTo(
       -widget.transformationController.value.getTranslation().x,
     );
-    widget._scaleNotifier.value =
-        widget.transformationController.value.getMaxScaleOnAxis();
   }
 
   @override
@@ -49,36 +46,42 @@ class _TaskNameBarState extends State<TaskNameBar> {
           return previous.data.taskIds != current.data.taskIds;
         },
         builder: (context, state) {
-          return ListView(
+          return ListView.builder(
             scrollDirection: Axis.horizontal,
             controller: widget._scrollController,
-            physics: const ClampingScrollPhysics(),
-            children: state.data.taskIds
-                .map(
-                  (taskId) => ValueListenableBuilder<double>(
-                    valueListenable: widget._scaleNotifier,
-                    builder:
-                        (BuildContext context, double scale, Widget? child) {
-                      return SizedBox(
-                        height: tasknameBarHeight,
-                        width: paneEventMultiplier * scale,
-                        child: Center(
-                          child: Text(
-                            taskId.substring(0, 8),
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.white.withAlpha(150)),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                )
-                .toList(),
+            itemBuilder: (context, index) {
+              if (index < state.data.taskIds.length) {
+                return TaskNameBarItem(taskId: state.data.taskIds[index]);
+              } else {
+                return const SizedBox(width: paneEventMultiplier);
+              }
+            },
           );
         },
+      ),
+    );
+  }
+}
+
+class TaskNameBarItem extends StatelessWidget {
+  final String taskId;
+
+  const TaskNameBarItem({Key? key, required this.taskId}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: tasknameBarHeight,
+      width: paneEventMultiplier,
+      child: Center(
+        child: Text(
+          taskId.substring(0, 8),
+          textAlign: TextAlign.center,
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: Colors.white.withAlpha(150)),
+        ),
       ),
     );
   }

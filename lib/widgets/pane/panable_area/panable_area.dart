@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:celeryviz_frontend_core/services/navigation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celeryviz_frontend_core/constants.dart';
@@ -10,7 +14,7 @@ import 'package:celeryviz_frontend_core/widgets/pane/task_info/task_info_contain
 class PanableArea extends StatelessWidget {
   static const _topPadding = (paneTimestampMultiplier) / 2 - eventDotRadius;
 
-  final TransformationController transformationController;
+  final NavigationTransformationController transformationController;
   const PanableArea({
     super.key,
     required this.transformationController,
@@ -19,40 +23,53 @@ class PanableArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Stack(children: [
-        InteractiveViewer(
-          maxScale: paneMaxScale,
-          minScale: paneMinScale,
-          constrained: false,
-          scaleEnabled: false,
-          transformationController: transformationController,
-          child: BlocBuilder<PaneBloc, PaneState>(
-            builder: (context, state) {
-              return SizedBox(
-                height:
-                    _getHeight(state.currentTimestamp!, state.timestampOffset!),
-                width: _getWidth(state.data.tasks.length) / paneMinScale,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: _topPadding),
-                  child: CustomPaint(
-                    painter: SpawnedTaskLinesPainter(
-                      tasks: state.data.tasks,
-                      timestampOffset: state.timestampOffset!,
-                      currentTimestamp: state.currentTimestamp!,
-                    ),
-                    child: InteractiveArea(
-                      tasksMap: state.data.tasks,
-                      timestampOffset: state.timestampOffset!,
-                      currentTimestamp: state.currentTimestamp!,
-                    ),
-                  ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(children: [
+            Naigation(
+              transformationController: transformationController,
+              child: InteractiveViewer(
+                maxScale: paneMaxScale,
+                minScale: paneMinScale,
+                constrained: false,
+                scaleEnabled: false,
+                transformationController: transformationController,
+                child: BlocBuilder<PaneBloc, PaneState>(
+                  builder: (context, state) {
+                    double height = _getHeight(
+                        state.currentTimestamp!, state.timestampOffset!);
+                    double width =
+                        _getWidth(state.data.tasks.length) / paneMinScale;
+                    transformationController.updateBounds(
+                        max(width - constraints.maxWidth, 0),
+                        max(height - constraints.maxHeight, 0));
+                    return SizedBox(
+                      height: height,
+                      width: width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: _topPadding),
+                        child: CustomPaint(
+                          painter: SpawnedTaskLinesPainter(
+                            tasks: state.data.tasks,
+                            timestampOffset: state.timestampOffset!,
+                            currentTimestamp: state.currentTimestamp!,
+                          ),
+                          child: InteractiveArea(
+                            tasksMap: state.data.tasks,
+                            timestampOffset: state.timestampOffset!,
+                            currentTimestamp: state.currentTimestamp!,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ),
-        const TaskInfoContainer(),
-      ]),
+              ),
+            ),
+            const TaskInfoContainer(),
+          ]);
+        },
+      ),
     );
   }
 
@@ -63,5 +80,24 @@ class PanableArea extends StatelessWidget {
   double _getHeight(double currentTimestamp, double timestampOffset) {
     return (currentTimestamp - timestampOffset) * paneTimestampMultiplier +
         paneTimestampOffsetY;
+  }
+}
+
+class Naigation extends StatelessWidget {
+  final NavigationTransformationController transformationController;
+  final Widget? child;
+  const Naigation(
+      {super.key, required this.transformationController, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerSignal: (event) {
+        if (event is PointerScrollEvent) {
+          transformationController.navigate(event.scrollDelta);
+        }
+      },
+      child: child,
+    );
   }
 }
