@@ -21,7 +21,6 @@ const rulerWidth = 100.0;
 
 // Socket IO
 const socketioServerDataEvent = 'celery_events_data';
-const socketioServerDefaultLocation = 'http://0.0.0.0:9095';
 const socketioClientEndpoint = '/client';
 
 // Taskname bar

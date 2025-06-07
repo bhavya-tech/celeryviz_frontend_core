@@ -102,7 +102,7 @@ class SocketIODataSource extends DataSource {
   String get dataSourceFailureMessage =>
       'Unable to connect to socket.io data source';
 
-  SocketIODataSource({socketioServerLocation = socketioServerDefaultLocation})
+  SocketIODataSource(String socketioServerLocation)
       : _socket = io.io(
             socketioServerLocation + socketioClientEndpoint, <String, dynamic>{
           'transports': ['websocket'],

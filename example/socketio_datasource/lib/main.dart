@@ -8,7 +8,8 @@ void main() {
 
 class MainApp extends StatelessWidget {
   MainApp({super.key});
-  final DataSource dataSource = SocketIODataSource();
+
+  final DataSource dataSource = SocketIODataSource('http://localhost:9095');
 
   @override
   Widget build(BuildContext context) {
