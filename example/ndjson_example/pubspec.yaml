@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   celeryviz_frontend_core:
     path: ../../
+  ffi: ^1.0.0
 
 dev_dependencies:
   flutter_test:
