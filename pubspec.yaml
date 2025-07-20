@@ -19,6 +19,7 @@ dependencies:
   freezed: ^2.3.4
   ndjson: ^0.2.2
   google_fonts: ^5.1.0
+  ffi: ^1.0.0
 
 dev_dependencies:
   flutter_test:
