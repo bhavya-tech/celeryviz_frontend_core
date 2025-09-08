@@ -34,7 +34,7 @@ class PaneBloc extends Bloc<PaneEvent, PaneState> {
 
   void _onStart(PaneEvent event, Emitter<PaneState> emit) {
     dataSource.start(_sendEventToBloc);
-    emit(state.asLoaded(currentTimestamp, currentTimestamp));
+    emit(state.asStarted());
   }
 
   void _onStop(PaneEvent event, Emitter<PaneState> emit) {
