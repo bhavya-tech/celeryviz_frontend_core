@@ -12,11 +12,9 @@ typedef SendEventToBloc = void Function(Map<String, dynamic> event);
 abstract class DataSource {
   late SendEventToBloc _sendEventToBloc;
   bool _isStarted = false;
-  late double _initialTimestamp;
 
   String get dataSourceFailureMessage => 'Failed to load data source';
   double get currentTimestamp;
-  double get initialTimestamp => _isStarted ? _initialTimestamp : throw Error();
 
   Future setup(void Function() onSetupComplete, void Function() onSetupFailed);
   void start(SendEventToBloc sendEventToBloc);
@@ -26,6 +24,7 @@ abstract class DataSource {
 class NDJsonDataSource extends DataSource {
   Queue<JsonObject> _eventsQueue = Queue();
   late Timer _timerSubscription;
+  late double _initialTimestamp;
   final Stopwatch _stopwatch = Stopwatch();
   final String filePath;
 
@@ -141,7 +140,6 @@ class SocketIODataSource extends DataSource {
       throw Error();
     }
     _sendEventToBloc = sendEventToBloc;
-    _initialTimestamp = DateTime.now().millisecondsSinceEpoch.toDouble() / 1000;
     _isStarted = true;
   }
 

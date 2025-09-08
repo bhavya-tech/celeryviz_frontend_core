@@ -24,18 +24,18 @@ class PaneState extends Equatable {
   }
 
   PaneState asEventAdded(double currentTimestamp) {
-    return copyWith(
-        isStarted: true,
-        data: data,
-        currentTimestamp: currentTimestamp,
-        timestampOffset: timestampOffset);
+    if (timestampOffset == null) {
+      return copyWith(
+          data: data,
+          timestampOffset: data.timestampOffset,
+          currentTimestamp: currentTimestamp);
+    } else {
+      return copyWith(data: data, currentTimestamp: currentTimestamp);
+    }
   }
 
-  PaneState asLoaded(double timestampOffset, double currentTimestamp) {
-    return copyWith(
-        isStarted: true,
-        timestampOffset: timestampOffset,
-        currentTimestamp: currentTimestamp);
+  PaneState asStarted() {
+    return copyWith(isStarted: true);
   }
 
   PaneState copyWith({

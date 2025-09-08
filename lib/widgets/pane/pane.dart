@@ -30,13 +30,16 @@ class Pane extends StatelessWidget {
       ],
       child: BlocBuilder<PaneBloc, PaneState>(
         buildWhen: (previous, current) {
-          return previous.isStarted != current.isStarted;
+          return previous.isStarted != current.isStarted ||
+              previous.timestampOffset != current.timestampOffset;
         },
         builder: (context, state) {
-          if (state.isStarted) {
+          if (state.isStarted && state.timestampOffset != null) {
             return PaneLayout();
+          } else if (state.isStarted) {
+            return const LoadingPage(message: "Waiting for events...");
           } else {
-            return const LoadingPage();
+            return const LoadingPage(message: "Starting event stream...");
           }
         },
       ),
@@ -79,7 +82,8 @@ class PaneLayout extends StatelessWidget {
 }
 
 class LoadingPage extends StatelessWidget {
-  const LoadingPage({Key? key}) : super(key: key);
+  final String message;
+  const LoadingPage({Key? key, required this.message}) : super(key: key);
 
   Future<void> _start(BuildContext context) async {
     BlocProvider.of<PaneBloc>(context).add(const PaneStart());
@@ -88,9 +92,20 @@ class LoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _start(context);
-    return const Center(
-      child: CircularProgressIndicator(
-        color: Colors.white,
+    // ignore: prefer_const_constructors
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(message,
+              style: const TextStyle(color: Colors.white, fontSize: 18)),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }
