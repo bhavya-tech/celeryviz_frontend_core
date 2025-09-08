@@ -37,10 +37,6 @@ class PaneScreen extends StatelessWidget {
                 return const Center(
                   child: Text('Inactive'),
                 );
-              default:
-                return const Center(
-                  child: Text('Unhandled case'),
-                );
             }
           },
         ),

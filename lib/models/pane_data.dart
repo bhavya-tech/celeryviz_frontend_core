@@ -9,6 +9,15 @@ class PaneData extends Equatable {
   List<Object?> get props => [tasks];
 
   List<String> get taskIds => tasks.keys.toList();
+  double? get timestampOffset {
+    if (tasks.isEmpty) {
+      return null;
+    }
+
+    return tasks.values
+        .map((task) => task.firstRenderTimestamp)
+        .reduce((a, b) => a < b ? a : b);
+  }
 
   void addEvent(Map<String, dynamic> eventJson) {
     // If the type is task-received, we need to add two events to the task
