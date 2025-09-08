@@ -24,11 +24,7 @@ class PaneState extends Equatable {
   }
 
   PaneState asEventAdded(double currentTimestamp) {
-    return copyWith(
-        isStarted: true,
-        data: data,
-        currentTimestamp: currentTimestamp,
-        timestampOffset: timestampOffset);
+    return copyWith(data: data, currentTimestamp: currentTimestamp);
   }
 
   PaneState asLoaded(double timestampOffset, double currentTimestamp) {
