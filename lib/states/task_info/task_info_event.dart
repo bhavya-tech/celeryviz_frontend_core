@@ -13,3 +13,9 @@ class ShowTaskInfo extends TaskInfoEvent {
 class CloseTaskInfo extends TaskInfoEvent {
   const CloseTaskInfo();
 }
+
+class TaskInfoUpdated extends TaskInfoEvent {
+  final TaskInfo taskInfo;
+
+  const TaskInfoUpdated(this.taskInfo);
+}
