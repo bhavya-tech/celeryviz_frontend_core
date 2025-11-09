@@ -75,12 +75,13 @@ class CeleryEventScheduled extends CeleryEventBase {
         super.fromJson(_modifyJson(json));
 
   static Map<String, dynamic> _modifyJson(Map<String, dynamic> json) {
+    Map<String, dynamic> jsonCopy = Map.from(json);
     String eta = json['eta'];
     DateTime etaDateTime = DateTime.parse(eta);
     double etaTimestamp = etaDateTime.millisecondsSinceEpoch / 1000;
-    json['timestamp'] = etaTimestamp;
-    json['type'] = "task-scheduled";
-    return json;
+    jsonCopy['timestamp'] = etaTimestamp;
+    jsonCopy['type'] = "task-scheduled";
+    return jsonCopy;
   }
 }
 
@@ -103,9 +104,10 @@ class CeleryEventSpawned extends CeleryEventBase {
         super.fromJson(_modifyJson(json));
 
   static Map<String, dynamic> _modifyJson(Map<String, dynamic> json) {
-    json['type'] = "task-spawned";
-    json['uuid'] = json['parent_id'] ?? json['uuid'];
-    return json;
+    Map<String, dynamic> jsonCopy = Map.from(json);
+    jsonCopy['type'] = "task-spawned";
+    jsonCopy['uuid'] = json['parent_id'] ?? json['uuid'];
+    return jsonCopy;
   }
 }
 
