@@ -16,3 +16,10 @@ jobs:
           token: ${{ secrets.PAT }}
           event-type: release-published
           client-payload: '{"tag": "${{ github.ref_name }}"}'
+  
+      - name: Trigger celeryviz_demo release workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          repository: bhavya-tech/celeryviz_demo
+          token: ${{ secrets.PAT }}
+          event-type: release-published
