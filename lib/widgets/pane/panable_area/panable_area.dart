@@ -85,9 +85,9 @@ class PanableArea extends StatelessWidget {
 
 class Naigation extends StatelessWidget {
   final NavigationTransformationController transformationController;
-  final Widget? child;
+  final Widget child;
   const Naigation(
-      {super.key, required this.transformationController, this.child});
+      {super.key, required this.transformationController, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,14 @@ class Naigation extends StatelessWidget {
           transformationController.navigate(event.scrollDelta);
         }
       },
-      child: child,
+      child: KeyboardListener(
+        focusNode: FocusNode(),
+        autofocus: true,
+        onKeyEvent: (event) {
+          transformationController.navigateViaKeyboard(event);
+        },
+        child: child
+       ),
     );
   }
 }
