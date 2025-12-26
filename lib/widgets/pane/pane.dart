@@ -35,7 +35,7 @@ class Pane extends StatelessWidget {
         },
         builder: (context, state) {
           if (state.isStarted && state.timestampOffset != null) {
-            return PaneLayout();
+            return const PaneLayout();
           } else if (state.isStarted) {
             return const LoadingPage(message: "Waiting for events...");
           } else {
@@ -47,13 +47,30 @@ class Pane extends StatelessWidget {
   }
 }
 
-class PaneLayout extends StatelessWidget {
-  PaneLayout({
+class PaneLayout extends StatefulWidget {
+  const PaneLayout({
     Key? key,
   }) : super(key: key);
 
-  final NavigationTransformationController _transformationController =
-      NavigationTransformationController();
+  @override
+  State<PaneLayout> createState() => _PaneLayoutState();
+}
+
+class _PaneLayoutState extends State<PaneLayout>
+    with SingleTickerProviderStateMixin {
+  late NavigationTransformationController _transformationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _transformationController = NavigationTransformationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _transformationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
