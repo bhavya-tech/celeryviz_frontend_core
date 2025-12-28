@@ -23,21 +23,21 @@ class PaneState extends Equatable {
   @override
   get props => [isStarted, data, maxTimestamp, identityHashCode(this)];
 
-  PaneState asEventsAdded(List<Map<String, dynamic>> eventJson) {
-    if (eventJson.isEmpty) {
+  PaneState asEventsAdded(List<Map<String, dynamic>> eventJsons) {
+    if (eventJsons.isEmpty) {
       return this;
     }
 
     double minTimestamp = double.infinity;
     double maxTimestamp = double.negativeInfinity;
 
-    for (var eventJson in eventJson) {
+    for (var eventJson in eventJsons) {
       minTimestamp = min(minTimestamp, eventJson['timestamp']);
       maxTimestamp = max(maxTimestamp, eventJson['timestamp']);
       data.addEvent(eventJson);
     }
 
-    // So that a single event will be shown properly
+    // So that a single event will get shown properly
     if (minTimestamp == maxTimestamp) {
       maxTimestamp += 1;
     }
