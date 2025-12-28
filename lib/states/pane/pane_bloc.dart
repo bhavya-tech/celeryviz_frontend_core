@@ -28,12 +28,14 @@ class PaneBloc extends Bloc<PaneEvent, PaneState> {
   }
 
   void _onDataReceived(PaneDataReceived event, Emitter<PaneState> emit) {
-    state.addEvent(event.eventJson);
+    for (var eventJson in event.eventsJson) {
+      state.addEvent(eventJson);
+    }
     emit(state.asEventAdded(currentTimestamp));
   }
 
   void _onStart(PaneEvent event, Emitter<PaneState> emit) {
-    dataSource.start(_sendEventToBloc);
+    dataSource.start(_sendEventsToBloc);
     emit(state.asStarted());
   }
 
@@ -41,7 +43,7 @@ class PaneBloc extends Bloc<PaneEvent, PaneState> {
     dataSource.stop();
   }
 
-  void _sendEventToBloc(Map<String, dynamic> event) {
-    add(PaneDataReceived(eventJson: event));
+  void _sendEventsToBloc(List<Map<String, dynamic>> event) {
+    add(PaneDataReceived(eventsJson: event));
   }
 }
