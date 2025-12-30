@@ -14,11 +14,14 @@ abstract class DataSource {
   bool _isStarted = false;
 
   String get dataSourceFailureMessage => 'Failed to load data source';
-  double get currentTimestamp;
 
   Future setup(void Function() onSetupComplete, void Function() onSetupFailed);
   void start(SendEventToBloc sendEventToBloc);
   void stop();
+}
+
+abstract class QueriableDataSource extends DataSource {
+  void seek(double timestamp);
 }
 
 class NDJsonDataSource extends DataSource {
@@ -32,10 +35,6 @@ class NDJsonDataSource extends DataSource {
   String get dataSourceFailureMessage => 'Failed to load NDJson data source';
 
   NDJsonDataSource({required this.filePath});
-
-  @override
-  double get currentTimestamp =>
-      _initialTimestamp + _stopwatch.elapsed.inSeconds;
 
   @override
   Future setup(
@@ -92,10 +91,6 @@ class SocketIODataSource extends DataSource {
   final _logger = Logger(
     printer: PrettyPrinter(),
   );
-
-  @override
-  double get currentTimestamp =>
-      DateTime.now().millisecondsSinceEpoch.toDouble() / 1000;
 
   @override
   String get dataSourceFailureMessage =>
