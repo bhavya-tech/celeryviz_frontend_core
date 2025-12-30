@@ -83,7 +83,7 @@ class _TaskLineState extends State<TaskLine> {
           boxShadow: isShadowed
               ? [
                   BoxShadow(
-                    color: widget.taskData.color.withOpacity(0.5),
+                    color: widget.taskData.color.withValues(alpha: 128),
                     spreadRadius: 4,
                     blurRadius: 2,
                     offset: const Offset(0, 2),

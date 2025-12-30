@@ -11,7 +11,7 @@ class PaneStop extends PaneEvent {
 }
 
 class PaneDataReceived extends PaneEvent {
-  final Map<String, dynamic> eventJson;
+  final List<Map<String, dynamic>> eventsJson;
 
-  const PaneDataReceived({required this.eventJson});
+  const PaneDataReceived({required this.eventsJson});
 }
