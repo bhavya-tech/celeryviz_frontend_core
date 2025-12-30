@@ -1,37 +1,52 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:celeryviz_frontend_core/models/pane_data.dart';
 
 class PaneState extends Equatable {
   final bool isStarted;
+  final bool isFirstEventReceived;
   final PaneData data;
-  final double? timestampOffset;
-  final double? currentTimestamp;
+  final double? minTimestamp;
+  final double? maxTimestamp;
 
   PaneState.initial() : this._(data: PaneData());
 
   const PaneState._({
     this.isStarted = false,
-    this.timestampOffset,
-    this.currentTimestamp,
+    this.isFirstEventReceived = false,
+    this.minTimestamp,
+    this.maxTimestamp,
     required this.data,
   });
 
   @override
-  get props => [isStarted, data, currentTimestamp, identityHashCode(this)];
+  get props => [isStarted, data, maxTimestamp, identityHashCode(this)];
 
-  void addEvent(Map<String, dynamic> event) {
-    data.addEvent(event);
-  }
-
-  PaneState asEventAdded(double currentTimestamp) {
-    if (timestampOffset == null) {
-      return copyWith(
-          data: data,
-          timestampOffset: data.timestampOffset,
-          currentTimestamp: currentTimestamp);
-    } else {
-      return copyWith(data: data, currentTimestamp: currentTimestamp);
+  PaneState asEventsAdded(List<Map<String, dynamic>> eventJson) {
+    if (eventJson.isEmpty) {
+      return this;
     }
+
+    double minTimestamp = double.infinity;
+    double maxTimestamp = double.negativeInfinity;
+
+    for (var eventJson in eventJson) {
+      minTimestamp = min(minTimestamp, eventJson['timestamp']);
+      maxTimestamp = max(maxTimestamp, eventJson['timestamp']);
+      data.addEvent(eventJson);
+    }
+
+    // So that a single event will be shown properly
+    if (minTimestamp == maxTimestamp) {
+      maxTimestamp += 1;
+    }
+
+    return copyWith(
+        data: data,
+        minTimestamp: minTimestamp,
+        maxTimestamp: maxTimestamp,
+        isFirstEventReceived: true);
   }
 
   PaneState asStarted() {
@@ -40,14 +55,16 @@ class PaneState extends Equatable {
 
   PaneState copyWith({
     bool? isStarted,
+    bool? isFirstEventReceived,
     PaneData? data,
-    double? timestampOffset,
-    double? currentTimestamp,
+    double? minTimestamp,
+    double? maxTimestamp,
   }) {
     return PaneState._(
         isStarted: isStarted ?? this.isStarted,
-        timestampOffset: timestampOffset ?? this.timestampOffset,
-        currentTimestamp: currentTimestamp ?? this.currentTimestamp,
+        isFirstEventReceived: isFirstEventReceived ?? this.isFirstEventReceived,
+        minTimestamp: minTimestamp ?? this.minTimestamp,
+        maxTimestamp: maxTimestamp ?? this.maxTimestamp,
         data: data ?? this.data);
   }
 }

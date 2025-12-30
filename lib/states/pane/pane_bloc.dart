@@ -19,8 +19,6 @@ class PaneBloc extends Bloc<PaneEvent, PaneState> {
     });
   }
 
-  get currentTimestamp => dataSource.currentTimestamp;
-
   @override
   Future<void> close() {
     dataSource.stop();
@@ -28,10 +26,7 @@ class PaneBloc extends Bloc<PaneEvent, PaneState> {
   }
 
   void _onDataReceived(PaneDataReceived event, Emitter<PaneState> emit) {
-    for (var eventJson in event.eventsJson) {
-      state.addEvent(eventJson);
-    }
-    emit(state.asEventAdded(currentTimestamp));
+    emit(state.asEventsAdded(event.eventsJson));
   }
 
   void _onStart(PaneEvent event, Emitter<PaneState> emit) {

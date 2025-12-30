@@ -9,7 +9,7 @@ class PaneData extends Equatable {
   List<Object?> get props => [tasks];
 
   List<String> get taskIds => tasks.keys.toList();
-  double? get timestampOffset {
+  double? get minTimestamp {
     if (tasks.isEmpty) {
       return null;
     }
