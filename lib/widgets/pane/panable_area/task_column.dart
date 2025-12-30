@@ -9,13 +9,13 @@ import 'package:celeryviz_frontend_core/widgets/pane/panable_area/helpers.dart';
 
 class TaskColumn extends StatelessWidget {
   final TaskData taskData;
-  final double timestampOffset;
+  final double minTimestamp;
   final double maxTimestamp;
 
   const TaskColumn({
     Key? key,
     required this.taskData,
-    required this.timestampOffset,
+    required this.minTimestamp,
     required this.maxTimestamp,
   }) : super(key: key);
 
@@ -26,7 +26,7 @@ class TaskColumn extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: boardYCoord(taskData.firstRenderTimestamp, timestampOffset),
+            top: boardYCoord(taskData.firstRenderTimestamp, minTimestamp),
             left: (paneEventMultiplier - eventLineWidth) / 2,
             child: TaskLine(
               taskData: taskData,
@@ -43,8 +43,7 @@ class TaskColumn extends StatelessWidget {
     List<Widget> events = taskData.eventsList
         .map((event) => Positioned(
               left: (paneEventMultiplier) / 2 - eventDotRadius,
-              top: boardYCoord(event.timestamp, timestampOffset) -
-                  eventDotRadius,
+              top: boardYCoord(event.timestamp, minTimestamp) - eventDotRadius,
               child: getEventWidget(event, taskData.color),
             ))
         .toList();

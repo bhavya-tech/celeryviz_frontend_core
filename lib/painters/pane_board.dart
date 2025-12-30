@@ -8,12 +8,12 @@ import 'package:path_drawing/path_drawing.dart';
 
 class SpawnedTaskLinesPainter extends CustomPainter {
   final Map<String, TaskData> tasks;
-  final double timestampOffset;
+  final double minTimestamp;
   final double maxTimestamp;
 
   SpawnedTaskLinesPainter(
       {required this.tasks,
-      required this.timestampOffset,
+      required this.minTimestamp,
       required this.maxTimestamp});
 
   @override
@@ -46,13 +46,13 @@ class SpawnedTaskLinesPainter extends CustomPainter {
 
         Offset start = Offset(
             _taskIdToX(event.uuid),
-            (event.timestamp - timestampOffset) * paneTimestampMultiplier +
+            (event.timestamp - minTimestamp) * paneTimestampMultiplier +
                 paneTimestampOffsetY);
 
         Offset end = Offset(
             _taskIdToX(task.childId),
             min(
-                (childTasksList[0].timestamp - timestampOffset) *
+                (childTasksList[0].timestamp - minTimestamp) *
                         paneTimestampMultiplier +
                     paneTimestampOffsetY,
                 maxTimestamp));

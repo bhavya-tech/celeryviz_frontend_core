@@ -31,10 +31,10 @@ class Pane extends StatelessWidget {
       child: BlocBuilder<PaneBloc, PaneState>(
         buildWhen: (previous, current) {
           return previous.isStarted != current.isStarted ||
-              previous.timestampOffset != current.timestampOffset;
+              previous.isFirstEventReceived != current.isFirstEventReceived;
         },
         builder: (context, state) {
-          if (state.isStarted && state.timestampOffset != null) {
+          if (state.isStarted && state.isFirstEventReceived) {
             return const PaneLayout();
           } else if (state.isStarted) {
             return const LoadingPage(message: "Waiting for events...");
@@ -79,7 +79,7 @@ class _PaneLayoutState extends State<PaneLayout>
         Ruler(
           transformationController: _transformationController,
           startTimestamp:
-              BlocProvider.of<PaneBloc>(context).state.timestampOffset!,
+              BlocProvider.of<PaneBloc>(context).state.minTimestamp!,
         ),
         Expanded(
           child: Column(

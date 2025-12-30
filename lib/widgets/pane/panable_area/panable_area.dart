@@ -37,7 +37,7 @@ class PanableArea extends StatelessWidget {
                 child: BlocBuilder<PaneBloc, PaneState>(
                   builder: (context, state) {
                     double height =
-                        _getHeight(state.maxTimestamp!, state.timestampOffset!);
+                        _getHeight(state.maxTimestamp!, state.minTimestamp!);
                     double width =
                         _getWidth(state.data.tasks.length) / paneMinScale;
                     transformationController.updateBounds(
@@ -51,12 +51,12 @@ class PanableArea extends StatelessWidget {
                         child: CustomPaint(
                           painter: SpawnedTaskLinesPainter(
                             tasks: state.data.tasks,
-                            timestampOffset: state.timestampOffset!,
+                            minTimestamp: state.minTimestamp!,
                             maxTimestamp: state.maxTimestamp!,
                           ),
                           child: InteractiveArea(
                             tasksMap: state.data.tasks,
-                            timestampOffset: state.timestampOffset!,
+                            minTimestamp: state.minTimestamp!,
                             maxTimestamp: state.maxTimestamp!,
                           ),
                         ),
@@ -77,8 +77,8 @@ class PanableArea extends StatelessWidget {
     return taskCnt * paneEventMultiplier;
   }
 
-  double _getHeight(double maxTimestamp, double timestampOffset) {
-    return (maxTimestamp - timestampOffset) * paneTimestampMultiplier +
+  double _getHeight(double maxTimestamp, double minTimestamp) {
+    return (maxTimestamp - minTimestamp) * paneTimestampMultiplier +
         paneTimestampOffsetY;
   }
 }
