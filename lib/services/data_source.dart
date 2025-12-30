@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:logger/logger.dart';
 import 'package:celeryviz_frontend_core/constants.dart';
@@ -7,16 +8,16 @@ import 'package:celeryviz_frontend_core/services/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 typedef JsonObject = Map<String, dynamic>;
-typedef SendEventToBloc = void Function(Map<String, dynamic> event);
+typedef SendEventsToBloc = void Function(List<Map<String, dynamic>> events);
 
 abstract class DataSource {
-  late SendEventToBloc _sendEventToBloc;
+  late SendEventsToBloc _sendEventsToBloc;
   bool _isStarted = false;
 
   String get dataSourceFailureMessage => 'Failed to load data source';
 
   Future setup(void Function() onSetupComplete, void Function() onSetupFailed);
-  void start(SendEventToBloc sendEventToBloc);
+  void start(SendEventsToBloc sendEventsToBloc);
   void stop();
 }
 
@@ -50,11 +51,11 @@ class NDJsonDataSource extends DataSource {
   }
 
   @override
-  void start(SendEventToBloc sendEventToBloc) {
+  void start(SendEventsToBloc sendEventsToBloc) {
     if (_isStarted) {
       return;
     }
-    _sendEventToBloc = sendEventToBloc;
+    _sendEventsToBloc = sendEventsToBloc;
     _isStarted = true;
     _startEvents();
   }
@@ -77,7 +78,7 @@ class NDJsonDataSource extends DataSource {
 
     while (_eventsQueue.isNotEmpty &&
         _eventsQueue.first['timestamp'] < currentTime) {
-      _sendEventToBloc(_eventsQueue.removeFirst());
+      _sendEventsToBloc([_eventsQueue.removeFirst()]);
     }
 
     if (_eventsQueue.isEmpty) {
@@ -121,7 +122,7 @@ class SocketIODataSource extends DataSource {
             onSetupFailed(),
           });
 
-      _socket.on(socketioServerDataEvent, (data) => _sendEventToBloc(data));
+      _socket.on(socketioServerDataEvent, (data) => _sendEventsToBloc([data]));
       _socket.connect();
     } catch (e) {
       _logger.e(e);
@@ -130,11 +131,11 @@ class SocketIODataSource extends DataSource {
   }
 
   @override
-  void start(SendEventToBloc sendEventToBloc) {
+  void start(SendEventsToBloc sendEventsToBloc) {
     if (_isStarted) {
       throw Error();
     }
-    _sendEventToBloc = sendEventToBloc;
+    _sendEventsToBloc = sendEventsToBloc;
     _isStarted = true;
   }
 
@@ -142,4 +143,33 @@ class SocketIODataSource extends DataSource {
   void stop() {
     _socket.disconnect();
   }
+}
+
+class SnapshotDataSource extends DataSource {
+  final List<JsonObject> eventsJson;
+
+  SnapshotDataSource({required this.eventsJson});
+
+  @override
+  double get currentTimestamp {
+    return eventsJson
+        .map((event) => event['timestamp'] as double)
+        .reduce((a, b) => max(a, b));
+  }
+
+  @override
+  Future setup(
+      void Function() onSetupComplete, void Function() onSetupFailed) async {
+    onSetupComplete();
+  }
+
+  @override
+  void start(SendEventsToBloc sendEventsToBloc) {
+    _sendEventsToBloc = sendEventsToBloc;
+    _isStarted = true;
+    sendEventsToBloc(eventsJson);
+  }
+
+  @override
+  void stop() {}
 }

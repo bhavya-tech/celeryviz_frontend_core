@@ -11,7 +11,7 @@ class TaskData extends Equatable {
   final SplayTreeMap<double, CeleryEventBase> _events =
       SplayTreeMap<double, CeleryEventBase>();
   final String taskId;
-  final Color color = getTaskColor(backgroudColor);
+  final Color color = _assignTaskColor(backgroudColor);
 
   final TaskInfo taskInfo = TaskInfo();
 
@@ -35,16 +35,14 @@ class TaskData extends Equatable {
   }
 }
 
-Color getTaskColor(Color baseColor) {
+Color _assignTaskColor(Color baseColor) {
   /// Todo: Optimise this to do it in single go.
 
   final random = Random();
-  const contrastThreshold =
-      128; // Adjust this value to control the contrast level
+  const contrastDifferenceThreshold = 128;
 
   // Calculate the luminance of the base color
-  final baseColorLuminance =
-      0.299 * baseColor.red + 0.587 * baseColor.green + 0.114 * baseColor.blue;
+  final baseColorLuminance = _calculateLuminance(baseColor);
 
   // Generate random RGB values until a contrasting color is found
   while (true) {
@@ -56,13 +54,18 @@ Color getTaskColor(Color baseColor) {
     );
 
     // Calculate the luminance of the random color
-    final randomColorLuminance = 0.299 * randomColor.red +
-        0.587 * randomColor.green +
-        0.114 * randomColor.blue;
+    final randomColorLuminance = _calculateLuminance(randomColor);
 
     // Check if the random color has sufficient contrast with the base color
-    if ((randomColorLuminance - baseColorLuminance).abs() < contrastThreshold) {
+    if ((randomColorLuminance - baseColorLuminance).abs() <
+        contrastDifferenceThreshold) {
       return randomColor;
     }
   }
+}
+
+double _calculateLuminance(Color color) {
+  return 0.299 * (color.r * 255.0) +
+      0.587 * (color.g * 255.0) +
+      0.114 * (color.b * 255.0);
 }
