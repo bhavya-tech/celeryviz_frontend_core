@@ -5,13 +5,13 @@ import 'package:celeryviz_frontend_core/widgets/pane/panable_area/task_column.da
 class InteractiveArea extends StatelessWidget {
   final Map<String, TaskData> tasksMap;
   final double timestampOffset;
-  final double currentTimestamp;
+  final double maxTimestamp;
 
   const InteractiveArea({
     Key? key,
     required this.tasksMap,
     required this.timestampOffset,
-    required this.currentTimestamp,
+    required this.maxTimestamp,
   }) : super(key: key);
 
   @override
@@ -19,12 +19,12 @@ class InteractiveArea extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: tasksMap.entries
-          .where((element) =>
-              element.value.firstRenderTimestamp <= currentTimestamp)
+          .where(
+              (element) => element.value.firstRenderTimestamp <= maxTimestamp)
           .map((MapEntry<String, TaskData> entry) {
         return TaskColumn(
           taskData: entry.value,
-          currentTimestamp: currentTimestamp,
+          maxTimestamp: maxTimestamp,
           timestampOffset: timestampOffset,
         );
       }).toList(),

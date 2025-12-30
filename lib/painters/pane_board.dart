@@ -9,12 +9,12 @@ import 'package:path_drawing/path_drawing.dart';
 class SpawnedTaskLinesPainter extends CustomPainter {
   final Map<String, TaskData> tasks;
   final double timestampOffset;
-  final double currentTimestamp;
+  final double maxTimestamp;
 
   SpawnedTaskLinesPainter(
       {required this.tasks,
       required this.timestampOffset,
-      required this.currentTimestamp});
+      required this.maxTimestamp});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -55,7 +55,7 @@ class SpawnedTaskLinesPainter extends CustomPainter {
                 (childTasksList[0].timestamp - timestampOffset) *
                         paneTimestampMultiplier +
                     paneTimestampOffsetY,
-                currentTimestamp));
+                maxTimestamp));
 
         spawnedTaskLines
             .add(TaskSpawnedLine(start: start, end: end, color: Colors.grey));
