@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:math';
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:celeryviz_frontend_core/constants.dart';
 import 'package:celeryviz_frontend_core/services/services.dart';
@@ -151,13 +152,6 @@ class SnapshotDataSource extends DataSource {
   SnapshotDataSource({required this.eventsJson});
 
   @override
-  double get currentTimestamp {
-    return eventsJson
-        .map((event) => event['timestamp'] as double)
-        .reduce((a, b) => max(a, b));
-  }
-
-  @override
   Future setup(
       void Function() onSetupComplete, void Function() onSetupFailed) async {
     onSetupComplete();
@@ -172,4 +166,71 @@ class SnapshotDataSource extends DataSource {
 
   @override
   void stop() {}
+}
+
+class BackendQueriableDataSource extends QueriableDataSource {
+  final double initialTimestamp;
+  final Uri _endpointUri;
+  final _client = http.Client();
+  final _timestampWindowSize = const Duration(seconds: 60);
+
+  BackendQueriableDataSource(
+      {required this.initialTimestamp, required endpoint})
+      : _endpointUri = Uri.parse(endpoint);
+
+  @override
+  Future setup(
+      void Function() onSetupComplete, void Function() onSetupFailed) async {
+    try {
+      // Send a HEAD request to check if the backend is reachable.
+      final response = await _client.head(_endpointUri);
+      if (response.statusCode != 200) {
+        throw Exception(
+            'Backend not reachable, status code: ${response.statusCode}, body: ${response.body}');
+      }
+      onSetupComplete();
+    } catch (e) {
+      onSetupFailed();
+    }
+  }
+
+  @override
+  void start(SendEventsToBloc sendEventsToBloc) {
+    _sendEventsToBloc = sendEventsToBloc;
+    _isStarted = true;
+    seek(initialTimestamp);
+  }
+
+  @override
+  void stop() {
+    _client.close();
+  }
+
+  @override
+  void seek(double timestamp) async {
+    final DateTime startTime = DateTime.fromMillisecondsSinceEpoch(
+        (timestamp * 1000).toInt(),
+        isUtc: true);
+    final String startTimeStr = startTime.toIso8601String();
+    final String endTimeStr =
+        startTime.add(_timestampWindowSize).toIso8601String();
+
+    final events = await _getEvents(startTimeStr, endTimeStr);
+    _sendEventsToBloc(events);
+  }
+
+  Future<List<JsonObject>> _getEvents(String startTime, String endTime) async {
+    final Uri uriWithParams = _endpointUri.replace(queryParameters: {
+      'start_time': startTime,
+      'end_time': endTime,
+    });
+    final response = await _client.get(uriWithParams);
+    if (response.statusCode == 200) {
+      final List<JsonObject> data = jsonDecode(response.body);
+      return data;
+    } else {
+      throw Exception(
+          'Failed to fetch data, status code: ${response.statusCode}, body: ${response.body}');
+    }
+  }
 }
