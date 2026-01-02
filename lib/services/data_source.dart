@@ -173,6 +173,9 @@ class BackendQueriableDataSource extends QueriableDataSource {
   final Uri _endpointUri;
   final _client = http.Client();
   final _timestampWindowSize = const Duration(seconds: 60);
+  final _logger = Logger(
+    printer: PrettyPrinter(),
+  );
 
   BackendQueriableDataSource(
       {required this.initialTimestamp, required endpoint})
@@ -190,6 +193,7 @@ class BackendQueriableDataSource extends QueriableDataSource {
       }
       onSetupComplete();
     } catch (e) {
+      _logger.e(e);
       onSetupFailed();
     }
   }
@@ -226,8 +230,10 @@ class BackendQueriableDataSource extends QueriableDataSource {
     });
     final response = await _client.get(uriWithParams);
     if (response.statusCode == 200) {
-      final List<JsonObject> data = jsonDecode(response.body);
-      return data;
+      final List<dynamic> data = jsonDecode(response.body);
+      final List<JsonObject> typedData =
+          data.map((e) => e as JsonObject).toList();
+      return typedData;
     } else {
       throw Exception(
           'Failed to fetch data, status code: ${response.statusCode}, body: ${response.body}');
