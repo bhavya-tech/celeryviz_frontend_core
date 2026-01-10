@@ -30,4 +30,4 @@ migrate_working_dir/
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
-.vscode/launch.json
+.vscode/

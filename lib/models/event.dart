@@ -76,10 +76,13 @@ class CeleryEventScheduled extends CeleryEventBase {
 
   static Map<String, dynamic> _modifyJson(Map<String, dynamic> json) {
     Map<String, dynamic> jsonCopy = Map.from(json);
-    String eta = json['eta'];
-    DateTime etaDateTime = DateTime.parse(eta);
-    double etaTimestamp = etaDateTime.millisecondsSinceEpoch / 1000;
-    jsonCopy['timestamp'] = etaTimestamp;
+
+    if (jsonCopy.containsKey('eta') && json['eta'] != null) {
+      DateTime etaDateTime = DateTime.parse(json['eta']);
+      double etaTimestamp = etaDateTime.millisecondsSinceEpoch / 1000;
+      jsonCopy['timestamp'] = etaTimestamp;
+    }
+
     jsonCopy['type'] = "task-scheduled";
     return jsonCopy;
   }

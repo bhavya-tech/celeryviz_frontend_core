@@ -29,14 +29,12 @@ class PaneData extends Equatable {
       }
       tasks[eventSpawned.uuid]!.addEvent(eventSpawned);
 
-      if (eventJson["eta"] != null) {
-        CeleryEventScheduled eventScheduled =
-            CeleryEventScheduled.fromJson(eventJson);
-        if (tasks[eventScheduled.uuid] == null) {
-          tasks[eventScheduled.uuid] = TaskData(taskId: eventScheduled.uuid);
-        }
-        tasks[eventScheduled.uuid]!.addEvent(eventScheduled);
+      CeleryEventScheduled eventScheduled =
+          CeleryEventScheduled.fromJson(eventJson);
+      if (tasks[eventScheduled.uuid] == null) {
+        tasks[eventScheduled.uuid] = TaskData(taskId: eventScheduled.uuid);
       }
+      tasks[eventScheduled.uuid]!.addEvent(eventScheduled);
     } else {
       CeleryEventBase event = getCeleryEventFromJson(eventJson);
       if (tasks[event.uuid] == null) {
