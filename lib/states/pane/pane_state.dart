@@ -42,6 +42,9 @@ class PaneState extends Equatable {
       maxTimestamp += 1;
     }
 
+    minTimestamp = min(this.minTimestamp ?? minTimestamp, minTimestamp);
+    maxTimestamp = max(this.maxTimestamp ?? maxTimestamp, maxTimestamp);
+
     return copyWith(
         data: data,
         minTimestamp: minTimestamp,
