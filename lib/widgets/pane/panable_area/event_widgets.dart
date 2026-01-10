@@ -1,3 +1,4 @@
+import 'package:celeryviz_frontend_core/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/colors.dart';
 import 'package:celeryviz_frontend_core/constants.dart';
@@ -13,7 +14,11 @@ EventWidget getEventWidget(CeleryEventBase event, Color color) {
       return EventFinished(color: color);
     case CeleryEventLog:
       event = event as CeleryEventLog;
-      return EventLog(color: color, message: event.msg);
+      return EventLog(
+        color: color,
+        message: event.msg,
+        logLevelNumber: event.levelno,
+      );
     default:
       return EventWidget(color: color);
   }
@@ -40,10 +45,10 @@ class EventWidget extends StatelessWidget {
 }
 
 class EventIconScaffold extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final Color color;
 
-  const EventIconScaffold({super.key, required this.icon, required this.color});
+  const EventIconScaffold({super.key, this.icon, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +110,25 @@ class EventFinished extends EventWidget {
 
 class EventLog extends EventWidget {
   final String message;
+  final int logLevelNumber;
+  static Map<String, IconData?> logLevelIconMap = {
+    'debug': Icons.bug_report_outlined,
+    'info': Icons.info_outline_rounded,
+    'warn': Icons.warning_amber_rounded,
+    'error': Icons.error_outline_rounded,
+    'critical': Icons.emergency_outlined,
+    'notset': null
+  };
 
-  const EventLog({super.key, required super.color, required this.message});
+  const EventLog(
+      {super.key,
+      required super.color,
+      required this.message,
+      required this.logLevelNumber});
 
   @override
   Widget build(BuildContext context) {
+    final icon = logLevelIconMap[logLevelNumberToString[logLevelNumber]];
     return Tooltip(
       preferBelow: false,
       decoration: BoxDecoration(
@@ -120,7 +139,7 @@ class EventLog extends EventWidget {
       textStyle: TextStyle(color: color),
       message: message,
       child: EventIconScaffold(
-        icon: Icons.info,
+        icon: icon,
         color: color,
       ),
     );

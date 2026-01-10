@@ -26,7 +26,7 @@ class PanableArea extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Stack(children: [
-            Naigation(
+            Navigation(
               transformationController: transformationController,
               child: InteractiveViewer(
                 maxScale: paneMaxScale,
@@ -83,10 +83,10 @@ class PanableArea extends StatelessWidget {
   }
 }
 
-class Naigation extends StatelessWidget {
+class Navigation extends StatelessWidget {
   final NavigationTransformationController transformationController;
   final Widget? child;
-  const Naigation(
+  const Navigation(
       {super.key, required this.transformationController, this.child});
 
   @override
