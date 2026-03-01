@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:logger/logger.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/services/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -99,9 +99,11 @@ class SocketIODataSource extends DataSource {
 
   SocketIODataSource(String socketioServerLocation)
       : _socket = io.io(
-            socketioServerLocation + socketioClientEndpoint, <String, dynamic>{
-          'transports': ['websocket'],
-        });
+            socketioServerLocation +
+                CeleryvizOptions.config.socketioClientEndpoint,
+            <String, dynamic>{
+              'transports': ['websocket'],
+            });
 
   @override
   Future setup(
@@ -122,7 +124,8 @@ class SocketIODataSource extends DataSource {
             onSetupFailed(),
           });
 
-      _socket.on(socketioServerDataEvent, (data) => _sendEventsToBloc([data]));
+      _socket.on(CeleryvizOptions.config.socketioServerDataEvent,
+          (data) => _sendEventsToBloc([data]));
       _socket.connect();
     } catch (e) {
       _logger.e(e);
@@ -150,7 +153,6 @@ class SnapshotDataSource extends DataSource {
 
   SnapshotDataSource({required this.eventsJson});
 
-  @override
   double get currentTimestamp {
     return eventsJson
         .map((event) => event['timestamp'] as double)

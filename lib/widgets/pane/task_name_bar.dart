@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_bloc.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 
@@ -40,7 +40,7 @@ class _TaskNameBarState extends State<TaskNameBar> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white.withAlpha(20),
-      height: tasknameBarHeight,
+      height: CeleryvizOptions.config.tasknameBarHeight,
       child: BlocBuilder<PaneBloc, PaneState>(
         buildWhen: (previous, current) {
           return previous.data.taskIds != current.data.taskIds;
@@ -53,7 +53,8 @@ class _TaskNameBarState extends State<TaskNameBar> {
               if (index < state.data.taskIds.length) {
                 return TaskNameBarItem(taskId: state.data.taskIds[index]);
               } else {
-                return const SizedBox(width: paneEventMultiplier);
+                return SizedBox(
+                    width: CeleryvizOptions.config.paneEventMultiplier);
               }
             },
           );
@@ -71,8 +72,8 @@ class TaskNameBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: tasknameBarHeight,
-      width: paneEventMultiplier,
+      height: CeleryvizOptions.config.tasknameBarHeight,
+      width: CeleryvizOptions.config.paneEventMultiplier,
       child: Center(
         child: Text(
           taskId.substring(0, 8),

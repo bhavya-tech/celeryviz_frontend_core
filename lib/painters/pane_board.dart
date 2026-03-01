@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/models/event.dart';
 import 'package:celeryviz_frontend_core/models/task_data.dart';
 import 'package:path_drawing/path_drawing.dart';
@@ -46,15 +46,16 @@ class SpawnedTaskLinesPainter extends CustomPainter {
 
         Offset start = Offset(
             _taskIdToX(event.uuid),
-            (event.timestamp - minTimestamp) * paneTimestampMultiplier +
-                paneTimestampOffsetY);
+            (event.timestamp - minTimestamp) *
+                    CeleryvizOptions.config.paneTimestampMultiplier +
+                CeleryvizOptions.config.paneTimestampOffsetY);
 
         Offset end = Offset(
             _taskIdToX(task.childId),
             min(
                 (childTasksList[0].timestamp - minTimestamp) *
-                        paneTimestampMultiplier +
-                    paneTimestampOffsetY,
+                        CeleryvizOptions.config.paneTimestampMultiplier +
+                    CeleryvizOptions.config.paneTimestampOffsetY,
                 maxTimestamp));
 
         spawnedTaskLines
@@ -68,7 +69,8 @@ class SpawnedTaskLinesPainter extends CustomPainter {
   double _taskIdToX(String taskId) {
     final tasksList = tasks.values.toList();
     final int index = tasksList.indexWhere((task) => task.taskId == taskId);
-    return index * paneEventMultiplier + paneEventOffsetX;
+    return index * CeleryvizOptions.config.paneEventMultiplier +
+        CeleryvizOptions.config.paneEventOffsetX;
   }
 }
 
@@ -88,7 +90,7 @@ class TaskSpawnedLine extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = eventLineWidth;
+      ..strokeWidth = CeleryvizOptions.config.eventLineWidth;
 
     canvas.drawPath(
       dashPath(

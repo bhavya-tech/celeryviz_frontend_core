@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/painters/ruler_marking_painter.dart';
 import 'package:celeryviz_frontend_core/services/services.dart';
 
@@ -30,8 +30,8 @@ class _RulerState extends State<Ruler> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white.withAlpha(20),
-      width: rulerWidth,
-      margin: const EdgeInsets.only(top: tasknameBarHeight),
+      width: CeleryvizOptions.config.rulerWidth,
+      margin: EdgeInsets.only(top: CeleryvizOptions.config.tasknameBarHeight),
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         controller: widget._scrollController,
@@ -93,8 +93,8 @@ class RulerMarking extends StatelessWidget {
       DateFormat('HH:mm:ss'),
     );
     return SizedBox(
-      height: paneTimestampMultiplier * scale,
-      width: rulerWidth,
+      height: CeleryvizOptions.config.paneTimestampMultiplier * scale,
+      width: CeleryvizOptions.config.rulerWidth,
       child: CustomPaint(
         painter: RulerMarkingPainter(),
         child: Tooltip(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/models/task_data.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_bloc.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
@@ -22,12 +22,14 @@ class TaskColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: paneEventMultiplier,
+      width: CeleryvizOptions.config.paneEventMultiplier,
       child: Stack(
         children: [
           Positioned(
             top: boardYCoord(taskData.firstRenderTimestamp, minTimestamp),
-            left: (paneEventMultiplier - eventLineWidth) / 2,
+            left: (CeleryvizOptions.config.paneEventMultiplier -
+                    CeleryvizOptions.config.eventLineWidth) /
+                2,
             child: TaskLine(
               taskData: taskData,
               maxTimestamp: maxTimestamp,
@@ -42,8 +44,10 @@ class TaskColumn extends StatelessWidget {
   List<Widget> _getEvents() {
     List<Widget> events = taskData.eventsList
         .map((event) => Positioned(
-              left: (paneEventMultiplier) / 2 - eventDotRadius,
-              top: boardYCoord(event.timestamp, minTimestamp) - eventDotRadius,
+              left: (CeleryvizOptions.config.paneEventMultiplier) / 2 -
+                  CeleryvizOptions.config.eventDotRadius,
+              top: boardYCoord(event.timestamp, minTimestamp) -
+                  CeleryvizOptions.config.eventDotRadius,
               child: getEventWidget(event, taskData.color),
             ))
         .toList();
@@ -75,8 +79,9 @@ class _TaskLineState extends State<TaskLine> {
       onTap: () => BlocProvider.of<TaskInfoBloc>(context)
           .add(ShowTaskInfo(widget.taskData.taskInfo)),
       child: Container(
-        width: eventLineWidth,
-        padding: const EdgeInsets.symmetric(horizontal: 1.5 * eventLineWidth),
+        width: CeleryvizOptions.config.eventLineWidth,
+        padding: EdgeInsets.symmetric(
+            horizontal: 1.5 * CeleryvizOptions.config.eventLineWidth),
         height: _getHeight(),
         decoration: BoxDecoration(
           color: widget.taskData.color,
@@ -98,6 +103,6 @@ class _TaskLineState extends State<TaskLine> {
   double _getHeight() {
     final end = widget.taskData.endTimestamp ?? widget.maxTimestamp;
     return (end - widget.taskData.firstRenderTimestamp) *
-        paneTimestampMultiplier;
+        CeleryvizOptions.config.paneTimestampMultiplier;
   }
 }

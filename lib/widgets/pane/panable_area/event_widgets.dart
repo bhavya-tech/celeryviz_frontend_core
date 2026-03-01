@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/colors.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/models/event.dart';
 
 EventWidget getEventWidget(CeleryEventBase event, Color color) {
@@ -26,13 +26,13 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: eventDotRadius * 2,
-      height: eventDotRadius * 2,
+      width: CeleryvizOptions.config.eventDotRadius * 2,
+      height: CeleryvizOptions.config.eventDotRadius * 2,
       child: Center(
         child: Icon(
           Icons.circle,
           color: color,
-          size: eventDotRadius * 2,
+          size: CeleryvizOptions.config.eventDotRadius * 2,
         ),
       ),
     );
@@ -48,20 +48,20 @@ class EventIconScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: eventDotRadius * 2,
-      height: eventDotRadius * 2,
+      width: CeleryvizOptions.config.eventDotRadius * 2,
+      height: CeleryvizOptions.config.eventDotRadius * 2,
       child: Center(
         child: Stack(
           children: [
-            const Icon(
+            Icon(
               Icons.circle,
               color: backgroudColor,
-              size: eventDotRadius * 2,
+              size: CeleryvizOptions.config.eventDotRadius * 2,
             ),
             Icon(
               icon,
               color: color,
-              size: eventDotRadius * 2,
+              size: CeleryvizOptions.config.eventDotRadius * 2,
             ),
           ],
         ),

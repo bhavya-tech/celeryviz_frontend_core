@@ -4,7 +4,7 @@ import 'package:celeryviz_frontend_core/services/navigation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/painters/pane_board.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_bloc.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
@@ -12,7 +12,9 @@ import 'package:celeryviz_frontend_core/widgets/pane/panable_area/interactive_ar
 import 'package:celeryviz_frontend_core/widgets/pane/task_info/task_info_container.dart';
 
 class PanableArea extends StatelessWidget {
-  static const _topPadding = (paneTimestampMultiplier) / 2 - eventDotRadius;
+  static double get _topPadding =>
+      (CeleryvizOptions.config.paneTimestampMultiplier) / 2 -
+      CeleryvizOptions.config.eventDotRadius;
 
   final NavigationTransformationController transformationController;
   const PanableArea({
@@ -29,8 +31,8 @@ class PanableArea extends StatelessWidget {
             Naigation(
               transformationController: transformationController,
               child: InteractiveViewer(
-                maxScale: paneMaxScale,
-                minScale: paneMinScale,
+                maxScale: CeleryvizOptions.config.paneMaxScale,
+                minScale: CeleryvizOptions.config.paneMinScale,
                 constrained: false,
                 scaleEnabled: false,
                 transformationController: transformationController,
@@ -38,8 +40,8 @@ class PanableArea extends StatelessWidget {
                   builder: (context, state) {
                     double height =
                         _getHeight(state.maxTimestamp!, state.minTimestamp!);
-                    double width =
-                        _getWidth(state.data.tasks.length) / paneMinScale;
+                    double width = _getWidth(state.data.tasks.length) /
+                        CeleryvizOptions.config.paneMinScale;
                     transformationController.updateBounds(
                         max(width - constraints.maxWidth, 0),
                         max(height - constraints.maxHeight, 0));
@@ -47,7 +49,7 @@ class PanableArea extends StatelessWidget {
                       height: height,
                       width: width,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: _topPadding),
+                        padding: EdgeInsets.only(top: _topPadding),
                         child: CustomPaint(
                           painter: SpawnedTaskLinesPainter(
                             tasks: state.data.tasks,
@@ -74,12 +76,13 @@ class PanableArea extends StatelessWidget {
   }
 
   double _getWidth(int taskCnt) {
-    return taskCnt * paneEventMultiplier;
+    return taskCnt * CeleryvizOptions.config.paneEventMultiplier;
   }
 
   double _getHeight(double maxTimestamp, double minTimestamp) {
-    return (maxTimestamp - minTimestamp) * paneTimestampMultiplier +
-        paneTimestampOffsetY;
+    return (maxTimestamp - minTimestamp) *
+            CeleryvizOptions.config.paneTimestampMultiplier +
+        CeleryvizOptions.config.paneTimestampOffsetY;
   }
 }
 
