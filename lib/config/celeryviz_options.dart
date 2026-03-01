@@ -20,9 +20,9 @@ class CeleryvizOptions {
   /// Initializes the singleton configuration.
   /// Throws a [StateError] if it has already been initialized (loud failure).
   static void initialize(CeleryvizOptionsConfig config) {
-    if (_initialized) {
+    if (_initialized && _config != config) {
       throw StateError(
-          'CeleryvizOptions has already been initialized. Runtime reconfiguration is NOT supported.');
+          'CeleryvizOptions has already been initialized. Runtime reconfiguration is NOT supported. Please restart the app to apply new configuration instead of hot reload.');
     }
     _config = config;
     _initialized = true;

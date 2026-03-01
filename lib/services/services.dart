@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 void initSocket(io.Socket socket, void Function(Map<String, dynamic>) onEvent) {
@@ -17,7 +17,8 @@ void initSocket(io.Socket socket, void Function(Map<String, dynamic>) onEvent) {
   socket.onConnectError((err) => logger.e(err));
   socket.onError((err) => logger.e(err));
 
-  socket.on(socketioServerDataEvent, (data) => onEvent(data));
+  socket.on(
+      CeleryvizOptions.config.socketioServerDataEvent, (data) => onEvent(data));
 }
 
 Future<List<dynamic>> loadFromNDJson(String filePath) async {

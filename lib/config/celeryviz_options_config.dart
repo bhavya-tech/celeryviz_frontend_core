@@ -50,4 +50,45 @@ class CeleryvizOptionsConfig {
     this.tasknameBarHeight = 40.0,
     this.taskInfoAreaWidth = 300.0,
   });
+
+  // Add equal comparator
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CeleryvizOptionsConfig &&
+          runtimeType == other.runtimeType &&
+          eventDotRadius == other.eventDotRadius &&
+          eventLineWidth == other.eventLineWidth &&
+          paneEventMultiplier == other.paneEventMultiplier &&
+          paneEventOffsetX == other.paneEventOffsetX &&
+          paneMaxScale == other.paneMaxScale &&
+          paneMinScale == other.paneMinScale &&
+          paneTimestampMultiplier == other.paneTimestampMultiplier &&
+          paneTimestampOffsetY == other.paneTimestampOffsetY &&
+          rulerScaleHeight == other.rulerScaleHeight &&
+          rulerScaleWidth == other.rulerScaleWidth &&
+          rulerWidth == other.rulerWidth &&
+          socketioServerDataEvent == other.socketioServerDataEvent &&
+          socketioClientEndpoint == other.socketioClientEndpoint &&
+          tasknameBarHeight == other.tasknameBarHeight &&
+          taskInfoAreaWidth == other.taskInfoAreaWidth;
+
+  @override
+  int get hashCode => Object.hash(
+        eventDotRadius,
+        eventLineWidth,
+        paneEventMultiplier,
+        paneEventOffsetX,
+        paneMaxScale,
+        paneMinScale,
+        paneTimestampMultiplier,
+        paneTimestampOffsetY,
+        rulerScaleHeight,
+        rulerScaleWidth,
+        rulerWidth,
+        socketioServerDataEvent,
+        socketioClientEndpoint,
+        tasknameBarHeight,
+        taskInfoAreaWidth,
+      );
 }
