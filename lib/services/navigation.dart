@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:flutter/material.dart';
 
 class NavigationTransformationController extends TransformationController {
@@ -21,8 +21,8 @@ class NavigationTransformationController extends TransformationController {
 
     // 2. Calculate the end matrix by adding the delta to the current position
     // Note: We use storage[12] and [13] for x and y translation
-    final dx = delta.dx * paneEventOffsetX / 2;
-    final dy = delta.dy * paneTimestampOffsetY;
+    final dx = delta.dx * CeleryvizOptions.config.paneEventOffsetX / 2;
+    final dy = delta.dy * CeleryvizOptions.config.paneTimestampOffsetY;
     final double endX = max(min(startMatrix.storage[12] + dx, 0.0), maxX);
     final double endY = max(min(startMatrix.storage[13] + dy, 0.0), maxY);
 

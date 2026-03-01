@@ -1,14 +1,30 @@
 library celeryviz_frontend_core;
 
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options_config.dart';
 import 'package:celeryviz_frontend_core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/screens/pane_screen.dart';
 import 'package:celeryviz_frontend_core/services/data_source.dart';
 
-class CeleryMonitoringCore extends StatelessWidget {
-  final DataSource dataSource;
+mixin CeleryvizOptionsInitializer {
+  void initializeOptions(CeleryvizOptionsConfig config) {
+    CeleryvizOptions.initialize(config);
+  }
+}
 
-  const CeleryMonitoringCore({super.key, required this.dataSource});
+class CeleryMonitoringCore extends StatelessWidget
+    with CeleryvizOptionsInitializer {
+  final DataSource dataSource;
+  final CeleryvizOptionsConfig config;
+
+  CeleryMonitoringCore({
+    super.key,
+    required this.dataSource,
+    this.config = const CeleryvizOptionsConfig(),
+  }) {
+    initializeOptions(config);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:celeryviz_frontend_core/constants.dart';
+import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_bloc.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_state.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/task_info/task_info_area.dart';
@@ -38,7 +38,9 @@ class TaskInfoContainer extends StatelessWidget {
           curve: Curves.linear,
           transform: Matrix4.translationValues(
             state.isVisible
-                ? MediaQuery.of(context).size.width - taskInfoAreaWidth - 128
+                ? MediaQuery.of(context).size.width -
+                    CeleryvizOptions.config.taskInfoAreaWidth -
+                    128
                 : MediaQuery.of(context).size.width,
             0,
             0,
@@ -48,7 +50,7 @@ class TaskInfoContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
           ),
-          width: taskInfoAreaWidth,
+          width: CeleryvizOptions.config.taskInfoAreaWidth,
           child: (state.taskInfo == null)
               ? const Placeholder()
               : TaskInfoArea(taskInfo: state.taskInfo!),
