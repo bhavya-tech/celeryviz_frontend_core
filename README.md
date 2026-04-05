@@ -1,35 +1,80 @@
-# Celeryviz Frontend Core Library
+# CeleryViz Frontend Core
 
-This package is the part of [celeryviz](https://github.com/bhavya-tech/celeryviz) project.
+> The core Flutter UI library for the [CeleryViz](https://github.com/bhavya-tech/celeryviz) project.
 
-This is the core library for the Celeryviz UI. It contains the code for rendering the visualisations and the logic for the frontend. This package can be used to wrap around other functional projects.
+[![pub.dev](https://img.shields.io/badge/pub.dev-celeryviz__frontend__core-blue?logo=dart&logoColor=white)](https://pub.dev/packages/celeryviz_frontend_core)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue?logo=apache&logoColor=white)](https://github.com/bhavya-tech/celeryviz_frontend_core/blob/main/LICENSE)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/bhavya-tech/celeryviz_frontend_core)
 
+This package contains the rendering engine and UI logic behind CeleryViz. It consumes Celery events in JSON format and visualises task execution flow — showing tasks, their states, dependencies, and logs — in a clean, interactive interface. It is designed to be wrapped around other data-source projects rather than used standalone.
 
-## Features
-This package can take the celery events in JSON format and render the visualisation of the tasks and their dependencies. It can also show the task details and the logs of the tasks.
+👉 **[Try the Live Demo](https://bhavya-tech.github.io/celeryviz_demo/)**
 
-[**Live Demo**](https://bhavya-tech.github.io/celeryviz_demo/)
+📦 **[Part of the CeleryViz ecosystem →](https://github.com/bhavya-tech/celeryviz)**
 
-<video src="https://github.com/user-attachments/assets/ec6b0f0e-2ad6-4a2c-8928-a7765fd96023"></video>
+## Quick Start
 
+Clone and install dependencies:
 
-## Getting started
+```bash
+git clone https://github.com/bhavya-tech/celeryviz_frontend_core.git
+cd celeryviz_frontend_core
+flutter pub get
+```
 
-This library is meant to be wrapped around other projects. Two examples are added in the `example` folder.
+Run the recommended example (reads a local `.ndjson` recording — no backend needed):
 
-1. **ndjson_example**: This example shows how to use the library with the ndjson file. The ndjson file is the celery events in JSON format. The example reads the ndjson file and renders the visualisation.
+```bash
+cd example/ndjson_example
+flutter run
+```
 
-2. **socketio_datasource**: This example shows how to use the library with the socketio connection with a running backend server. The backend server should be sending the celery events in JSON format. The example connects to the server and renders the visualisation.
+Or run against a live backend via Socket.IO:
 
+```bash
+cd example/socketio_datasource
+flutter run
+```
 
-## Usage
-Check the [contributing guide](CONTRIBUTING.md/#development-environment-setup) for the setup and usage details.
+📖 **[Full development setup guide →](https://github.com/bhavya-tech/celeryviz_frontend_core/blob/main/CONTRIBUTING.md#development-environment-setup)**
 
+## What it does
 
-## Additional information
+- **Renders task flow:** Visualises Celery tasks, their states, and dependencies from a stream of JSON events
+- **Real-time updates:** Connects to a live backend over Socket.IO and renders tasks as they execute
+- **Offline replay:** Accepts `.ndjson` recordings so you can replay and inspect past task runs
+- **Embeddable:** Designed as a library — wrap it around any data source (Socket.IO, file, custom)
+- **Cross-platform:** Built with Flutter; runs on web, Linux, macOS, and Windows
 
-Currently, this is used in [celeryviz_with_lib](https://github.com/bhavya-tech/celeryviz_with_lib) which is used to build packaged frontend for the Celeryviz python library. 
+## Examples
 
-Further plan is to make a desktop application using this package. It will be a standalone application that can be used on development environment or connect to remote servers for monitoring them.
+Two ready-to-run examples are included in the `example/` folder:
 
-One more venture is to make a backend which can store the celery events and provide the data to the frontend as requested. This can be used to monitor the celery tasks in real-time and also to debug the past issues.
+| Example | Description |
+|---|---|
+| `ndjson_example` | Reads a saved `.ndjson` recording of Celery events and renders the visualisation. Best for UI development. |
+| `socketio_datasource` | Connects to a running CeleryViz backend over Socket.IO for live task monitoring. |
+
+## Used by
+
+This library powers **[celeryviz_with_lib](https://github.com/bhavya-tech/celeryviz_with_lib)**, which packages the frontend for the CeleryViz Python library.
+
+## Roadmap
+
+- **Desktop app:** A standalone desktop application for use in development environments or for connecting to remote servers
+- **Persistent backend:** A backend that stores Celery events and serves them to the frontend on demand, enabling both real-time monitoring and historical debugging
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](https://github.com/bhavya-tech/celeryviz_frontend_core/blob/main/CONTRIBUTING.md) before submitting a PR.
+
+- **Frontend issues** → open an issue [here](https://github.com/bhavya-tech/celeryviz_frontend_core/issues)
+- **Python library issues** → open an issue on [celeryviz](https://github.com/bhavya-tech/celeryviz/issues)
+
+## License
+
+[Apache 2.0](https://github.com/bhavya-tech/celeryviz_frontend_core/blob/main/LICENSE)
+
+---
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to [bhavyapeshavaria@gmail.com](mailto:bhavyapeshavaria@gmail.com). All complaints will be reviewed and investigated promptly and fairly.
