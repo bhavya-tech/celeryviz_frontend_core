@@ -1,3 +1,4 @@
+/// The panable area handles the user interactions to move around the view.
 import 'dart:math';
 
 import 'package:celeryviz_frontend_core/services/navigation.dart';
@@ -11,6 +12,21 @@ import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/panable_area/interactive_area.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/task_info/task_info_container.dart';
 
+/// Provides the [InteractiveViewer] widget with along with other widgets for
+/// the user interaction.
+///
+/// - The [InteractiveViewer] widget is used to pan and zoom the view.
+/// - The [Naigation] widget is used to handle movements in other forms like
+///   mousewheel and keyboard.
+/// - The [TaskInfoContainer] is the sidesheet to display task information.
+///
+/// This widget listens to the [PaneBloc] for new events to re-render the celery
+/// task columns for the new events. (This can be optimised to only re-render
+/// the task column for the event received)
+///
+/// Also, it paints the curved lines from the parent's task produced event to
+/// child's task received event using [SpawnedTaskLinesPainter]. (It needs to be
+/// here because the lines are drawn between two different task columns)
 class PanableArea extends StatelessWidget {
   static double get _topPadding =>
       (CeleryvizOptions.config.paneTimestampMultiplier) / 2 -
@@ -86,6 +102,11 @@ class PanableArea extends StatelessWidget {
   }
 }
 
+/// Handles the navigation events in other methods other than panning the
+/// InteractiveViewer.
+///
+/// - Mouse scroll wheel to scroll vertically (and horizontally if mouse has
+///   horizontal scroll)
 class Naigation extends StatelessWidget {
   final NavigationTransformationController transformationController;
   final Widget? child;

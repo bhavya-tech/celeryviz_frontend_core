@@ -9,6 +9,7 @@ enum TaskStatus {
   failed,
 }
 
+/// Data class which holds the information about a single task.
 class TaskInfo {
   double? etaTimestamp;
   double? startTimestamp;

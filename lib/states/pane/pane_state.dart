@@ -3,11 +3,27 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:celeryviz_frontend_core/models/pane_data.dart';
 
+/// State for the [PaneBloc].
+///
+/// It holds the [PaneData] which has the events grouped by their task id.
+///
+/// Apart from that, it holds the data required to render the pane.
 class PaneState extends Equatable {
+  /// Whether the data source is started.
   final bool isStarted;
+
+  /// Whether the first event has been received.
   final bool isFirstEventReceived;
+
+  /// The [PaneData] which has the events grouped by their task id.
   final PaneData data;
+
+  /// The minimum timestamp of the events (used as the start of
+  /// the verticle timeline).
   final double? minTimestamp;
+
+  /// The maximum timestamp of the events (used as the end of
+  /// the verticle timeline).
   final double? maxTimestamp;
 
   PaneState.initial() : this._(data: PaneData());

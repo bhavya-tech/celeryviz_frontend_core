@@ -1,3 +1,4 @@
+/// All the visualizations are done by Pane
 import 'package:celeryviz_frontend_core/services/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,14 @@ import 'package:celeryviz_frontend_core/widgets/pane/panable_area/panable_area.d
 import 'package:celeryviz_frontend_core/widgets/pane/ruler.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/task_name_bar.dart';
 
+/// This widget is used to display the Celeryviz visualization.
+///
+/// This widget provides all the necessary resources for the widgets in the
+/// sub-tree.
+///
+/// It provides the [PaneBloc] and [TaskInfoBloc] BLoCs to the sub-tree.
+/// Also, it handles loading states of the PaneBloc so that the child widget
+/// [PaneLayout] is only rendered when the data is ready.
 class Pane extends StatelessWidget {
   const Pane({
     super.key,
@@ -47,6 +56,13 @@ class Pane extends StatelessWidget {
   }
 }
 
+/// This widget is the main layout for the Celeryviz visualization.
+///
+/// It provides the [Ruler], [TaskNameBar], and [PanableArea] widgets to the
+/// sub-tree.
+///
+/// It uses [NavigationTransformationController] to control the transformation
+/// of the [PanableArea] and [Ruler] widgets.
 class PaneLayout extends StatefulWidget {
   const PaneLayout({
     Key? key,

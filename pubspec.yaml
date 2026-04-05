@@ -1,10 +1,13 @@
 name: celeryviz_frontend_core
-description: A new Flutter project.
-publish_to: 'none'
-version: 0.1.0
+description: This is the core UI library for the CeleryViz project
+version: 0.0.4
+homepage: https://github.com/bhavya-tech/celeryviz
+repository: https://github.com/bhavya-tech/celeryviz_frontend_core
+issue_tracker: https://github.com/bhavya-tech/celeryviz_frontend_core/issues
+
 
 environment:
-  sdk: '>=3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -29,3 +32,17 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+screenshots:
+  - path: screenshots/Parallel tasks with different log levels.jpeg
+    description: Multiple tasks running in parallel showing different log levels
+  - path: screenshots/Resursively spawning the same task.jpeg
+    description: A task spawning multiple instances of itself
+  - path: screenshots/Spawning multiple subtasks.jpeg
+    description: Multiple sub-tasks spawning from a single task
+
+topics:
+  - debugging
+  - celeryviz
+  - visualization
+  - monitoring

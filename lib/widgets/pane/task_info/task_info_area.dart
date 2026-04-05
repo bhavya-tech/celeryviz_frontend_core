@@ -1,3 +1,4 @@
+/// Area widget for displaying task information.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,10 @@ import 'package:celeryviz_frontend_core/services/services.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_bloc.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
 
+/// Widget for displaying task information.
+///
+/// This widget uses [TaskInfo] to display task information.
+/// It uses [TaskInfoBloc] to listen for task information updates.
 class TaskInfoArea extends StatelessWidget {
   final TaskInfo taskInfo;
 

@@ -2,6 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:celeryviz_frontend_core/models/event.dart';
 import 'package:celeryviz_frontend_core/models/task_data.dart';
 
+/// Data class to store all the events in the pane.
+///
+/// It uses a [Map] to store the events for each task, where the key is the
+/// task id and the value is the [TaskData] for that task.
 class PaneData extends Equatable {
   final Map<String, TaskData> tasks = {};
 

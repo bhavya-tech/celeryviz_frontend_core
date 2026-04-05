@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:flutter/material.dart';
 
+/// Transformation controller which supports smooth animations when navigating
+/// the using [navigate].
 class NavigationTransformationController extends TransformationController {
   double maxX = 0.0;
   double maxY = 0.0;
@@ -47,6 +49,7 @@ class NavigationTransformationController extends TransformationController {
     });
   }
 
+  /// Updates the boundries for the [navigate] method.
   void updateBounds(double newX, double newY) {
     maxX = -newX;
     maxY = -newY;

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/models/task_data.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/panable_area/task_column.dart';
 
+/// This is the area where [TaskColumn] widgets are rendered for each task.
+///
+/// (It should be renamed to a better and suggestive name.)
 class InteractiveArea extends StatelessWidget {
   final Map<String, TaskData> tasksMap;
   final double minTimestamp;

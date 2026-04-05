@@ -1,9 +1,19 @@
+/// Houses the widgets needed to show the horizontal task name bar above the
+/// pane.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_bloc.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 
+/// This widget is used to display the horizontal task name bar above the pane.
+///
+/// This widget uses [PaneBloc] to listen for new tasks and shows each task
+/// id using [TaskNameBarItem]. It also listens to the transformation controller
+/// from the [PaneLayout] to update the scroll position of the task name bar.
+///
+/// This has been made stateful because we need the init and dispose lifecycle
+/// methods to add and remove the subscription to the transformation controller.
 class TaskNameBar extends StatefulWidget {
   final TransformationController transformationController;
   final ScrollController _scrollController = ScrollController();
@@ -64,6 +74,9 @@ class _TaskNameBarState extends State<TaskNameBar> {
   }
 }
 
+/// Widget for displaying task id in the task name bar.
+///
+/// This widget displays the first 8 characters of the task id.
 class TaskNameBarItem extends StatelessWidget {
   final String taskId;
 

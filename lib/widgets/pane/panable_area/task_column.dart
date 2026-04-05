@@ -1,3 +1,4 @@
+/// The task column represents the Celery task and renders all its events.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
@@ -7,6 +8,13 @@ import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/panable_area/event_widgets.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/panable_area/helpers.dart';
 
+/// Manages the layout and rendering of the events of the celery task.
+///
+/// First draws the vertical line from the start time to end time of the task
+/// using the [TaskLine].
+///
+/// Then overlays the [EventWidget] widgets representing the celery events on
+/// top of the line using the [Positioned] widget.
 class TaskColumn extends StatelessWidget {
   final TaskData taskData;
   final double minTimestamp;
@@ -56,6 +64,11 @@ class TaskColumn extends StatelessWidget {
   }
 }
 
+/// Draws the verticle line representing the task timeline. Also handles
+/// hover and tap events for the task.
+///
+/// On tap, the [TaskInfoBloc] is updated with the current task's [TaskInfo].
+/// On hover, the task line is shadowed.
 class TaskLine extends StatefulWidget {
   final TaskData taskData;
   final double maxTimestamp;

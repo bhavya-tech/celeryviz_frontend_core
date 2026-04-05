@@ -1,8 +1,10 @@
+/// This file contains the widgets for rendering the Celery events.
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/colors.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/models/event.dart';
 
+/// A factory method that returns the appropriate widget for the given event.
 EventWidget getEventWidget(CeleryEventBase event, Color color) {
   switch (event.runtimeType) {
     case CeleryEventStarted:

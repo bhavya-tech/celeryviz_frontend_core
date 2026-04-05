@@ -1,15 +1,21 @@
+/// Houses the widgets needed to show the vertical time ruler on the left side
+/// of the pane.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/painters/ruler_marking_painter.dart';
 import 'package:celeryviz_frontend_core/services/services.dart';
 
+/// This widget is used to display the vertical time ruler on the left side of
+/// the pane.
+///
+/// This widget listens to the transformation controller from the [PaneLayout]
+/// to update the scroll position and scale of the ruler markings when the pane
+/// is translated or scaled.
+///
+/// This has been made stateful because we need the init and dispose lifecycle
+/// methods to add and remove the subscription to the transformation controller.
 class Ruler extends StatefulWidget {
-  /// This widget is used to display the ruler on the left side of the pane board.
-
-  /// This has been made stateful because we need to listen to the transformation
-  /// controller to update the ruler markings when the pane is translated or scaled.
-
   final double startTimestamp;
   final TransformationController transformationController;
   final ScrollController _scrollController = ScrollController();

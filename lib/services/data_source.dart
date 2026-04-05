@@ -1,3 +1,4 @@
+/// Data source which is used to load the data from the Celeryviz server.
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
@@ -21,15 +22,21 @@ abstract class DataSource {
   void stop();
 }
 
+/// Data source which supports fetching historical events.
+///
+/// (To be used for the database based datasource)
 abstract class QueriableDataSource extends DataSource {
   void seek(double timestamp);
 }
 
+/// Data source which reads events from an NDJson file.
 class NDJsonDataSource extends DataSource {
   Queue<JsonObject> _eventsQueue = Queue();
   late Timer _timerSubscription;
   late double _initialTimestamp;
   final Stopwatch _stopwatch = Stopwatch();
+
+  /// The path to the NDJson file.
   final String filePath;
 
   @override
@@ -87,6 +94,8 @@ class NDJsonDataSource extends DataSource {
   }
 }
 
+/// Datasource which connects with (celeryiz backend) socket.io server to get
+/// realtime events.
 class SocketIODataSource extends DataSource {
   final io.Socket _socket;
   final _logger = Logger(
@@ -148,7 +157,10 @@ class SocketIODataSource extends DataSource {
   }
 }
 
+/// A datasource which loads all events during initialization and
+/// directly renders all the events. (No livestreaming or temporal replay)
 class SnapshotDataSource extends DataSource {
+  /// The events to be rendered.
   final List<JsonObject> eventsJson;
 
   SnapshotDataSource({required this.eventsJson});

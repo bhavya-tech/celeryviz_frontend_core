@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 
+/// A painter to draw the markings on the vertile time ruler.
+///
+/// Draws the markings for every second start and mid point.
 class RulerMarkingPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -28,6 +31,8 @@ class RulerMarkingPainter extends CustomPainter {
     canvas.drawPath(path2, paint);
   }
 
+  /// Since the markings are static, we don't need to repaint. Unless we start
+  /// supporting the zoom in/out feature.
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
