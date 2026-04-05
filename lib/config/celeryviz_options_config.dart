@@ -1,36 +1,62 @@
+/// Configuration for the Celeryviz application.
 import 'package:flutter/foundation.dart';
 
 @immutable
 class CeleryvizOptionsConfig {
-  // Event markings
+  /// Radius of the dot which represents a Celery event on the task line.
   final double eventDotRadius;
+
+  /// Thickness of the verticle line connecting the events of a task.
   final double eventLineWidth;
 
-  // Pane event(x direction)
+  /// The width of the [TaskColumn] in the pane.
+  ///
+  /// Represents how spaced out the tasks are in the x-direction.
   final double paneEventMultiplier;
+
+  /// The horizontal distance from the time ruler to the first task.
+  ///
+  /// By default it is half of the [paneEventMultiplier] for symmetry.
   final double paneEventOffsetX;
 
-  // Panable area
+  /// Maximum scale factor for the zooming in the pane.
   final double paneMaxScale;
+
+  /// Minimum scale factor for the zooming out the pane.
   final double paneMinScale;
 
-  // Pane time(y direction)
+  /// The height of one second in the verticle time ruler.
   final double paneTimestampMultiplier;
+
+  /// Verticle offset for how much time is shown on the top of the pane before
+  /// the first event.
+  ///
+  /// Rendering the event at the exact top crops the first event's dot. So we
+  /// leave some buffer.
   final double paneTimestampOffsetY;
 
-  // Ruler
+  // Height and width of the markings of the ruler
   final double rulerScaleHeight;
   final double rulerScaleWidth;
+
+  /// Width of the verticle time ruler
   final double rulerWidth;
 
-  // Socket IO
+  /// The event name for the socket.io server to send data on.
+  ///
+  /// Defaults to 'celery_events_data' which is the one set in the backend
+  /// library code.
   final String socketioServerDataEvent;
+
+  /// The endpoint for the socket.io client to connect to.
+  ///
+  /// Defaults to '/client' which is the one set in the backend library code.
   final String socketioClientEndpoint;
 
-  // Taskname bar
+  /// Height of the horizontal taskname bar at the top.
   final double tasknameBarHeight;
 
-  // Task info
+  /// Width of the task info area sidesheet that opens when a task is clicked.
   final double taskInfoAreaWidth;
 
   const CeleryvizOptionsConfig({

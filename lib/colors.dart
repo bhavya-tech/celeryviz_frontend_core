@@ -1,3 +1,8 @@
+/// Module for defining colors used in the Celeryviz frontend.
+///
+/// This is work in progress, we have colours scattered in the codebase which
+/// needs to be brought here and managed properly.
+
 import 'package:flutter/material.dart';
 
 const Color backgroudColor = Color(0xFF121212);

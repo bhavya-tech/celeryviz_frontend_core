@@ -9,9 +9,13 @@ enum PaneScreenStateStatus {
   inactive,
 }
 
+/// State for the [PaneScreenBloc].
 @immutable
 class PaneScreenState extends Equatable {
+  /// The data source object which provides the events.
   final DataSource dataSource;
+
+  /// The status of the data source.
   final PaneScreenStateStatus status;
 
   const PaneScreenState({

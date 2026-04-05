@@ -6,6 +6,10 @@ import 'package:celeryviz_frontend_core/states/pane_screen/pane_screen_events.da
 import 'package:celeryviz_frontend_core/states/pane_screen/pane_screen_state.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/pane.dart';
 
+/// The screen which hodls all the widgets for the pane view.
+///
+/// It triggers the [PaneScreenLoadStart] event to start the data source and
+/// and shows the loading/error screens.
 class PaneScreen extends StatelessWidget {
   final DataSource dataSource;
   const PaneScreen({super.key, required this.dataSource});

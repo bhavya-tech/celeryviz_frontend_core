@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Default theme for the Celeryviz frontend.
 final ThemeData defaultTheme = ThemeData(
   brightness: Brightness.dark,
   primaryColor: Colors.blue,

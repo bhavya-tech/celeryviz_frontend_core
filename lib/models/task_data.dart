@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/models/event.dart';
 import 'package:celeryviz_frontend_core/models/task_info.dart';
 
+/// Data class to store events for a single task.
+///
+/// It uses a [SplayTreeMap] to store the events in sorted order of their
+/// timestamps efficiently. Stores other information about the task in
+/// [TaskInfo] and assigns a random color to the task.
 class TaskData extends Equatable {
   final SplayTreeMap<double, CeleryEventBase> _events =
       SplayTreeMap<double, CeleryEventBase>();

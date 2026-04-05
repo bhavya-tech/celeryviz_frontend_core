@@ -1,3 +1,5 @@
+/// Container widget for displaying task information.
+
 import 'package:celeryviz_frontend_core/states/pane/pane_bloc.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
@@ -8,6 +10,10 @@ import 'package:celeryviz_frontend_core/states/task_info/task_info_bloc.dart';
 import 'package:celeryviz_frontend_core/states/task_info/task_info_state.dart';
 import 'package:celeryviz_frontend_core/widgets/pane/task_info/task_info_area.dart';
 
+/// This widget is used to display task information in the Celeryviz frontend.
+///
+/// It uses [TaskInfoBloc] to listen for task information updates and
+/// [TaskInfoArea] to display the task information.
 class TaskInfoContainer extends StatelessWidget {
   const TaskInfoContainer({Key? key}) : super(key: key);
 

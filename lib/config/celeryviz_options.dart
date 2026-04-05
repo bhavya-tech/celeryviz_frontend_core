@@ -1,5 +1,9 @@
 import 'package:celeryviz_frontend_core/config/celeryviz_options_config.dart';
 
+/// Singleton class for Celeryviz options.
+///
+/// This class is a singleton and should be initialized exactly once at startup.
+/// It is used to store and retrieve Celeryviz options.
 class CeleryvizOptions {
   static CeleryvizOptionsConfig? _config;
   static bool _initialized = false;

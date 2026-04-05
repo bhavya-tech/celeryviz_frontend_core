@@ -1,3 +1,6 @@
+/// Classes for the celery task events.
+
+/// Factory method to create a [CeleryEventBase] or its subclasses from JSON.
 CeleryEventBase getCeleryEventFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'task-spawned':
@@ -47,8 +50,8 @@ class CeleryEventBase {
         localReceived = json['local_received'];
 }
 
+/// Represents the event in the parent task for spawning a child task.
 class CeleryEventScheduled extends CeleryEventBase {
-  // Represents the spawned task.
   String parentId;
   String name;
   String? args;
@@ -85,6 +88,7 @@ class CeleryEventScheduled extends CeleryEventBase {
   }
 }
 
+/// Represents the event where the child task is spawned (received by worker).
 class CeleryEventSpawned extends CeleryEventBase {
   String childId;
   CeleryEventSpawned({
@@ -111,6 +115,7 @@ class CeleryEventSpawned extends CeleryEventBase {
   }
 }
 
+/// Represents the event where the tas kstarts executing on the Celery worker.
 class CeleryEventStarted extends CeleryEventBase {
   CeleryEventStarted({
     required super.hostname,
@@ -125,6 +130,7 @@ class CeleryEventStarted extends CeleryEventBase {
   CeleryEventStarted.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }
 
+/// Represents the event where the task succeeded.
 class CeleryEventSucceeded extends CeleryEventBase {
   String result;
   double runtime;
@@ -148,6 +154,7 @@ class CeleryEventSucceeded extends CeleryEventBase {
         super.fromJson(json);
 }
 
+/// Represents the event where the task logs a message.
 class CeleryEventLog extends CeleryEventBase {
   final String msg;
   final int levelno;

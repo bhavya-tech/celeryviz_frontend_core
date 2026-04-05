@@ -1,3 +1,5 @@
+/// The dahsed lines between the parent task's task-spawned event and the
+/// child task's received event.
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,6 +8,10 @@ import 'package:celeryviz_frontend_core/models/event.dart';
 import 'package:celeryviz_frontend_core/models/task_data.dart';
 import 'package:path_drawing/path_drawing.dart';
 
+/// Draws the curved dashed lines between the parent task's task-spawned event
+/// and the child task's received event.
+///
+/// This is used to show the parent-child relationship between tasks.
 class SpawnedTaskLinesPainter extends CustomPainter {
   final Map<String, TaskData> tasks;
   final double minTimestamp;
@@ -29,6 +35,14 @@ class SpawnedTaskLinesPainter extends CustomPainter {
     return true;
   }
 
+  /// Returns a list of [TaskSpawnedLine] painters for all the spawned tasks.
+  ///
+  /// - Finds the scheduler event and the task received events.
+  /// - Determines their
+  ///   - x coordiante using the task's index in the tasks list.
+  ///   - y coordiante using the timestamp of the event.
+  /// - Creates a list of [TaskSpawnedLine] painters for all the start and end
+  ///   points.
   List<CustomPainter> _getSpawnedTaskLines() {
     List<CustomPainter> spawnedTaskLines = [];
     List<CeleryEventBase> events = [
@@ -74,6 +88,9 @@ class SpawnedTaskLinesPainter extends CustomPainter {
   }
 }
 
+/// Draws a single curved dashed line between the start and end points.
+///
+/// The curve is drawn using a cubic bezier curve.
 class TaskSpawnedLine extends CustomPainter {
   final Color color;
   final Offset start;
