@@ -2,6 +2,7 @@
 ///
 /// This is work in progress, we have colours scattered in the codebase which
 /// needs to be brought here and managed properly.
+library;
 
 import 'package:flutter/material.dart';
 
