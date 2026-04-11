@@ -1,0 +1,132 @@
+name: Prepare Release
+
+# Triggered manually via GitHub Actions dispatch.
+# Inputs:
+#   - version: The version to release (e.g. 1.2.3, without the leading 'v')
+#   - branch: The branch to bump the version on (default: main)
+#
+# This workflow:
+# 1. Bumps the version in pubspec.yaml.
+# 2. Fetches auto-generated release notes from GitHub for the new tag.
+# 3. Prepends the changelog entry to CHANGELOG.md.
+# 4. Commits both pubspec.yaml and CHANGELOG.md in a single commit.
+# 5. Creates a git tag on that commit.
+# 6. Creates a GitHub release with the generated notes, which triggers
+#    the publish_to_pub_dev.yml workflow.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g. 1.2.3)'
+        required: true
+      branch:
+        description: 'Branch to release from'
+        required: true
+        default: 'main'
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Update version in pubspec.yaml
+        run: |
+          sed -i "s/^version: .*/version: ${{ github.event.inputs.version }}/" pubspec.yaml
+
+      - name: Generate release notes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ github.event.inputs.version }}';
+            const tag = `v${version}`;
+
+            // Get existing tags to find the previous one
+            const tags = await github.rest.repos.listTags({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 10,
+            });
+            const previousTag = tags.data[0]?.name ?? undefined;
+
+            // Generate release notes between the previous tag and the new one
+            const response = await github.rest.repos.generateReleaseNotes({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tag,
+              previous_tag_name: previousTag,
+              target_commitish: '${{ github.event.inputs.branch }}',
+            });
+
+            require('fs').writeFileSync('release_notes_raw.md', response.data.body);
+
+      - name: Prepend to CHANGELOG.md
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+
+          { echo "## $VERSION"; echo ""; cat release_notes_raw.md; echo ""; } > new_entry.md
+
+          if [ -f CHANGELOG.md ]; then
+            cat new_entry.md CHANGELOG.md > tmp.md && mv tmp.md CHANGELOG.md
+          else
+            mv new_entry.md CHANGELOG.md
+          fi
+
+          rm -f release_notes_raw.md new_entry.md
+
+      - name: Commit pubspec.yaml and CHANGELOG.md
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pubspec.yaml CHANGELOG.md
+          git commit -m "chore: release v${{ github.event.inputs.version }}"
+          git push origin ${{ github.event.inputs.branch }}
+
+      - name: Create tag and GitHub release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ github.event.inputs.version }}';
+            const branch = '${{ github.event.inputs.branch }}';
+            const tag = `v${version}`;
+
+            // Get the latest commit SHA on the branch (the version bump commit)
+            const { data: branchData } = await github.rest.repos.getBranch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              branch: branch,
+            });
+            const sha = branchData.commit.sha;
+
+            // Create the tag on the release commit
+            await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${tag}`,
+              sha: sha,
+            });
+
+            // Read the generated notes to use as the release body
+            const fs = require('fs');
+            const releaseBody = fs.existsSync('release_notes_raw.md')
+              ? fs.readFileSync('release_notes_raw.md', 'utf8')
+              : '';
+
+            // Create the release — triggers publish_to_pub_dev.yml
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tag,
+              name: tag,
+              body: releaseBody,
+              target_commitish: branch,
+            });
