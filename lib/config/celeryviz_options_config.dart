@@ -1,4 +1,6 @@
 /// Configuration for the Celeryviz application.
+library;
+
 import 'package:flutter/foundation.dart';
 
 @immutable

@@ -34,12 +34,12 @@ flutter:
   uses-material-design: true
 
 screenshots:
-  - path: screenshots/Parallel tasks with different log levels.jpeg
-    description: Multiple tasks running in parallel showing different log levels
-  - path: screenshots/Resursively spawning the same task.jpeg
-    description: A task spawning multiple instances of itself
-  - path: screenshots/Spawning multiple subtasks.jpeg
-    description: Multiple sub-tasks spawning from a single task
+  - description: 'Parallel tasks with different log levels'
+    path: screenshots/parallel_tasks_log_levels.jpeg
+  - description: 'Recursively spawning the same task'
+    path: screenshots/recursive_task_spawn.jpeg
+  - description: 'Spawning multiple subtasks'
+    path: screenshots/spawning_subtasks.jpeg
 
 topics:
   - debugging
