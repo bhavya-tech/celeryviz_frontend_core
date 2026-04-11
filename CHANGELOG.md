@@ -1,3 +1,15 @@
+## 0.0.5-alpha.1
+
+## What's Changed
+* Added animation controller in NavigationTransformationController for… by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/28
+* Refactor code to prepare for database datasource by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/30
+* Misc fixes by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/32
+* 23 make the constants configurable by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/34
+* 35 develop documentation for the celeryviz frontend core flutterdart library by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/36
+* 35 develop documentation for the celeryviz frontend core flutterdart library by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/37
+
+
+**Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/0.0.4...0.0.5-alpha.1
 ## 0.0.4
 
 * Update the task information container on receiving new events
