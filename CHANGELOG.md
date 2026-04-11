@@ -1,3 +1,10 @@
+## 0.0.5-alpha.4
+
+## What's Changed
+* 35 develop documentation for the celeryviz frontend core flutterdart library by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/38
+
+
+**Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/v0.0.5-alpha.3...v0.0.5-alpha.4
 ## 0.0.5-alpha.3
 
 **Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/v0.0.5-alpha.3...v0.0.5-alpha.3
