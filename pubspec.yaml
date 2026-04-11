@@ -1,6 +1,6 @@
 name: celeryviz_frontend_core
 description: This is the core UI library for the CeleryViz project
-version: 0.0.4
+version: 0.0.5-alpha.1
 homepage: https://github.com/bhavya-tech/celeryviz
 repository: https://github.com/bhavya-tech/celeryviz_frontend_core
 issue_tracker: https://github.com/bhavya-tech/celeryviz_frontend_core/issues
