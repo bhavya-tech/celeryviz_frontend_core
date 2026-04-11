@@ -1,12 +1,120 @@
 name: Publish to pub.dev
 
+# This workflow is triggered when a new release is published on GitHub.
+# It performs the following steps in order:
+#
+# 1. update-changelog: Fetches the auto-generated release notes from GitHub
+#    for the published release tag, prepends them to CHANGELOG.md in pub.dev
+#    format (## version), and commits the file back to main.
+#
+# 2. update-version: Updates the version field in pubspec.yaml to match the
+#    release tag (strips the leading 'v'), and commits the change to main.
+#
+# 3. publish: Publishes the package to pub.dev using OIDC authentication
+#    (no stored secrets required). Requires automated publishing to be enabled
+#    on pub.dev at pub.dev/packages/<your-package>/admin.
+#
+# Each job depends on the previous one — if any step fails, the rest are skipped.
+
 on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
+  release:
+    types: [published]
 
 jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve tag and version
+        id: version
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch GitHub auto-generated release notes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const tag = '${{ steps.version.outputs.tag }}';
+
+            const tags = await github.rest.repos.listTags({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 10,
+            });
+
+            const tagNames = tags.data.map(t => t.name);
+            const currentIndex = tagNames.indexOf(tag);
+            const previousTag = tagNames[currentIndex + 1] ?? undefined;
+
+            const response = await github.rest.repos.generateReleaseNotes({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tag,
+              previous_tag_name: previousTag,
+            });
+
+            require('fs').writeFileSync('release_notes_raw.md', response.data.body);
+
+      - name: Prepend to CHANGELOG.md
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          { echo "## $VERSION"; echo ""; cat release_notes_raw.md; echo ""; } > new_entry.md
+
+          if [ -f CHANGELOG.md ]; then
+            cat new_entry.md CHANGELOG.md > tmp.md && mv tmp.md CHANGELOG.md
+          else
+            mv new_entry.md CHANGELOG.md
+          fi
+
+          rm -f release_notes_raw.md new_entry.md
+
+      - name: Commit CHANGELOG.md
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --staged --quiet || git commit -m "chore: update CHANGELOG.md for ${{ steps.version.outputs.tag }}"
+          git push origin HEAD:main
+
+  update-version:
+    needs: update-changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update version in pubspec.yaml
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          sed -i "s/^version: .*/version: $VERSION/" pubspec.yaml
+
+      - name: Commit pubspec.yaml
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pubspec.yaml
+          git diff --staged --quiet || git commit -m "chore: bump version to $VERSION in pubspec.yaml"
+          git push origin HEAD:main
+
   publish:
+    needs: update-version
     permissions:
       id-token: write
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
