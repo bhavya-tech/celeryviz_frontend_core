@@ -5,7 +5,6 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
 
-import 'package:logger/logger.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/services/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -100,9 +99,6 @@ class NDJsonDataSource extends DataSource {
 /// realtime events.
 class SocketIODataSource extends DataSource {
   final io.Socket _socket;
-  final _logger = Logger(
-    printer: PrettyPrinter(),
-  );
 
   @override
   String get dataSourceFailureMessage =>
@@ -120,18 +116,13 @@ class SocketIODataSource extends DataSource {
   Future setup(
       void Function() onSetupComplete, void Function() onSetupFailed) async {
     try {
-      _logger.i('Connecting to socket.io server...');
       _socket.onConnect((data) => {
-            _logger.i('Connected'),
             onSetupComplete(),
           });
-      _socket.onDisconnect((data) => _logger.i('Disconnected'));
       _socket.onConnectError((err) => {
-            _logger.e(err),
             onSetupFailed(),
           });
       _socket.onError((err) => {
-            _logger.e(err),
             onSetupFailed(),
           });
 
@@ -139,7 +130,6 @@ class SocketIODataSource extends DataSource {
           (data) => _sendEventsToBloc([data]));
       _socket.connect();
     } catch (e) {
-      _logger.e(e);
       onSetupFailed();
     }
   }
