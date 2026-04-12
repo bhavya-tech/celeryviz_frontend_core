@@ -44,24 +44,24 @@ class PaneState extends Equatable {
       return this;
     }
 
-    double minTimestamp = double.infinity;
-    double maxTimestamp = double.negativeInfinity;
+    double newMinTimestamp = minTimestamp ?? double.infinity;
+    double newMaxTimestamp = maxTimestamp ?? double.negativeInfinity;
 
     for (var eventJson in eventJsons) {
-      minTimestamp = min(minTimestamp, eventJson['timestamp']);
-      maxTimestamp = max(maxTimestamp, eventJson['timestamp']);
+      newMinTimestamp = min(newMinTimestamp, eventJson['timestamp']);
+      newMaxTimestamp = max(newMaxTimestamp, eventJson['timestamp']);
       data.addEvent(eventJson);
     }
 
     // So that a single event will get shown properly
-    if (minTimestamp == maxTimestamp) {
-      maxTimestamp += 1;
+    if (newMinTimestamp == newMaxTimestamp) {
+      newMaxTimestamp += 1;
     }
 
     return copyWith(
         data: data,
-        minTimestamp: minTimestamp,
-        maxTimestamp: maxTimestamp,
+        minTimestamp: newMinTimestamp,
+        maxTimestamp: newMaxTimestamp,
         isFirstEventReceived: true);
   }
 
