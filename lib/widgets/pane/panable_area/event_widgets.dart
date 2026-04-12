@@ -8,16 +8,15 @@ import 'package:celeryviz_frontend_core/models/event.dart';
 
 /// A factory method that returns the appropriate widget for the given event.
 EventWidget getEventWidget(CeleryEventBase event, Color color) {
-  switch (event.runtimeType) {
-    case CeleryEventStarted:
+  switch (event) {
+    case CeleryEventStarted _:
       return EventStarted(color: color);
-    // case CelelryEventFailed:
+    // case CelelryEventFailed _:
     //   return EventFailed(color: color);
-    case CeleryEventSucceeded:
+    case CeleryEventSucceeded _:
       return EventFinished(color: color);
-    case CeleryEventLog:
-      event = event as CeleryEventLog;
-      return EventLog(color: color, message: event.msg);
+    case CeleryEventLog logEvent:
+      return EventLog(color: color, message: logEvent.msg);
     default:
       return EventWidget(color: color);
   }
