@@ -23,11 +23,11 @@ class TaskColumn extends StatelessWidget {
   final double maxTimestamp;
 
   const TaskColumn({
-    Key? key,
+    super.key,
     required this.taskData,
     required this.minTimestamp,
     required this.maxTimestamp,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +76,10 @@ class TaskLine extends StatefulWidget {
   final double maxTimestamp;
 
   const TaskLine({
-    Key? key,
+    super.key,
     required this.taskData,
     required this.maxTimestamp,
-  }) : super(key: key);
+  });
 
   @override
   State<TaskLine> createState() => _TaskLineState();

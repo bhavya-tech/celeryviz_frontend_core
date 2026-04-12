@@ -16,7 +16,7 @@ import 'package:celeryviz_frontend_core/widgets/pane/task_info/task_info_area.da
 /// It uses [TaskInfoBloc] to listen for task information updates and
 /// [TaskInfoArea] to display the task information.
 class TaskInfoContainer extends StatelessWidget {
-  const TaskInfoContainer({Key? key}) : super(key: key);
+  const TaskInfoContainer({super.key});
 
   @override
   Widget build(BuildContext context) {

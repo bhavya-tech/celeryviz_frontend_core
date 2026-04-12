@@ -21,9 +21,9 @@ class TaskNameBar extends StatefulWidget {
   final ScrollController _scrollController = ScrollController();
 
   TaskNameBar({
-    Key? key,
+    super.key,
     required this.transformationController,
-  }) : super(key: key);
+  });
 
   @override
   State<TaskNameBar> createState() => _TaskNameBarState();
@@ -82,7 +82,7 @@ class _TaskNameBarState extends State<TaskNameBar> {
 class TaskNameBarItem extends StatelessWidget {
   final String taskId;
 
-  const TaskNameBarItem({Key? key, required this.taskId}) : super(key: key);
+  const TaskNameBarItem({super.key, required this.taskId});
 
   @override
   Widget build(BuildContext context) {

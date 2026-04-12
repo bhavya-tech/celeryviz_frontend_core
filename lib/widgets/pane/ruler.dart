@@ -24,10 +24,10 @@ class Ruler extends StatefulWidget {
   final ValueNotifier<double> _scaleNotifier = ValueNotifier(1.0);
 
   Ruler({
-    Key? key,
+    super.key,
     required this.startTimestamp,
     required this.transformationController,
-  }) : super(key: key);
+  });
 
   @override
   State<Ruler> createState() => _RulerState();
@@ -85,10 +85,10 @@ class RulerMarking extends StatelessWidget {
   final double scale;
 
   const RulerMarking({
-    Key? key,
+    super.key,
     required this.timestamp,
     required this.scale,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

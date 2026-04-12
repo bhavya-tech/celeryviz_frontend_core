@@ -128,7 +128,7 @@ class CeleryEventStarted extends CeleryEventBase {
     required super.type,
     required super.localReceived,
   });
-  CeleryEventStarted.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  CeleryEventStarted.fromJson(super.json) : super.fromJson();
 }
 
 /// Represents the event where the task succeeded.
@@ -149,10 +149,10 @@ class CeleryEventSucceeded extends CeleryEventBase {
     required this.runtime,
   });
 
-  CeleryEventSucceeded.fromJson(Map<String, dynamic> json)
+  CeleryEventSucceeded.fromJson(super.json)
       : result = json['result'],
         runtime = json['runtime'],
-        super.fromJson(json);
+        super.fromJson();
 }
 
 /// Represents the event where the task logs a message.
@@ -181,12 +181,12 @@ class CeleryEventLog extends CeleryEventBase {
     required this.excInfo,
   });
 
-  CeleryEventLog.fromJson(Map<String, dynamic> json)
+  CeleryEventLog.fromJson(super.json)
       : msg = json['msg'],
         levelno = json['levelno'],
         pathname = json['pathname'],
         lineno = json['lineno'],
         name = json['name'],
         excInfo = json['exc_info'],
-        super.fromJson(json);
+        super.fromJson();
 }

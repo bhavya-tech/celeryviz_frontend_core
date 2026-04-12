@@ -67,8 +67,8 @@ class Pane extends StatelessWidget {
 /// of the [PanableArea] and [Ruler] widgets.
 class PaneLayout extends StatefulWidget {
   const PaneLayout({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<PaneLayout> createState() => _PaneLayoutState();
@@ -118,7 +118,7 @@ class _PaneLayoutState extends State<PaneLayout>
 
 class LoadingPage extends StatelessWidget {
   final String message;
-  const LoadingPage({Key? key, required this.message}) : super(key: key);
+  const LoadingPage({super.key, required this.message});
 
   Future<void> _start(BuildContext context) async {
     BlocProvider.of<PaneBloc>(context).add(const PaneStart());

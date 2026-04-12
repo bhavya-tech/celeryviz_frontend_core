@@ -11,11 +11,11 @@ class InteractiveArea extends StatelessWidget {
   final double maxTimestamp;
 
   const InteractiveArea({
-    Key? key,
+    super.key,
     required this.tasksMap,
     required this.minTimestamp,
     required this.maxTimestamp,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

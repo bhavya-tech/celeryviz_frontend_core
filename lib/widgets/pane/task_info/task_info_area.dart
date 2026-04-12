@@ -19,7 +19,7 @@ import 'package:celeryviz_frontend_core/states/task_info/task_info_event.dart';
 class TaskInfoArea extends StatelessWidget {
   final TaskInfo taskInfo;
 
-  const TaskInfoArea({Key? key, required this.taskInfo}) : super(key: key);
+  const TaskInfoArea({super.key, required this.taskInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class TaskInfoArea extends StatelessWidget {
 class FunctionName extends StatelessWidget {
   final String name;
 
-  const FunctionName({Key? key, required this.name}) : super(key: key);
+  const FunctionName({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class FunctionName extends StatelessWidget {
 class TaskId extends StatelessWidget {
   final String id;
 
-  const TaskId({Key? key, required this.id}) : super(key: key);
+  const TaskId({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +125,7 @@ class Timings extends StatelessWidget {
   final double? startTime;
   final double? endTime;
 
-  const Timings({Key? key, this.eta, this.startTime, this.endTime})
-      : super(key: key);
+  const Timings({super.key, this.eta, this.startTime, this.endTime});
 
   @override
   Widget build(BuildContext context) {
@@ -175,8 +174,7 @@ class CopyableData extends StatelessWidget {
   final String title;
   final String? data;
 
-  const CopyableData({Key? key, required this.title, this.data})
-      : super(key: key);
+  const CopyableData({super.key, required this.title, this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +240,7 @@ class CopyableData extends StatelessWidget {
 class TaskStatusInfo extends StatelessWidget {
   final TaskStatus status;
 
-  const TaskStatusInfo({Key? key, required this.status}) : super(key: key);
+  const TaskStatusInfo({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {

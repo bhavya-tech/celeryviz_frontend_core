@@ -1,5 +1,5 @@
 /// Core module for the Celeryviz frontend.
-library celeryviz_frontend_core;
+library;
 
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options_config.dart';
