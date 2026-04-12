@@ -1,4 +1,6 @@
 /// This file contains the widgets for rendering the Celery events.
+library;
+
 import 'package:flutter/material.dart';
 import 'package:celeryviz_frontend_core/colors.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';

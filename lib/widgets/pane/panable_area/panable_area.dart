@@ -1,4 +1,6 @@
 /// The panable area handles the user interactions to move around the view.
+library;
+
 import 'dart:math';
 
 import 'package:celeryviz_frontend_core/services/navigation.dart';

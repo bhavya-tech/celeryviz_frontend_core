@@ -1,4 +1,6 @@
 /// Data source which is used to load the data from the Celeryviz server.
+library;
+
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math';

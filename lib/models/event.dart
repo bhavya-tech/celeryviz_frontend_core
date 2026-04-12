@@ -1,4 +1,5 @@
 /// Classes for the celery task events.
+library;
 
 /// Factory method to create a [CeleryEventBase] or its subclasses from JSON.
 CeleryEventBase getCeleryEventFromJson(Map<String, dynamic> json) {

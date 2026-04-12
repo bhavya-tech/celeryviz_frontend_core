@@ -1,4 +1,6 @@
 /// The task column represents the Celery task and renders all its events.
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';

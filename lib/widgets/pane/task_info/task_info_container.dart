@@ -1,4 +1,5 @@
 /// Container widget for displaying task information.
+library;
 
 import 'package:celeryviz_frontend_core/states/pane/pane_bloc.dart';
 import 'package:celeryviz_frontend_core/states/pane/pane_state.dart';

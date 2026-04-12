@@ -1,4 +1,6 @@
 /// General services used by the application.
+library;
+
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;

@@ -1,5 +1,7 @@
 /// The dahsed lines between the parent task's task-spawned event and the
 /// child task's received event.
+library;
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';

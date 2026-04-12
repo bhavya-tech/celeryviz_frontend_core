@@ -1,5 +1,7 @@
 /// Houses the widgets needed to show the horizontal task name bar above the
 /// pane.
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';

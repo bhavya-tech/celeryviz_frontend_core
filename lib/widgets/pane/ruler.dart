@@ -1,5 +1,7 @@
 /// Houses the widgets needed to show the vertical time ruler on the left side
 /// of the pane.
+library;
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:celeryviz_frontend_core/config/celeryviz_options.dart';

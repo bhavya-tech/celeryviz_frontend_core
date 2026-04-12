@@ -1,4 +1,6 @@
 /// Module for defining states for the task info side sheet.
+library;
+
 import 'package:equatable/equatable.dart';
 import 'package:celeryviz_frontend_core/models/task_info.dart';
 

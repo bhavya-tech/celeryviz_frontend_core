@@ -1,4 +1,6 @@
 /// All the visualizations are done by Pane
+library;
+
 import 'package:celeryviz_frontend_core/services/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
