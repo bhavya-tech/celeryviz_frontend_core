@@ -1,3 +1,6 @@
+## 0.0.5
+
+**Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/v0.0.5-alpha.7...v0.0.5
 ## 0.0.5-alpha.7
 
 **Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/v0.0.5-alpha.6...v0.0.5-alpha.7
