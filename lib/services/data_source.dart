@@ -98,24 +98,28 @@ class NDJsonDataSource extends DataSource {
 /// Datasource which connects with (celeryiz backend) socket.io server to get
 /// realtime events.
 class SocketIODataSource extends DataSource {
-  final io.Socket _socket;
+  late final io.Socket _socket;
+  final String socketioServerLocation;
 
   @override
   String get dataSourceFailureMessage =>
       'Unable to connect to socket.io data source';
 
-  SocketIODataSource(String socketioServerLocation)
-      : _socket = io.io(
-            socketioServerLocation +
-                CeleryvizOptions.config.socketioClientEndpoint,
-            <String, dynamic>{
-              'transports': ['websocket'],
-            });
+  SocketIODataSource(this.socketioServerLocation);
+
+  bool _socketInitialized = false;
 
   @override
   Future setup(
       void Function() onSetupComplete, void Function() onSetupFailed) async {
     try {
+      _socket = io.io(
+          socketioServerLocation +
+              CeleryvizOptions.config.socketioClientEndpoint,
+          <String, dynamic>{
+            'transports': ['websocket'],
+          });
+      _socketInitialized = true;
       _socket.onConnect((data) => {
             onSetupComplete(),
           });
@@ -145,7 +149,9 @@ class SocketIODataSource extends DataSource {
 
   @override
   void stop() {
-    _socket.disconnect();
+    if (_socketInitialized) {
+      _socket.disconnect();
+    }
   }
 }
 
