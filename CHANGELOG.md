@@ -1,3 +1,10 @@
+## 0.0.7
+
+## What's Changed
+* fix: defer SocketIODataSource initialization and add safety check to … by @bhavya-tech in https://github.com/bhavya-tech/celeryviz_frontend_core/pull/39
+
+
+**Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/v0.0.6...v0.0.7
 ## 0.0.6
 
 **Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/v0.0.5...v0.0.6
