@@ -2,13 +2,13 @@ name: Dispatch on Pub Dev Publish
 
 on:
   workflow_run:
-    workflows: ["publish_to_pub_dev.yml"]
+    workflows: ["Publish to pub.dev"]
     types: [completed]
   workflow_dispatch:
 
 jobs:
   trigger:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Trigger celeryviz_with_lib release workflow
