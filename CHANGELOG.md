@@ -1,3 +1,6 @@
+## 1.0.0
+
+**Full Changelog**: https://github.com/bhavya-tech/celeryviz_frontend_core/compare/v1.0.0...v1.0.0
 ## 0.0.7
 
 ## What's Changed
